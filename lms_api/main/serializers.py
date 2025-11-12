@@ -22,10 +22,34 @@ class CourseCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = CourseCategory
         fields = '__all__'
+
+class CourseSerializer(serializers.ModelSerializer):
+    category_details = CourseCategorySerializer(source='category', read_only=True)
+    teacher_details = serializers.SerializerMethodField(read_only=True)
+    
+    class Meta:
+        model = Course
+        fields = ['id', 'category', 'category_details', 'teacher', 'teacher_details', 'code', 'title', 'description', 'price']
+    
+    def get_teacher_details(self, obj):
+        try:
+            teacher = obj.teacher
+            return {
+                'id': teacher.id,
+                'name': teacher.user.get_full_name() or teacher.user.username,
+                'qualification': teacher.qualification,
+                'experience': teacher.experience
+            }
+        except:
+            return None
+
 class EnrollmentSerializer(serializers.ModelSerializer):
+    course_details = CourseSerializer(source='course', read_only=True)
+    student_name = serializers.CharField(source='student.user.get_full_name', read_only=True)
+    
     class Meta:
         model = Enrollment
-        fields = '__all__'
+        fields = ['id', 'student', 'student_name', 'course', 'course_details', 'enrollment_date', 'status']
 class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson

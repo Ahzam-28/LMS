@@ -1,10 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import HomePage from "./components/HomePage";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Dashboard from "./components/Dashboard";
 import CourseDetail from "./components/CourseDetail";
+import CourseEnrollment from "./components/CourseEnrollment";
+
+// Protected route wrapper component
+function ProtectedRoute({ user, requiredRole, children, redirectTo = "/login" }) {
+  const location = useLocation();
+  
+  if (!user) {
+    return <Navigate to={redirectTo} state={{ from: location }} replace />;
+  }
+  
+  if (requiredRole && user.role !== requiredRole) {
+    return <Navigate to="/" replace />;
+  }
+  
+  return children;
+}
 
 function App() {
   const [user, setUser] = useState(null);
@@ -24,11 +40,11 @@ function App() {
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Course details - login required */}
-        <Route
-          path="/courses/:id"
-          element={user ? <CourseDetail /> : <Navigate to="/login" replace />}
-        />
+        {/* Course details - public, but enrollment requires login */}
+        <Route path="/courses/:id" element={<CourseDetail />} />
+
+        {/* Course enrollment page - public, but enrollment requires student login */}
+        <Route path="/courses" element={<CourseEnrollment />} />
 
         {/* Dashboards */}
         {user?.role === "student" && (

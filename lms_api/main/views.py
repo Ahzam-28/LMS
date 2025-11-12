@@ -6,6 +6,8 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import AllowAny , IsAuthenticated
+from rest_framework.decorators import action
+from django.shortcuts import get_object_or_404
 
 from .models import Teacher, Student , Course , CourseCategory , Enrollment , Lesson , Assignment , Submission , Quiz , Question , Answer , Result , Payment , Feedback , Resource , FileSubmission
 from .serializers import TeacherSerializer, StudentSerializer , CourseSerializer , CourseCategorySerializer , EnrollmentSerializer , LessonSerializer , AssignmentSerializer , SubmissionSerializer , QuizSerializer , QuestionSerializer , AnswerSerializer , ResultSerializer , PaymentSerializer , FeedbackSerializer , ResourceSerializer , FileSubmissionSerializer , RegisterSerializer, LoginSerializer
@@ -23,14 +25,138 @@ class StudentViewSet(viewsets.ModelViewSet):
 class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
 class CourseCategoryViewSet(viewsets.ModelViewSet):
     queryset = CourseCategory.objects.all()
     serializer_class = CourseCategorySerializer
+    permission_classes = [AllowAny]
 class EnrollmentViewSet(viewsets.ModelViewSet):
     queryset = Enrollment.objects.all()
     serializer_class = EnrollmentSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        """Filter enrollments based on user role"""
+        user = self.request.user
+        if hasattr(user, 'student'):
+            return Enrollment.objects.filter(student__user=user)
+        return Enrollment.objects.all()
+
+    @action(detail=False, methods=['post'], permission_classes=[IsAuthenticated])
+    def enroll_course(self, request):
+        """
+        Endpoint for students to enroll in a course.
+        Only students can enroll.
+        Request body: {"course_id": <int>, "status": "active"}
+        """
+        user = request.user
+        
+        # Check if user is a student
+        try:
+            student = Student.objects.get(user=user)
+        except Student.DoesNotExist:
+            return Response(
+                {"error": "Only students can enroll in courses"},
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
+        course_id = request.data.get('course_id')
+        enrollment_status = request.data.get('status', 'active')
+        
+        if not course_id:
+            return Response(
+                {"error": "course_id is required"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        # Check if course exists
+        try:
+            course = Course.objects.get(id=course_id)
+        except Course.DoesNotExist:
+            return Response(
+                {"error": "Course not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        
+        # Check if student is already enrolled
+        enrollment_exists = Enrollment.objects.filter(
+            student=student,
+            course=course
+        ).exists()
+        
+        if enrollment_exists:
+            return Response(
+                {"error": "You are already enrolled in this course"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        # Create enrollment
+        enrollment = Enrollment.objects.create(
+            student=student,
+            course=course,
+            status=enrollment_status
+        )
+        
+        serializer = EnrollmentSerializer(enrollment)
+        return Response(
+            {"message": "Successfully enrolled in course", "enrollment": serializer.data},
+            status=status.HTTP_201_CREATED
+        )
+
+    @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
+    def my_enrollments(self, request):
+        """Get the current student's enrollments"""
+        user = request.user
+        
+        try:
+            student = Student.objects.get(user=user)
+        except Student.DoesNotExist:
+            return Response(
+                {"error": "Only students can view enrollments"},
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
+        enrollments = Enrollment.objects.filter(student=student)
+        serializer = EnrollmentSerializer(enrollments, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    @action(detail=False, methods=['delete'])
+    def unenroll_course(self, request):
+        """
+        Endpoint for students to unenroll from a course.
+        Request body: {"course_id": <int>}
+        """
+        user = request.user
+        
+        try:
+            student = Student.objects.get(user=user)
+        except Student.DoesNotExist:
+            return Response(
+                {"error": "Only students can unenroll from courses"},
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
+        course_id = request.data.get('course_id')
+        
+        if not course_id:
+            return Response(
+                {"error": "course_id is required"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            enrollment = Enrollment.objects.get(student=student, course_id=course_id)
+            enrollment.delete()
+            return Response(
+                {"message": "Successfully unenrolled from course"},
+                status=status.HTTP_200_OK
+            )
+        except Enrollment.DoesNotExist:
+            return Response(
+                {"error": "Enrollment not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
 class LessonViewSet(viewsets.ModelViewSet):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
