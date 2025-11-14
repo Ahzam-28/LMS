@@ -26,10 +26,12 @@ class CourseCategorySerializer(serializers.ModelSerializer):
 class CourseSerializer(serializers.ModelSerializer):
     category_details = CourseCategorySerializer(source='category', read_only=True)
     teacher_details = serializers.SerializerMethodField(read_only=True)
+    enrollment_count = serializers.SerializerMethodField(read_only=True)
     
     class Meta:
         model = Course
-        fields = ['id', 'category', 'category_details', 'teacher', 'teacher_details', 'code', 'title', 'description', 'price']
+        fields = ['id', 'category', 'category_details', 'teacher', 'teacher_details', 'code', 'title', 'description', 'price', 'is_available', 'created_at', 'enrollment_count']
+        read_only_fields = ['id', 'teacher', 'teacher_details', 'created_at', 'enrollment_count']
     
     def get_teacher_details(self, obj):
         try:
@@ -42,6 +44,10 @@ class CourseSerializer(serializers.ModelSerializer):
             }
         except:
             return None
+    
+    def get_enrollment_count(self, obj):
+        """Count the number of enrollments for this course"""
+        return obj.enrollment_set.count()
 
 class EnrollmentSerializer(serializers.ModelSerializer):
     course_details = CourseSerializer(source='course', read_only=True)

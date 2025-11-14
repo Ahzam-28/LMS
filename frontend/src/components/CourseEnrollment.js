@@ -185,10 +185,15 @@ function CourseEnrollment() {
                 <div className="course-card h-100">
                   <div className="course-card-body">
                     <div className="course-header">
-                      <span className="course-code">{course.code}</span>
-                      {enrolledCourses.includes(course.id) && (
-                        <span className="badge bg-success">Enrolled</span>
-                      )}
+                      <div>
+                        <span className="course-code">{course.code}</span>
+                        {enrolledCourses.includes(course.id) && (
+                          <span className="badge bg-success ms-2">Enrolled</span>
+                        )}
+                      </div>
+                      <span className="enrollment-count" title="Students enrolled">
+                        👥 {course.enrollment_count}
+                      </span>
                     </div>
 
                     <h5 className="course-title">{course.title}</h5>

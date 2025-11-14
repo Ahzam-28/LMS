@@ -72,6 +72,17 @@
   margin-bottom: 0.5rem;
 }
 
+.enrollment-count {
+  background: #17a2b8;
+  color: white;
+  padding: 0.35rem 0.65rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  display: inline-block;
+}
+
 .course-code {
   background: #f0f0f0;
   color: #667eea;

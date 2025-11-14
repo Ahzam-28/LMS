@@ -118,10 +118,6 @@ function HomePage() {
                   Register
                 </Link>
               </div>
-            ) : user.role === "teacher" ? (
-              <Link to="/teacher-dashboard" className="btn btn-primary btn-lg">
-                Go to Dashboard
-              </Link>
             ) : null}
           </div>
         </div>
@@ -152,6 +148,9 @@ function HomePage() {
                 <div key={course.id} className="course-grid-card">
                   <div className="course-card-header">
                     <span className="badge">{course.code}</span>
+                    <span className="enrollment-badge-small">
+                      👥 {course.enrollment_count}
+                    </span>
                   </div>
                   <h5 className="course-card-title">{course.title}</h5>
                   <p className="course-card-description">

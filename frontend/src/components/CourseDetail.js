@@ -24,9 +24,10 @@ function CourseDetail() {
         const response = await API.get(`/course/${id}/`);
         setCourse(response.data);
         
-        // Fetch teacher details
-        const teacherResponse = await API.get(`/teacher/${response.data.teacher}/`);
-        setTeacher(teacherResponse.data);
+        // Set teacher from course data (includes teacher_details)
+        if (response.data.teacher_details) {
+          setTeacher(response.data.teacher_details);
+        }
         
         setLoading(false);
       } catch (error) {
@@ -160,6 +161,12 @@ function CourseDetail() {
               <p className="text-muted">
                 <strong>Price:</strong> ${parseFloat(course.price).toFixed(2)}
               </p>
+              <p className="text-muted">
+                <strong>Students Enrolled:</strong>{" "}
+                <span className="badge bg-info">
+                  👥 {course.enrollment_count} {course.enrollment_count === 1 ? "Student" : "Students"}
+                </span>
+              </p>
 
               <hr />
 
@@ -170,21 +177,21 @@ function CourseDetail() {
               {teacher && (
                 <div className="instructor-card">
                   <p>
-                    <strong>Name:</strong> {teacher.user?.first_name} {teacher.user?.last_name}
+                    <strong>Name:</strong> {teacher.name || "N/A"}
                   </p>
                   <p>
-                    <strong>Qualification:</strong> {teacher.qualification}
+                    <strong>Qualification:</strong> {teacher.qualification || "N/A"}
                   </p>
                   <p>
-                    <strong>Experience:</strong> {teacher.experience} years
+                    <strong>Experience:</strong> {teacher.experience || "N/A"} years
                   </p>
                   <p>
-                    <strong>Expertise:</strong> {teacher.expertise}
-                  </p>
-                  <p>
-                    <strong>Contact:</strong> {teacher.mobile_no}
+                    <strong>Expertise:</strong> {teacher.expertise || "N/A"}
                   </p>
                 </div>
+              )}
+              {!teacher && (
+                <p className="text-muted">No instructor information available</p>
               )}
 
               <h5 className="mt-4">Course Category</h5>

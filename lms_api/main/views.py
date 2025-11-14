@@ -26,6 +26,81 @@ class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     permission_classes = [AllowAny]
+    
+    def get_permissions(self):
+        """
+        GET requests are allowed for anyone (AllowAny)
+        POST/PATCH/DELETE require authentication (IsAuthenticated)
+        """
+        if self.request.method in ['GET', 'HEAD', 'OPTIONS']:
+            return [AllowAny()]
+        return [IsAuthenticated()]
+    
+    def get_queryset(self):
+        """
+        For public endpoints (list, detail): only show available courses
+        For update/delete: allow teachers to update their own courses
+        """
+        # For update/delete operations, allow access to all courses (teacher owns them)
+        if self.request.method in ['PATCH', 'PUT', 'DELETE']:
+            # For write operations, return all courses - perform_update will check ownership
+            return Course.objects.all()
+        
+        # For read operations, only return available courses
+        return Course.objects.filter(is_available=True)
+    
+    def perform_create(self, serializer):
+        """Only teachers can create courses"""
+        user = self.request.user
+        
+        try:
+            teacher = Teacher.objects.get(user=user)
+            serializer.save(teacher=teacher)
+        except Teacher.DoesNotExist:
+            from rest_framework.exceptions import PermissionDenied
+            raise PermissionDenied("Only teachers can create courses")
+    
+    def perform_update(self, serializer):
+        """Only the teacher who created the course can update it"""
+        user = self.request.user
+        
+        try:
+            teacher = Teacher.objects.get(user=user)
+            course = self.get_object()
+            
+            # Check if the current user is the course teacher
+            if course.teacher != teacher:
+                from rest_framework.exceptions import PermissionDenied
+                raise PermissionDenied("You can only update your own courses")
+            
+            # Check if marking course as unavailable
+            is_available_new = serializer.validated_data.get('is_available', course.is_available)
+            
+            # If marking as unavailable, unenroll all students
+            if course.is_available and not is_available_new:
+                # Delete all enrollments for this course
+                Enrollment.objects.filter(course=course).delete()
+            
+            serializer.save()
+        except Teacher.DoesNotExist:
+            from rest_framework.exceptions import PermissionDenied
+            raise PermissionDenied("Only teachers can update courses")
+    
+    @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
+    def my_courses(self, request):
+        """Get the current teacher's courses (including unavailable ones)"""
+        user = request.user
+        
+        try:
+            teacher = Teacher.objects.get(user=user)
+            courses = Course.objects.filter(teacher=teacher)
+            serializer = self.get_serializer(courses, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Teacher.DoesNotExist:
+            return Response(
+                {"error": "Only teachers can view their courses"},
+                status=status.HTTP_403_FORBIDDEN
+            )
 
 class CourseCategoryViewSet(viewsets.ModelViewSet):
     queryset = CourseCategory.objects.all()
@@ -206,6 +281,7 @@ class RegisterView(APIView):
                 role = 'student'
                 profile = user.student
                 profile_data = {
+                    "id": profile.id,
                     "qualification": profile.qualification,
                     "mobile_no": profile.mobile_no,
                     "interested_categories": profile.interested_categories
@@ -214,9 +290,11 @@ class RegisterView(APIView):
                 role = 'teacher'
                 profile = user.teacher
                 profile_data = {
+                    "id": profile.id,
                     "qualification": profile.qualification,
                     "mobile_no": profile.mobile_no,
-                    "experience": profile.experience
+                    "experience": profile.experience,
+                    "expertise": profile.expertise
                 }
             else:
                 role = 'unknown'
@@ -248,6 +326,7 @@ class LoginView(APIView):
                 role = 'student'
                 profile = user.student
                 profile_data = {
+                    "id": profile.id,
                     "qualification": profile.qualification,
                     "mobile_no": profile.mobile_no,
                     "interested_categories": profile.interested_categories
@@ -256,9 +335,11 @@ class LoginView(APIView):
                 role = 'teacher'
                 profile = user.teacher
                 profile_data = {
+                    "id": profile.id,
                     "qualification": profile.qualification,
                     "mobile_no": profile.mobile_no,
-                    "experience": profile.experience
+                    "experience": profile.experience,
+                    "expertise": profile.expertise
                 }
             else:
                 role = 'unknown'
