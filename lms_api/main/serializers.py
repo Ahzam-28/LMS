@@ -4,9 +4,23 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
 class TeacherSerializer(serializers.ModelSerializer):
+    user_details = serializers.SerializerMethodField(read_only=True)
+    courses_count = serializers.SerializerMethodField(read_only=True)
+    
     class Meta:
         model = Teacher
-        fields = '__all__'
+        fields = ['id', 'user', 'user_details', 'qualification', 'mobile_no', 'experience', 'expertise', 'courses_count']
+    
+    def get_user_details(self, obj):
+        return {
+            'id': obj.user.id,
+            'username': obj.user.username,
+            'email': obj.user.email,
+            'name': obj.user.get_full_name() or obj.user.username
+        }
+    
+    def get_courses_count(self, obj):
+        return obj.courses.count()
 
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:

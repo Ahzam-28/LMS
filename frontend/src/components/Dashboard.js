@@ -19,6 +19,15 @@ function Dashboard({ user, setUser }) {
   });
   const [categories, setCategories] = useState([]);
   const [allEnrollments, setAllEnrollments] = useState([]); // For teacher stats
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editFormData, setEditFormData] = useState({
+    qualification: "",
+    mobile_no: "",
+    interested_categories: "",
+    experience: "",
+    expertise: "",
+  });
+  const [editLoading, setEditLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -51,6 +60,68 @@ function Dashboard({ user, setUser }) {
 
     fetchData();
   }, [user]);
+
+  // Initialize edit form with current user data
+  const handleOpenEditModal = () => {
+    setEditFormData({
+      qualification: user.profile?.qualification || "",
+      mobile_no: user.profile?.mobile_no || "",
+      interested_categories: user.profile?.interested_categories || "",
+      experience: user.profile?.experience || "",
+      expertise: user.profile?.expertise || "",
+    });
+    setShowEditModal(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
+  };
+
+  const handleEditFormChange = (e) => {
+    const { name, value } = e.target;
+    setEditFormData({
+      ...editFormData,
+      [name]: value,
+    });
+  };
+
+  const handleSaveEdit = async (e) => {
+    e.preventDefault();
+    setEditLoading(true);
+
+    try {
+      const payload = {
+        qualification: editFormData.qualification,
+        mobile_no: editFormData.mobile_no,
+      };
+
+      if (user.role === "student") {
+        payload.interested_categories = editFormData.interested_categories;
+      } else {
+        payload.experience = editFormData.experience;
+        payload.expertise = editFormData.expertise;
+      }
+
+      const endpoint = user.role === "student" ? `/student/${user.profile?.id}/` : `/teacher/${user.profile?.id}/`;
+      const response = await API.patch(endpoint, payload);
+
+      // Update local user state
+      const updatedUser = {
+        ...user,
+        profile: response.data,
+      };
+      setUser(updatedUser);
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+
+      setShowEditModal(false);
+      alert("Profile updated successfully!");
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      alert("Failed to update profile. Please try again.");
+    } finally {
+      setEditLoading(false);
+    }
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -276,6 +347,12 @@ function Dashboard({ user, setUser }) {
                       )}
                     </div>
                     <div className="col-md-4 text-end">
+                      <button
+                        className="btn btn-primary"
+                        onClick={handleOpenEditModal}
+                      >
+                        <i className="fas fa-edit me-2"></i> Edit Profile
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -605,6 +682,114 @@ function Dashboard({ user, setUser }) {
           </div>
         </div>
       </div>
+
+      {/* Edit Profile Modal */}
+      {showEditModal && (
+        <div className="modal d-block" style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Edit Profile</h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={handleCloseEditModal}
+                ></button>
+              </div>
+              <form onSubmit={handleSaveEdit}>
+                <div className="modal-body">
+                  <div className="mb-3">
+                    <label className="form-label">Qualification *</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="qualification"
+                      value={editFormData.qualification}
+                      onChange={handleEditFormChange}
+                      placeholder="e.g., Bachelor of Science in Computer Science"
+                      required
+                    />
+                  </div>
+
+                  <div className="mb-3">
+                    <label className="form-label">Mobile Number *</label>
+                    <input
+                      type="tel"
+                      className="form-control"
+                      name="mobile_no"
+                      value={editFormData.mobile_no}
+                      onChange={handleEditFormChange}
+                      placeholder="e.g., +1-234-567-8900"
+                      required
+                    />
+                  </div>
+
+                  {user.role === "student" && (
+                    <div className="mb-3">
+                      <label className="form-label">Interested Categories</label>
+                      <textarea
+                        className="form-control"
+                        name="interested_categories"
+                        value={editFormData.interested_categories}
+                        onChange={handleEditFormChange}
+                        placeholder="e.g., Web Development, Machine Learning"
+                        rows="3"
+                      ></textarea>
+                    </div>
+                  )}
+
+                  {user.role === "teacher" && (
+                    <>
+                      <div className="mb-3">
+                        <label className="form-label">Experience (years) *</label>
+                        <input
+                          type="number"
+                          className="form-control"
+                          name="experience"
+                          value={editFormData.experience}
+                          onChange={handleEditFormChange}
+                          placeholder="e.g., 5"
+                          min="0"
+                          required
+                        />
+                      </div>
+
+                      <div className="mb-3">
+                        <label className="form-label">Expertise *</label>
+                        <textarea
+                          className="form-control"
+                          name="expertise"
+                          value={editFormData.expertise}
+                          onChange={handleEditFormChange}
+                          placeholder="Describe your expertise and specializations"
+                          rows="4"
+                          required
+                        ></textarea>
+                      </div>
+                    </>
+                  )}
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={handleCloseEditModal}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    disabled={editLoading}
+                  >
+                    {editLoading ? "Saving..." : "Save Changes"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -15,7 +15,15 @@ from .serializers import TeacherSerializer, StudentSerializer , CourseSerializer
 class TeacherViewSet(viewsets.ModelViewSet):
     queryset = Teacher.objects.all()
     serializer_class = TeacherSerializer
-    permission_classes = [IsAuthenticated]
+    
+    def get_permissions(self):
+        """
+        GET requests are allowed for anyone (AllowAny)
+        POST/PATCH/DELETE require authentication (IsAuthenticated)
+        """
+        if self.request.method in ['GET', 'HEAD', 'OPTIONS']:
+            return [AllowAny()]
+        return [IsAuthenticated()]
     
 class StudentViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all()
@@ -235,6 +243,26 @@ class EnrollmentViewSet(viewsets.ModelViewSet):
 class LessonViewSet(viewsets.ModelViewSet):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
+    permission_classes = [AllowAny]
+    
+    def get_permissions(self):
+        """
+        GET requests are allowed for anyone (AllowAny)
+        POST/PATCH/DELETE require authentication (IsAuthenticated)
+        """
+        if self.request.method in ['GET', 'HEAD', 'OPTIONS']:
+            return [AllowAny()]
+        return [IsAuthenticated()]
+    
+    def get_queryset(self):
+        """Filter lessons by course if course parameter is provided"""
+        queryset = Lesson.objects.all()
+        course_id = self.request.query_params.get('course', None)
+        
+        if course_id is not None:
+            queryset = queryset.filter(course_id=course_id)
+        
+        return queryset
 class AssignmentViewSet(viewsets.ModelViewSet):
     queryset = Assignment.objects.all()
     serializer_class = AssignmentSerializer

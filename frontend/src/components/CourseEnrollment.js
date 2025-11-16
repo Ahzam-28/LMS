@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import API from "../api";
 import "./CourseEnrollment.css";
 
@@ -12,6 +12,7 @@ function CourseEnrollment() {
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const savedUser = localStorage.getItem("user");

@@ -46,22 +46,9 @@ function Login({ setUser }) {
       // Update App state
       setUser(userData);
 
-      // Redirect to previous location or default dashboard
-      const previousLocation = location.state?.from?.pathname;
-
-      if (previousLocation && (previousLocation === "/courses" || previousLocation.startsWith("/courses/"))) {
-        if (response.data.role === "student") {
-          navigate(previousLocation);
-        } else {
-          navigate("/teacher-dashboard");
-        }
-      } else {
-        if (response.data.role === "student") {
-          navigate("/student-dashboard");
-        } else {
-          navigate("/teacher-dashboard");
-        }
-      }
+      // Always redirect to homepage after login
+      localStorage.removeItem("redirectPath"); // Clear if exists
+      navigate("/", { replace: true });
     } catch (error) {
       setError(error.response?.data?.error || "Invalid username or password");
     } finally {
