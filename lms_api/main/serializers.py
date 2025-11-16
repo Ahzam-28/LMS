@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Teacher , Student , Course ,  CourseCategory , Enrollment , Lesson , Assignment , Submission , Quiz , Question , Answer , Result , Payment , Feedback , Resource , FileSubmission
+from .models import Teacher , Student , Course ,  CourseCategory , Enrollment , Lesson , LessonCategory , LessonFile , Assignment , Submission , Quiz , Question , Answer , Result , Payment , Feedback , Resource , FileSubmission
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
@@ -70,10 +70,33 @@ class EnrollmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Enrollment
         fields = ['id', 'student', 'student_name', 'course', 'course_details', 'enrollment_date', 'status']
+
+class LessonCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LessonCategory
+        fields = '__all__'
+
 class LessonSerializer(serializers.ModelSerializer):
+    category_details = LessonCategorySerializer(source='category', read_only=True)
+    files = serializers.SerializerMethodField(read_only=True)
+    
     class Meta:
         model = Lesson
-        fields = '__all__'
+        fields = ['id', 'course', 'category', 'category_details', 'title', 'content', 'upload_date', 'video_url', 'order', 'files']
+        read_only_fields = ['id', 'course', 'upload_date']
+    
+    def get_files(self, obj):
+        files = obj.files.all()
+        return LessonFileSerializer(files, many=True).data
+
+
+class LessonFileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LessonFile
+        fields = ['id', 'lesson', 'title', 'file_url']
+        read_only_fields = ['id']
+
+
 class AssignmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Assignment
@@ -85,7 +108,8 @@ class SubmissionSerializer(serializers.ModelSerializer):
 class QuizSerializer(serializers.ModelSerializer):
     class Meta:
         model = Quiz
-        fields = '__all__'
+        fields = ['id', 'lesson_category', 'title', 'description', 'total_marks', 'duration', 'order']
+        read_only_fields = ['id']
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question

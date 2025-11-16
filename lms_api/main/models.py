@@ -76,18 +76,48 @@ class Enrollment(models.Model):
 
 
 # Lesson Model
+class LessonCategory(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='lesson_categories')
+    title = models.CharField(max_length=150)
+    description = models.TextField(blank=True, null=True)
+    order = models.IntegerField(default=0)  # For ordering categories
+    
+    def __str__(self):
+        return f"{self.course.code} - {self.title}"
+
+    class Meta:
+        verbose_name_plural = "6a. Lesson Categories"
+        ordering = ['order']
+
+
 class Lesson(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='lessons')
+    category = models.ForeignKey(LessonCategory, on_delete=models.SET_NULL, null=True, blank=True, related_name='lessons')
     title = models.CharField(max_length=150)
     content = models.TextField()
     upload_date = models.DateField(auto_now_add=True)
     video_url = models.URLField(blank=True, null=True)
+    order = models.IntegerField(default=0)  # For ordering lessons within category
     
     def __str__(self):
         return f"{self.course.code} - {self.title}"
 
     class Meta:
         verbose_name_plural = "6. Lessons"
+        ordering = ['category', 'order']
+
+
+# Lesson File Model
+class LessonFile(models.Model):
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name='files')
+    title = models.CharField(max_length=150)
+    file_url = models.URLField()
+    
+    def __str__(self):
+        return f"{self.lesson.title} - {self.title}"
+
+    class Meta:
+        verbose_name_plural = "6b. Lesson Files"
 
 
 # Assignment Model
@@ -125,17 +155,20 @@ class Submission(models.Model):
 
 # Quiz Model
 class Quiz(models.Model):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='quizzes')
+    lesson_category = models.ForeignKey(LessonCategory, on_delete=models.CASCADE, related_name='quizzes', null=True, blank=True)
     title = models.CharField(max_length=150)
     description = models.TextField()
     total_marks = models.IntegerField()
-    duration=models.IntegerField()  # in minutes
+    duration = models.IntegerField()  # in minutes
+    order = models.IntegerField(default=0)  # For ordering quizzes within category
 
     def __str__(self):
-        return f"{self.course.code} - {self.title}"
+        category_str = self.lesson_category.title if self.lesson_category else "No Category"
+        return f"{category_str} - {self.title}"
 
     class Meta:
         verbose_name_plural = "9. Quizzes"
+        ordering = ['order']
 
 # Question Model
 class Question(models.Model):

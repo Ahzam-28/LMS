@@ -9,8 +9,8 @@ from rest_framework.permissions import AllowAny , IsAuthenticated
 from rest_framework.decorators import action
 from django.shortcuts import get_object_or_404
 
-from .models import Teacher, Student , Course , CourseCategory , Enrollment , Lesson , Assignment , Submission , Quiz , Question , Answer , Result , Payment , Feedback , Resource , FileSubmission
-from .serializers import TeacherSerializer, StudentSerializer , CourseSerializer , CourseCategorySerializer , EnrollmentSerializer , LessonSerializer , AssignmentSerializer , SubmissionSerializer , QuizSerializer , QuestionSerializer , AnswerSerializer , ResultSerializer , PaymentSerializer , FeedbackSerializer , ResourceSerializer , FileSubmissionSerializer , RegisterSerializer, LoginSerializer
+from .models import Teacher, Student , Course , CourseCategory , Enrollment , Lesson , LessonCategory , LessonFile , Assignment , Submission , Quiz , Question , Answer , Result , Payment , Feedback , Resource , FileSubmission
+from .serializers import TeacherSerializer, StudentSerializer , CourseSerializer , CourseCategorySerializer , EnrollmentSerializer , LessonSerializer , LessonCategorySerializer , LessonFileSerializer , AssignmentSerializer , SubmissionSerializer , QuizSerializer , QuestionSerializer , AnswerSerializer , ResultSerializer , PaymentSerializer , FeedbackSerializer , ResourceSerializer , FileSubmissionSerializer , RegisterSerializer, LoginSerializer
 
 class TeacherViewSet(viewsets.ModelViewSet):
     queryset = Teacher.objects.all()
@@ -263,6 +263,219 @@ class LessonViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(course_id=course_id)
         
         return queryset
+    
+    def perform_create(self, serializer):
+        """Only teachers can create lessons for their own courses"""
+        user = self.request.user
+        course_id = self.request.data.get('course')
+        
+        try:
+            teacher = Teacher.objects.get(user=user)
+            course = Course.objects.get(id=course_id)
+            
+            # Check if the teacher owns this course
+            if course.teacher != teacher:
+                from rest_framework.exceptions import PermissionDenied
+                raise PermissionDenied("You can only add lessons to your own courses")
+            
+            serializer.save(course=course)
+        except Teacher.DoesNotExist:
+            from rest_framework.exceptions import PermissionDenied
+            raise PermissionDenied("Only teachers can create lessons")
+        except Course.DoesNotExist:
+            from rest_framework.exceptions import ValidationError
+            raise ValidationError("Course not found")
+    
+    def perform_update(self, serializer):
+        """Only the teacher who created the course can update lessons"""
+        user = self.request.user
+        lesson = self.get_object()
+        
+        try:
+            teacher = Teacher.objects.get(user=user)
+            
+            # Check if the teacher owns the course
+            if lesson.course.teacher != teacher:
+                from rest_framework.exceptions import PermissionDenied
+                raise PermissionDenied("You can only edit lessons in your own courses")
+            
+            serializer.save()
+        except Teacher.DoesNotExist:
+            from rest_framework.exceptions import PermissionDenied
+            raise PermissionDenied("Only teachers can edit lessons")
+    
+    def perform_destroy(self, instance):
+        """Only the teacher who created the course can delete lessons"""
+        user = self.request.user
+        
+        try:
+            teacher = Teacher.objects.get(user=user)
+            
+            # Check if the teacher owns the course
+            if instance.course.teacher != teacher:
+                from rest_framework.exceptions import PermissionDenied
+                raise PermissionDenied("You can only delete lessons in your own courses")
+            
+            instance.delete()
+        except Teacher.DoesNotExist:
+            from rest_framework.exceptions import PermissionDenied
+            raise PermissionDenied("Only teachers can delete lessons")
+    
+    @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
+    def my_lessons(self, request):
+        """Get all lessons for the current teacher's courses"""
+        user = request.user
+        
+        try:
+            teacher = Teacher.objects.get(user=user)
+            # Get all courses taught by this teacher
+            courses = Course.objects.filter(teacher=teacher)
+            # Get all lessons for these courses
+            lessons = Lesson.objects.filter(course__in=courses)
+            serializer = self.get_serializer(lessons, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Teacher.DoesNotExist:
+            return Response(
+                {"error": "Only teachers can view their lessons"},
+                status=status.HTTP_403_FORBIDDEN
+            )
+
+class LessonCategoryViewSet(viewsets.ModelViewSet):
+    queryset = LessonCategory.objects.all()
+    serializer_class = LessonCategorySerializer
+    
+    def get_permissions(self):
+        """
+        GET requests are allowed for anyone (AllowAny)
+        POST/PATCH/DELETE require authentication (IsAuthenticated)
+        """
+        if self.request.method in ['GET', 'HEAD', 'OPTIONS']:
+            return [AllowAny()]
+        return [IsAuthenticated()]
+    
+    def get_queryset(self):
+        """Filter categories by course if course parameter is provided"""
+        queryset = LessonCategory.objects.all()
+        course_id = self.request.query_params.get('course', None)
+        
+        if course_id is not None:
+            queryset = queryset.filter(course_id=course_id)
+        
+        return queryset
+    
+    def perform_create(self, serializer):
+        """Only teachers can create lesson categories for their own courses"""
+        user = self.request.user
+        course_id = self.request.data.get('course')
+        
+        try:
+            teacher = Teacher.objects.get(user=user)
+            course = Course.objects.get(id=course_id)
+            
+            # Check if the teacher owns this course
+            if course.teacher != teacher:
+                from rest_framework.exceptions import PermissionDenied
+                raise PermissionDenied("You can only add categories to your own courses")
+            
+            serializer.save(course=course)
+        except Teacher.DoesNotExist:
+            from rest_framework.exceptions import PermissionDenied
+            raise PermissionDenied("Only teachers can create categories")
+        except Course.DoesNotExist:
+            from rest_framework.exceptions import ValidationError
+            raise ValidationError("Course not found")
+    
+    def perform_update(self, serializer):
+        """Only the teacher who created the course can update categories"""
+        user = self.request.user
+        category = self.get_object()
+        
+        try:
+            teacher = Teacher.objects.get(user=user)
+            
+            # Check if the teacher owns the course
+            if category.course.teacher != teacher:
+                from rest_framework.exceptions import PermissionDenied
+                raise PermissionDenied("You can only edit categories in your own courses")
+            
+            serializer.save()
+        except Teacher.DoesNotExist:
+            from rest_framework.exceptions import PermissionDenied
+            raise PermissionDenied("Only teachers can edit categories")
+    
+    def perform_destroy(self, instance):
+        """Only the teacher who created the course can delete categories"""
+        user = self.request.user
+        
+        try:
+            teacher = Teacher.objects.get(user=user)
+            
+            # Check if the teacher owns the course
+            if instance.course.teacher != teacher:
+                from rest_framework.exceptions import PermissionDenied
+                raise PermissionDenied("You can only delete categories in your own courses")
+            
+            instance.delete()
+        except Teacher.DoesNotExist:
+            from rest_framework.exceptions import PermissionDenied
+            raise PermissionDenied("Only teachers can delete categories")
+
+
+class LessonFileViewSet(viewsets.ModelViewSet):
+    queryset = LessonFile.objects.all()
+    serializer_class = LessonFileSerializer
+
+    def get_permissions(self):
+        """
+        GET requests are allowed for anyone (AllowAny)
+        POST/PATCH/DELETE require authentication (IsAuthenticated)
+        """
+        if self.request.method in ['GET', 'HEAD', 'OPTIONS']:
+            return [AllowAny()]
+        return [IsAuthenticated()]
+
+    def get_queryset(self):
+        """Filter files by lesson if provided in query params"""
+        queryset = LessonFile.objects.all()
+        lesson_id = self.request.query_params.get('lesson', None)
+        if lesson_id:
+            queryset = queryset.filter(lesson=lesson_id)
+        return queryset
+
+    def perform_create(self, serializer):
+        """Validate that teacher owns the course before creating file"""
+        lesson = serializer.validated_data.get('lesson')
+        course = lesson.course
+        user = self.request.user
+        
+        try:
+            teacher = Teacher.objects.get(user=user)
+            if course.teacher != teacher:
+                from rest_framework.exceptions import PermissionDenied
+                raise PermissionDenied("You don't have permission to add files to this lesson")
+        except Teacher.DoesNotExist:
+            from rest_framework.exceptions import PermissionDenied
+            raise PermissionDenied("Only teachers can create lesson files")
+        
+        serializer.save()
+
+    def perform_destroy(self, instance):
+        """Validate ownership before deleting"""
+        course = instance.lesson.course
+        user = self.request.user
+        
+        try:
+            teacher = Teacher.objects.get(user=user)
+            if course.teacher != teacher:
+                from rest_framework.exceptions import PermissionDenied
+                raise PermissionDenied("You don't have permission to delete this file")
+        except Teacher.DoesNotExist:
+            from rest_framework.exceptions import PermissionDenied
+            raise PermissionDenied("Only teachers can delete lesson files")
+        
+        instance.delete()
+
+
 class AssignmentViewSet(viewsets.ModelViewSet):
     queryset = Assignment.objects.all()
     serializer_class = AssignmentSerializer
@@ -272,6 +485,86 @@ class SubmissionViewSet(viewsets.ModelViewSet):
 class QuizViewSet(viewsets.ModelViewSet):
     queryset = Quiz.objects.all()
     serializer_class = QuizSerializer
+
+    def get_permissions(self):
+        """
+        GET requests are allowed for anyone (AllowAny)
+        POST/PATCH/DELETE require authentication (IsAuthenticated) 
+        """
+        if self.request.method in ['GET', 'HEAD', 'OPTIONS']:
+            return [AllowAny()]
+        return [IsAuthenticated()]
+
+    def get_queryset(self):
+        """Filter quizzes by lesson_category if provided in query params"""
+        queryset = Quiz.objects.all()
+        lesson_category_id = self.request.query_params.get('lesson_category', None)
+        if lesson_category_id:
+            queryset = queryset.filter(lesson_category=lesson_category_id)
+        return queryset.order_by('order')
+
+    def perform_create(self, serializer):
+        """Validate that teacher owns the course before creating quiz"""
+        lesson_category = serializer.validated_data.get('lesson_category')
+        course = lesson_category.course
+        user = self.request.user
+        
+        # Check if user is a teacher and owns the course
+        try:
+            teacher = Teacher.objects.get(user=user)
+            if course.teacher != teacher:
+                return Response(
+                    {"error": "You don't have permission to add quizzes to this course"},
+                    status=status.HTTP_403_FORBIDDEN
+                )
+        except Teacher.DoesNotExist:
+            return Response(
+                {"error": "Only teachers can create quizzes"},
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
+        serializer.save()
+
+    def perform_update(self, serializer):
+        """Validate ownership before updating"""
+        quiz = self.get_object()
+        course = quiz.lesson_category.course
+        user = self.request.user
+        
+        try:
+            teacher = Teacher.objects.get(user=user)
+            if course.teacher != teacher:
+                return Response(
+                    {"error": "You don't have permission to edit this quiz"},
+                    status=status.HTTP_403_FORBIDDEN
+                )
+        except Teacher.DoesNotExist:
+            return Response(
+                {"error": "Only teachers can edit quizzes"},
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
+        serializer.save()
+
+    def perform_destroy(self, instance):
+        """Validate ownership before deleting"""
+        course = instance.lesson_category.course
+        user = self.request.user
+        
+        try:
+            teacher = Teacher.objects.get(user=user)
+            if course.teacher != teacher:
+                return Response(
+                    {"error": "You don't have permission to delete this quiz"},
+                    status=status.HTTP_403_FORBIDDEN
+                )
+        except Teacher.DoesNotExist:
+            return Response(
+                {"error": "Only teachers can delete quizzes"},
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
+        instance.delete()
 class QuestionViewSet(viewsets.ModelViewSet):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
