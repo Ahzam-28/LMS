@@ -114,14 +114,17 @@ function Quiz() {
       });
 
       // Save result to backend
-      if (user) {
+      if (user && user.profile && user.profile.id) {
         try {
-          await API.post("/result/", {
+          const resultPayload = {
             quiz: id,
-            student: user.profile?.id,
+            student: user.profile.id,
             score: percentage.toFixed(2),
             grade_awarded: grade,
-          });
+          };
+          console.log("Saving result:", resultPayload);
+          const resultResponse = await API.post("/result/", resultPayload);
+          console.log("Result saved:", resultResponse.data);
         } catch (error) {
           console.error("Failed to save result:", error);
           // Don't fail the submission just because result saving failed

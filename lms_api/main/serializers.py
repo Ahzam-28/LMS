@@ -27,11 +27,6 @@ class StudentSerializer(serializers.ModelSerializer):
         model = Student
         fields = '__all__'
 
-class CourseSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Course
-        fields = '__all__'
-
 class CourseCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = CourseCategory
@@ -132,7 +127,8 @@ class ResultSerializer(serializers.ModelSerializer):
 class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment
-        fields = '__all__'
+        fields = ['id', 'course', 'amount', 'payment_status', 'payment_date']
+        read_only_fields = ['id', 'payment_date']
 class FeedbackSerializer(serializers.ModelSerializer):
     class Meta:
         model = Feedback
@@ -198,3 +194,11 @@ class LoginSerializer(serializers.Serializer):
         if user and user.is_active:
             return user
         raise serializers.ValidationError("Invalid credentials")
+
+
+class OTPSerializer(serializers.Serializer):
+    phone_number = serializers.CharField(max_length=20)
+    otp_code = serializers.CharField(max_length=6, required=False)
+
+    class Meta:
+        fields = ['phone_number', 'otp_code']

@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     qualification = models.CharField(max_length=200)
-    mobile_no = models.CharField(max_length=20)
+    mobile_no = models.CharField(max_length=20) 
     experience = models.IntegerField()  # in years
     expertise = models.TextField()
     
@@ -265,3 +265,19 @@ class FileSubmission(models.Model):
         verbose_name_plural = "16. File Submissions"
 
 # Message 
+
+# OTP Model for SMS Verification
+class OTP(models.Model):
+    phone_number = models.CharField(max_length=20)
+    otp_code = models.CharField(max_length=6)
+    is_verified = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField()
+    attempts = models.IntegerField(default=0)
+    max_attempts = models.IntegerField(default=3)
+
+    def __str__(self):
+        return f"{self.phone_number} - {'Verified' if self.is_verified else 'Pending'}"
+
+    class Meta:
+        verbose_name_plural = "17. OTPs"

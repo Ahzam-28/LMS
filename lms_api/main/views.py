@@ -9,8 +9,9 @@ from rest_framework.permissions import AllowAny , IsAuthenticated
 from rest_framework.decorators import action
 from django.shortcuts import get_object_or_404
 
-from .models import Teacher, Student , Course , CourseCategory , Enrollment , Lesson , LessonCategory , LessonFile , Assignment , Submission , Quiz , Question , Answer , Result , Payment , Feedback , Resource , FileSubmission
-from .serializers import TeacherSerializer, StudentSerializer , CourseSerializer , CourseCategorySerializer , EnrollmentSerializer , LessonSerializer , LessonCategorySerializer , LessonFileSerializer , AssignmentSerializer , SubmissionSerializer , QuizSerializer , QuestionSerializer , AnswerSerializer , ResultSerializer , PaymentSerializer , FeedbackSerializer , ResourceSerializer , FileSubmissionSerializer , RegisterSerializer, LoginSerializer
+from .models import Teacher, Student , Course , CourseCategory , Enrollment , Lesson , LessonCategory , LessonFile , Assignment , Submission , Quiz , Question , Answer , Result , Payment , Feedback , Resource , FileSubmission , OTP
+from .serializers import TeacherSerializer, StudentSerializer , CourseSerializer , CourseCategorySerializer , EnrollmentSerializer , LessonSerializer , LessonCategorySerializer , LessonFileSerializer , AssignmentSerializer , SubmissionSerializer , QuizSerializer , QuestionSerializer , AnswerSerializer , ResultSerializer , PaymentSerializer , FeedbackSerializer , ResourceSerializer , FileSubmissionSerializer , RegisterSerializer, LoginSerializer, OTPSerializer
+from .otp_service import send_otp_email, verify_otp, is_otp_verified
 
 class TeacherViewSet(viewsets.ModelViewSet):
     queryset = Teacher.objects.all()
@@ -716,9 +717,39 @@ class AnswerViewSet(viewsets.ModelViewSet):
 class ResultViewSet(viewsets.ModelViewSet):
     queryset = Result.objects.all()
     serializer_class = ResultSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def get_queryset(self):
+        """Filter results to only show results for the current user if they're a student"""
+        user = self.request.user
+        if user.is_authenticated:
+            # If student, return only their results
+            if hasattr(user, 'student'):
+                return Result.objects.filter(student=user.student)
+            # If teacher, return all results (or filter by their quizzes if needed)
+            return Result.objects.all()
+        return Result.objects.none()
 class PaymentViewSet(viewsets.ModelViewSet):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def get_queryset(self):
+        """Filter payments to only show payments for the current user if they're a student"""
+        user = self.request.user
+        if user.is_authenticated:
+            if hasattr(user, 'student'):
+                return Payment.objects.filter(student=user.student)
+            return Payment.objects.all()
+        return Payment.objects.none()
+    
+    def perform_create(self, serializer):
+        """Create payment for the current student"""
+        if hasattr(self.request.user, 'student'):
+            serializer.save(student=self.request.user.student)
+        else:
+            from rest_framework.exceptions import ValidationError
+            raise ValidationError({"error": "User must have a Student profile to make payments. Please complete your student profile first."})
 class FeedbackViewSet(viewsets.ModelViewSet):
     queryset = Feedback.objects.all()
     serializer_class = FeedbackSerializer
@@ -818,3 +849,43 @@ class LoginView(APIView):
             }, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class OTPViewSet(viewsets.ViewSet):
+    permission_classes = [AllowAny]
+    
+    @action(detail=False, methods=['post'])
+    def send_otp(self, request):
+        """Send OTP to user's email"""
+        phone_number = request.data.get('phone_number')
+        email = request.data.get('email')
+        
+        if not phone_number or not email:
+            return Response(
+                {'error': 'Phone number and email are required'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        result = send_otp_email(phone_number, email)
+        return Response(result, status=status.HTTP_200_OK if result['success'] else status.HTTP_400_BAD_REQUEST)
+    
+    @action(detail=False, methods=['post'])
+    def verify_otp(self, request):
+        """Verify OTP code"""
+        serializer = OTPSerializer(data=request.data)
+        if serializer.is_valid():
+            phone_number = serializer.validated_data['phone_number']
+            otp_code = serializer.validated_data.get('otp_code', '')
+            result = verify_otp(phone_number, otp_code)
+            return Response(result, status=status.HTTP_200_OK if result['success'] else status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    @action(detail=False, methods=['post'])
+    def check_verified(self, request):
+        """Check if phone number is already verified"""
+        phone_number = request.data.get('phone_number')
+        if not phone_number:
+            return Response({'error': 'Phone number required'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        is_verified = is_otp_verified(phone_number)
+        return Response({'is_verified': is_verified}, status=status.HTTP_200_OK)

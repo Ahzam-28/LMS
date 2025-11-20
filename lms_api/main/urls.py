@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter 
-from .views import TeacherViewSet, StudentViewSet , CourseViewSet , CourseCategoryViewSet , EnrollmentViewSet , LessonViewSet , LessonCategoryViewSet , LessonFileViewSet , AssignmentViewSet , SubmissionViewSet , QuizViewSet , QuestionViewSet , AnswerViewSet , ResultViewSet , PaymentViewSet , FeedbackViewSet , ResourceViewSet , FileSubmissionViewSet , RegisterView, LoginView
+from .views import TeacherViewSet, StudentViewSet , CourseViewSet , CourseCategoryViewSet , EnrollmentViewSet , LessonViewSet , LessonCategoryViewSet , LessonFileViewSet , AssignmentViewSet , SubmissionViewSet , QuizViewSet , QuestionViewSet , AnswerViewSet , ResultViewSet , PaymentViewSet , FeedbackViewSet , ResourceViewSet , FileSubmissionViewSet , RegisterView, LoginView, OTPViewSet
 
 router = DefaultRouter()
 router.register(r'teacher', TeacherViewSet)
@@ -21,6 +21,7 @@ router.register(r'payment', PaymentViewSet)
 router.register(r'feedback', FeedbackViewSet)
 router.register(r'resource', ResourceViewSet)
 router.register(r'filesubmission', FileSubmissionViewSet)
+router.register(r'otp', OTPViewSet, basename='otp')
 
 urlpatterns = [
     path('', include(router.urls)),

@@ -62,6 +62,7 @@ function CourseDetail() {
   const [currentAnswers, setCurrentAnswers] = useState([]);
   const [currentAnswerText, setCurrentAnswerText] = useState("");
   const [currentAnswerCorrect, setCurrentAnswerCorrect] = useState(false);
+  const [quizResults, setQuizResults] = useState({});
   const [showAddFile, setShowAddFile] = useState({});
   const [editingFileId, setEditingFileId] = useState(null);
   const [fileFormData, setFileFormData] = useState({
@@ -70,10 +71,48 @@ function CourseDetail() {
     lesson: null,
   });
   const [submittingFile, setSubmittingFile] = useState(false);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [paymentProcessing, setPaymentProcessing] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState("credit_card");
+  const [paymentDetails, setPaymentDetails] = useState({
+    cardNumber: "",
+    cardHolder: "",
+    expiry: "",
+    cvv: "",
+    easypaisaNumber: "",
+    bankAccountNumber: "",
+    bankAccountHolder: ""
+  });
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpCode, setOtpCode] = useState("");
+  const [otpVerifying, setOtpVerifying] = useState(false);
+  const [otpVerified, setOtpVerified] = useState(false);
+
+  useEffect(() => {
+    const handleFocus = () => {
+      // Refetch results when page comes back into focus
+      setRefreshTrigger(prev => prev + 1);
+    };
+    
+    window.addEventListener("focus", handleFocus);
+    return () => window.removeEventListener("focus", handleFocus);
+  }, []);
 
   useEffect(() => {
     const savedUser = localStorage.getItem("user");
     if (savedUser) setUser(JSON.parse(savedUser));
+
+    // Load completion status from localStorage
+    const savedCompletedLessons = localStorage.getItem(`completedLessons_${id}`);
+    if (savedCompletedLessons) {
+      setCompletedLessons(new Set(JSON.parse(savedCompletedLessons)));
+    }
+    
+    const savedCompletedQuizzes = localStorage.getItem(`completedQuizzes_${id}`);
+    if (savedCompletedQuizzes) {
+      setCompletedQuizzes(new Set(JSON.parse(savedCompletedQuizzes)));
+    }
 
     // Fetch course details
     const fetchCourse = async () => {
@@ -113,6 +152,22 @@ function CourseDetail() {
         );
         setQuizzes(courseQuizzes);
         
+        // Fetch quiz results for current user
+        if (user && user.role === "student") {
+          try {
+            const resultsResponse = await API.get(`/result/`);
+            console.log("Quiz results fetched:", resultsResponse.data);
+            const resultsMap = {};
+            resultsResponse.data.forEach(result => {
+              resultsMap[result.quiz] = result;
+            });
+            console.log("Results map:", resultsMap);
+            setQuizResults(resultsMap);
+          } catch (err) {
+            console.log("Error fetching quiz results:", err);
+          }
+        }
+        
         setLoading(false);
       } catch (error) {
         console.error("Failed to fetch course:", error);
@@ -142,6 +197,27 @@ function CourseDetail() {
     }
   }, [user, course]);
 
+  // Fetch quiz results when quizzes are loaded
+  useEffect(() => {
+    if (user?.role === "student" && quizzes.length > 0) {
+      const fetchResults = async () => {
+        try {
+          const resultsResponse = await API.get(`/result/`);
+          console.log("Quiz results from effect:", resultsResponse.data);
+          const resultsMap = {};
+          resultsResponse.data.forEach(result => {
+            resultsMap[result.quiz] = result;
+          });
+          console.log("Results map from effect:", resultsMap);
+          setQuizResults(resultsMap);
+        } catch (err) {
+          console.log("Error fetching quiz results in effect:", err);
+        }
+      };
+      fetchResults();
+    }
+  }, [user, quizzes, refreshTrigger]);
+
   const handleEnroll = async () => {
     if (!user) {
       navigate("/login");
@@ -153,6 +229,16 @@ function CourseDetail() {
       return;
     }
 
+    // Show payment modal if course has a price
+    if (course && course.price > 0) {
+      setShowPaymentModal(true);
+    } else {
+      // Free course - enroll directly
+      await enrollCourse();
+    }
+  };
+
+  const enrollCourse = async () => {
     setEnrolling(true);
     try {
       const response = await API.post("/enrollment/enroll_course/", {
@@ -161,6 +247,20 @@ function CourseDetail() {
       });
       setIsEnrolled(true);
       setError(null);
+      setShowPaymentModal(false);
+      // Reset OTP and payment details
+      setOtpSent(false);
+      setOtpCode("");
+      setOtpVerified(false);
+      setPaymentDetails({
+        cardNumber: "",
+        cardHolder: "",
+        expiry: "",
+        cvv: "",
+        easypaisaNumber: "",
+        bankAccountNumber: "",
+        bankAccountHolder: ""
+      });
       alert("Successfully enrolled in the course!");
     } catch (error) {
       console.error("Enrollment failed:", error);
@@ -170,6 +270,103 @@ function CourseDetail() {
       );
     } finally {
       setEnrolling(false);
+    }
+  };
+
+  const handleProcessPayment = async () => {
+    if (!user || !course) {
+      alert("Missing user or course information");
+      return;
+    }
+
+    setPaymentProcessing(true);
+    try {
+      console.log("Starting payment processing...");
+      console.log("User:", user);
+      console.log("Course:", course);
+      console.log("Payment details:", paymentDetails);
+      
+      // Create payment record
+      const paymentResponse = await API.post("/payment/", {
+        course: course.id,
+        amount: parseFloat(course.price),
+        payment_status: "completed",
+      });
+      
+      console.log("Payment created successfully:", paymentResponse.data);
+      
+      // Then enroll the student
+      await enrollCourse();
+    } catch (error) {
+      console.error("Payment processing failed:", error);
+      console.error("Error response:", error.response?.data);
+      console.error("Error status:", error.response?.status);
+      setError(
+        error.response?.data?.error ||
+        error.response?.data?.detail ||
+        error.message ||
+          "Payment processing failed. Please try again."
+      );
+    } finally {
+      setPaymentProcessing(false);
+    }
+  };
+
+  const handleSendOTP = async () => {
+    if (!paymentDetails.easypaisaNumber) {
+      setError("Please enter Easypaisa number");
+      return;
+    }
+
+    if (!user?.email) {
+      setError("Email address not found. Please update your profile.");
+      return;
+    }
+
+    try {
+      const response = await API.post("/otp/send_otp/", {
+        phone_number: paymentDetails.easypaisaNumber,
+        email: user.email
+      });
+
+      if (response.data.success) {
+        setOtpSent(true);
+        setError(null);
+        alert("OTP sent to your email!");
+      } else {
+        setError(response.data.message);
+      }
+    } catch (error) {
+      console.error("OTP send failed:", error);
+      setError("Failed to send OTP. Please try again.");
+    }
+  };
+
+  const handleVerifyOTP = async () => {
+    if (!otpCode) {
+      setError("Please enter OTP code");
+      return;
+    }
+
+    setOtpVerifying(true);
+    try {
+      const response = await API.post("/otp/verify_otp/", {
+        phone_number: paymentDetails.easypaisaNumber,
+        otp_code: otpCode
+      });
+
+      if (response.data.success) {
+        setOtpVerified(true);
+        setError(null);
+        alert("OTP verified successfully!");
+      } else {
+        setError(response.data.message);
+      }
+    } catch (error) {
+      console.error("OTP verify failed:", error);
+      setError("Failed to verify OTP. Please try again.");
+    } finally {
+      setOtpVerifying(false);
     }
   };
 
@@ -438,6 +635,8 @@ function CourseDetail() {
       newCompleted.add(lessonId);
     }
     setCompletedLessons(newCompleted);
+    // Save to localStorage
+    localStorage.setItem(`completedLessons_${id}`, JSON.stringify(Array.from(newCompleted)));
   };
 
   const handleToggleQuizCompletion = (quizId) => {
@@ -460,6 +659,8 @@ function CourseDetail() {
       newCompleted.add(quizId);
     }
     setCompletedQuizzes(newCompleted);
+    // Save to localStorage
+    localStorage.setItem(`completedQuizzes_${id}`, JSON.stringify(Array.from(newCompleted)));
   };
 
   const handleWatchVideo = (e, videoUrl) => {
@@ -982,9 +1183,6 @@ function CourseDetail() {
                 <>
                   <p className="text-muted">
                     <strong>Course Code:</strong> {course.code}
-                  </p>
-                  <p className="text-muted">
-                    <strong>Price:</strong> ${parseFloat(course.price).toFixed(2)}
                   </p>
                   <p className="text-muted">
                     <strong>Students Enrolled:</strong>{" "}
@@ -1732,12 +1930,44 @@ function CourseDetail() {
                                                 <i className="fas fa-check"></i> Completed
                                               </span>
                                             )}
+                                            {isEnrolled && quizResults[quiz.id] ? (
+                                              <span className={`badge ms-2 ${
+                                                quizResults[quiz.id].grade_awarded === 'A' ? 'bg-success' :
+                                                quizResults[quiz.id].grade_awarded === 'B' ? 'bg-info' :
+                                                quizResults[quiz.id].grade_awarded === 'C' ? 'bg-warning' :
+                                                quizResults[quiz.id].grade_awarded === 'D' ? 'bg-warning text-dark' :
+                                                'bg-danger'
+                                              }`}>
+                                                Grade: {quizResults[quiz.id].grade_awarded}
+                                              </span>
+                                            ) : isEnrolled ? (
+                                              <span className="badge bg-secondary ms-2">Ungraded</span>
+                                            ) : null}
                                           </h6>
                                         </div>
                                         <small>{quiz.description}</small>
                                         <div className="mt-1 small text-muted">
                                           Marks: {quiz.total_marks} | Duration: {quiz.duration} mins
                                         </div>
+                                        {quizResults[quiz.id] && (
+                                          <div className="mt-2 p-2 bg-light rounded small">
+                                            <div className="mb-1">
+                                              <strong>Score:</strong> {quizResults[quiz.id].score}/{quiz.total_marks} marks
+                                            </div>
+                                            <div>
+                                              <strong>Grade:</strong>
+                                              <span className={`badge ms-2 ${
+                                                quizResults[quiz.id].grade_awarded === 'A' ? 'bg-success' :
+                                                quizResults[quiz.id].grade_awarded === 'B' ? 'bg-info' :
+                                                quizResults[quiz.id].grade_awarded === 'C' ? 'bg-warning' :
+                                                quizResults[quiz.id].grade_awarded === 'D' ? 'bg-warning text-dark' :
+                                                'bg-danger'
+                                              }`}>
+                                                {quizResults[quiz.id].grade_awarded}
+                                              </span>
+                                            </div>
+                                          </div>
+                                        )}
                                         {isEnrolled && (
                                           <button 
                                             className="btn btn-sm btn-success mt-2"
@@ -1848,13 +2078,18 @@ function CourseDetail() {
                           </button>
                         </>
                       ) : (
-                        <button
-                          className="btn btn-success w-100"
-                          onClick={handleEnroll}
-                          disabled={enrolling}
-                        >
-                          {enrolling ? "Enrolling..." : "Enroll Now"}
-                        </button>
+                        <>
+                          <button
+                            className="btn btn-success w-100"
+                            onClick={handleEnroll}
+                            disabled={enrolling}
+                          >
+                            {enrolling ? "Enrolling..." : "Enroll Now"}
+                          </button>
+                          <p className="mt-2 text-center text-muted">
+                            <small>Price: ${parseFloat(course.price).toFixed(2)}</small>
+                          </p>
+                        </>
                       )}
                     </>
                   ) : (
@@ -1880,6 +2115,264 @@ function CourseDetail() {
           </div>
         </div>
       </div>
+
+      {/* Payment Modal */}
+      {showPaymentModal && course && (
+        <div className="modal d-block" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Complete Payment</h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => setShowPaymentModal(false)}
+                  disabled={paymentProcessing}
+                ></button>
+              </div>
+              <div className="modal-body">
+                <div className="mb-3">
+                  <h6>Course: {course.title}</h6>
+                  <p className="text-muted">{course.description}</p>
+                </div>
+                
+                <div className="mb-3">
+                  <div className="d-flex justify-content-between align-items-center">
+                    <span><strong>Total Amount:</strong></span>
+                    <span><strong className="text-success" style={{ fontSize: "1.5rem" }}>
+                      ${parseFloat(course.price).toFixed(2)}
+                    </strong></span>
+                  </div>
+                </div>
+
+                <div className="mb-3">
+                  <label className="form-label"><strong>Payment Method</strong></label>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="paymentMethod"
+                      id="creditCard"
+                      value="credit_card"
+                      checked={paymentMethod === "credit_card"}
+                      onChange={(e) => setPaymentMethod(e.target.value)}
+                      disabled={paymentProcessing}
+                    />
+                    <label className="form-check-label" htmlFor="creditCard">
+                      Credit/Debit Card
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="paymentMethod"
+                      id="easypaisa"
+                      value="easypaisa"
+                      checked={paymentMethod === "easypaisa"}
+                      onChange={(e) => setPaymentMethod(e.target.value)}
+                      disabled={paymentProcessing}
+                    />
+                    <label className="form-check-label" htmlFor="easypaisa">
+                      Easypaisa
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="paymentMethod"
+                      id="bank"
+                      value="bank_transfer"
+                      checked={paymentMethod === "bank_transfer"}
+                      onChange={(e) => setPaymentMethod(e.target.value)}
+                      disabled={paymentProcessing}
+                    />
+                    <label className="form-check-label" htmlFor="bank">
+                      Bank Transfer
+                    </label>
+                  </div>
+                </div>
+
+                {/* Payment Details Fields */}
+                {paymentMethod === "credit_card" && (
+                  <div className="mb-3">
+                    <label className="form-label"><strong>Card Details</strong></label>
+                    <input
+                      type="text"
+                      className="form-control mb-2"
+                      placeholder="Cardholder Name"
+                      value={paymentDetails.cardHolder}
+                      onChange={(e) => setPaymentDetails({...paymentDetails, cardHolder: e.target.value})}
+                      disabled={paymentProcessing}
+                    />
+                    <input
+                      type="text"
+                      className="form-control mb-2"
+                      placeholder="Card Number (16 digits)"
+                      value={paymentDetails.cardNumber}
+                      onChange={(e) => setPaymentDetails({...paymentDetails, cardNumber: e.target.value})}
+                      disabled={paymentProcessing}
+                    />
+                    <div className="row">
+                      <div className="col-6">
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="MM/YY"
+                          value={paymentDetails.expiry}
+                          onChange={(e) => setPaymentDetails({...paymentDetails, expiry: e.target.value})}
+                          disabled={paymentProcessing}
+                        />
+                      </div>
+                      <div className="col-6">
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="CVV"
+                          value={paymentDetails.cvv}
+                          onChange={(e) => setPaymentDetails({...paymentDetails, cvv: e.target.value})}
+                          disabled={paymentProcessing}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {paymentMethod === "easypaisa" && (
+                  <div className="mb-3">
+                    <label className="form-label"><strong>Easypaisa Account</strong></label>
+                    <div className="input-group mb-2">
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Enter Easypaisa Mobile Number (11 digits)"
+                        value={paymentDetails.easypaisaNumber}
+                        onChange={(e) => setPaymentDetails({...paymentDetails, easypaisaNumber: e.target.value})}
+                        disabled={paymentProcessing || otpSent}
+                      />
+                      <button
+                        className="btn btn-outline-primary"
+                        type="button"
+                        onClick={handleSendOTP}
+                        disabled={paymentProcessing || otpSent || !paymentDetails.easypaisaNumber}
+                      >
+                        {otpSent ? "OTP Sent" : "Send OTP"}
+                      </button>
+                    </div>
+
+                    {otpSent && !otpVerified && (
+                      <div className="mt-3 p-3 bg-light rounded">
+                        <label className="form-label"><strong>Enter OTP Code</strong></label>
+                        <div className="input-group mb-2">
+                          <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Enter 6-digit OTP"
+                            value={otpCode}
+                            onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                            maxLength="6"
+                            disabled={otpVerifying}
+                          />
+                          <button
+                            className="btn btn-success"
+                            type="button"
+                            onClick={handleVerifyOTP}
+                            disabled={otpVerifying || otpCode.length !== 6}
+                          >
+                            {otpVerifying ? "Verifying..." : "Verify"}
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {otpVerified && (
+                      <div className="alert alert-success mt-2">
+                        <i className="fas fa-check-circle me-2"></i>
+                        Phone number verified successfully!
+                      </div>
+                    )}
+
+                    <small className="text-muted d-block mt-2">
+                      <i className="fas fa-info-circle me-1"></i>
+                      Verification code will be sent to your email address.
+                    </small>
+                  </div>
+                )}
+
+                {paymentMethod === "bank_transfer" && (
+                  <div className="mb-3">
+                    <label className="form-label"><strong>Bank Account Details</strong></label>
+                    <input
+                      type="text"
+                      className="form-control mb-2"
+                      placeholder="Account Holder Name"
+                      value={paymentDetails.bankAccountHolder}
+                      onChange={(e) => setPaymentDetails({...paymentDetails, bankAccountHolder: e.target.value})}
+                      disabled={paymentProcessing}
+                    />
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Account Number"
+                      value={paymentDetails.bankAccountNumber}
+                      onChange={(e) => setPaymentDetails({...paymentDetails, bankAccountNumber: e.target.value})}
+                      disabled={paymentProcessing}
+                    />
+                    <small className="text-muted d-block mt-2">
+                      <i className="fas fa-info-circle me-1"></i>
+                      Our bank details will be provided after you submit this form.
+                    </small>
+                  </div>
+                )}
+
+                <div className="alert alert-info">
+                  <small>
+                    <i className="fas fa-lock me-2"></i>
+                    Your payment information is secure and encrypted.
+                  </small>
+                </div>
+              </div>
+              <div className="modal-footer d-flex flex-column gap-2">
+                <button
+                  type="button"
+                  className="btn btn-success btn-lg w-100"
+                  onClick={handleProcessPayment}
+                  disabled={
+                    paymentProcessing ||
+                    (paymentMethod === "easypaisa" && !otpVerified)
+                  }
+                  title={
+                    paymentMethod === "easypaisa" && !otpVerified
+                      ? "Please verify your Easypaisa number first"
+                      : ""
+                  }
+                >
+                  {paymentProcessing ? (
+                    <>
+                      <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                      Processing...
+                    </>
+                  ) : (
+                    <>
+                      <i className="fas fa-check-circle me-2"></i>
+                      Pay ${parseFloat(course.price).toFixed(2)}
+                    </>
+                  )}
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-secondary w-100"
+                  onClick={() => setShowPaymentModal(false)}
+                  disabled={paymentProcessing}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
