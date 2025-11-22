@@ -69,23 +69,37 @@ function TeacherProfile() {
         <div className="container">
           <div className="teacher-header-content">
             <div className="teacher-avatar-large">
-              <i className="fas fa-user-circle"></i>
+              <div className="avatar-circle">
+                <i className="fas fa-chalkboard-user"></i>
+              </div>
             </div>
             <div className="teacher-header-info">
-              <h1>{teacher.user_details.name}</h1>
-              <p className="text-muted">{teacher.qualification}</p>
+              <div className="teacher-name-badge">
+                <h1>{teacher.user_details.name}</h1>
+                <span className="badge badge-teacher"><i className="fas fa-star me-1"></i>Verified Teacher</span>
+              </div>
+              <p className="teacher-qualification">{teacher.qualification}</p>
               <div className="teacher-stats">
                 <div className="stat">
-                  <span className="stat-label">Experience</span>
-                  <span className="stat-value">{teacher.experience} years</span>
+                  <i className="fas fa-briefcase stat-icon"></i>
+                  <div>
+                    <span className="stat-label">Experience</span>
+                    <span className="stat-value">{teacher.experience}+ yrs</span>
+                  </div>
                 </div>
                 <div className="stat">
-                  <span className="stat-label">Courses</span>
-                  <span className="stat-value">{teacher.courses_count}</span>
+                  <i className="fas fa-book stat-icon"></i>
+                  <div>
+                    <span className="stat-label">Courses</span>
+                    <span className="stat-value">{teacher.courses_count}</span>
+                  </div>
                 </div>
                 <div className="stat">
-                  <span className="stat-label">Email</span>
-                  <span className="stat-value">{teacher.user_details.email}</span>
+                  <i className="fas fa-users stat-icon"></i>
+                  <div>
+                    <span className="stat-label">Students</span>
+                    <span className="stat-value">Active</span>
+                  </div>
                 </div>
               </div>
             </div>
