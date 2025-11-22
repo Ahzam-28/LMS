@@ -9,7 +9,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8B0000 0%, #8b0000 100%);
   padding: 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -66,7 +66,7 @@
 .auth-icon {
   width: 60px;
   height: 60px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8B0000 0%, #8b0000 100%);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -163,8 +163,8 @@
 .auth-form input:focus,
 .auth-form select:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #8B0000;
+  box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.1);
 }
 
 .auth-form input:disabled {
@@ -194,7 +194,7 @@
 }
 
 .toggle-password:hover:not(:disabled) {
-  color: #667eea;
+  color: #8B0000;
 }
 
 .toggle-password:disabled {
@@ -258,9 +258,9 @@
 }
 
 .role-btn.active {
-  border-color: #667eea;
-  background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
-  color: #667eea;
+  border-color: #8B0000;
+  background: linear-gradient(135deg, #8B000015 0%, #8b000015 100%);
+  color: #8B0000;
 }
 
 .progress-indicator {
@@ -298,9 +298,9 @@
 }
 
 .step.active .step-circle {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8B0000 0%, #8b0000 100%);
   color: white;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 12px rgba(139, 0, 0, 0.3);
 }
 
 .step p {
@@ -321,7 +321,7 @@
   width: 100%;
   padding: 14px 20px;
   margin-top: 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8B0000 0%, #8b0000 100%);
   color: white;
   border: none;
   border-radius: 8px;
@@ -339,7 +339,7 @@
 
 .btn-submit:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 8px 24px rgba(139, 0, 0, 0.4);
 }
 
 .btn-submit:active:not(:disabled) {
@@ -377,7 +377,7 @@
   border: 2px solid #e2e8f0;
   border-radius: 8px;
   text-align: center;
-  color: #667eea;
+  color: #8B0000;
   font-weight: 600;
   font-size: 14px;
   text-decoration: none;
@@ -390,8 +390,8 @@
 }
 
 .btn-secondary:hover {
-  border-color: #667eea;
-  background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+  border-color: #8B0000;
+  background: linear-gradient(135deg, #8B000015 0%, #8b000015 100%);
 }
 
 .btn-back {
@@ -458,14 +458,14 @@
 }
 
 .forgot-password {
-  color: #667eea;
+  color: #8B0000;
   text-decoration: none;
   font-weight: 600;
   transition: color 0.3s ease;
 }
 
 .forgot-password:hover {
-  color: #764ba2;
+  color: #8b0000;
 }
 
 .form-divider {
@@ -510,18 +510,18 @@
 }
 
 .auth-footer a {
-  color: #667eea;
+  color: #8B0000;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .auth-footer a:hover {
-  color: #764ba2;
+  color: #8b0000;
   text-decoration: underline;
 }
 
 .auth-side {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8B0000 0%, #8b0000 100%);
   padding: 60px 40px;
   display: flex;
   flex-direction: column;

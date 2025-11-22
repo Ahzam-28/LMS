@@ -10,7 +10,7 @@
 
 .navbar-brand {
   font-size: 1.5rem;
-  color: #667eea !important;
+  color: #8B0000 !important;
 }
 
 .navbar-nav .nav-link {
@@ -21,7 +21,7 @@
 }
 
 .navbar-nav .nav-link:hover {
-  color: #667eea !important;
+  color: #8B0000 !important;
 }
 
 .navbar-nav .btn-link {
@@ -33,65 +33,102 @@
 }
 
 .navbar-nav .btn-link:hover {
-  color: #667eea !important;
+  color: #8B0000 !important;
 }
 
 .hero-section {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8B0000 0%, #5C0000 100%);
   color: white;
-  padding: 6rem 0;
+  padding: 8rem 0;
   text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+              radial-gradient(circle at 80% 80%, rgba(139,0,0,0.2) 0%, transparent 50%);
+  pointer-events: none;
 }
 
 .hero-content h1 {
-  font-size: 3rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
   animation: fadeInDown 0.8s ease;
+  letter-spacing: -1px;
+  position: relative;
+  z-index: 1;
 }
 
 .hero-content .lead {
-  font-size: 1.3rem;
-  margin-bottom: 2rem;
+  font-size: 1.5rem;
+  margin-bottom: 3rem;
   opacity: 0.95;
   animation: fadeInUp 0.8s ease 0.2s both;
+  position: relative;
+  z-index: 1;
+  font-weight: 300;
+  line-height: 1.6;
 }
 
 .hero-buttons {
   animation: fadeInUp 0.8s ease 0.4s both;
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
 }
 
 .hero-buttons .btn {
-  padding: 0.75rem 2rem;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 6px;
+  padding: 1rem 2.5rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  border-radius: 50px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .hero-buttons .btn-primary {
   background: white;
-  color: #667eea;
+  color: #8B0000;
   border: none;
+  box-shadow: 0 8px 25px rgba(255,255,255,0.2);
 }
 
 .hero-buttons .btn-primary:hover {
   background: #f0f0f0;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(255,255,255,0.3);
 }
 
 .hero-buttons .btn-outline-primary {
   color: white;
-  border-color: white;
+  border: 2px solid white;
+  background: transparent;
+  box-shadow: 0 8px 25px rgba(139,0,0,0.3);
 }
 
 .hero-buttons .btn-outline-primary:hover {
   background: white;
-  color: #667eea;
+  color: #8B0000;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(255,255,255,0.3);
 }
 
 .courses-section {
   flex-grow: 1;
-  padding: 4rem 0;
-  background-color: #f5f7fa;
+  padding: 5rem 0;
+  background: linear-gradient(180deg, #f5f7fa 0%, #e8ecf1 100%);
 }
 
 .section-header {
@@ -116,15 +153,18 @@
 }
 
 .section-header h2 {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #333;
-  margin-bottom: 0.5rem;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.5px;
 }
 
 .section-header p {
-  font-size: 1.1rem;
-  color: #666;
+  font-size: 1.2rem;
+  color: #555;
+  font-weight: 300;
+  line-height: 1.6;
 }
 
 .courses-grid {
@@ -136,36 +176,58 @@
 
 .course-grid-card {
   background: white;
-  border-radius: 8px;
-  border: 1px solid #e0e0e0;
-  padding: 1.5rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  border: 1px solid #e8e8e8;
+  padding: 2rem;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
   height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.course-grid-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #8B0000 0%, #5C0000 100%);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
 }
 
 .course-grid-card:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  transform: translateY(-4px);
-  border-color: #667eea;
+  box-shadow: 0 16px 40px rgba(139, 0, 0, 0.15);
+  transform: translateY(-8px);
+  border-color: #8B0000;
+}
+
+.course-grid-card:hover::before {
+  transform: scaleX(1);
 }
 
 .course-card-header {
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .course-card-header .badge {
-  background: #667eea;
+  background: linear-gradient(135deg, #8B0000 0%, #5C0000 100%);
   color: white;
-  padding: 0.35rem 0.75rem;
-  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(139, 0, 0, 0.3);
 }
 
 .enrollment-badge-small {
@@ -179,18 +241,20 @@
 }
 
 .course-card-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 0.75rem;
-  line-height: 1.4;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+  letter-spacing: -0.3px;
 }
 
 .course-card-description {
-  color: #666;
+  color: #555;
   font-size: 0.95rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
   flex-grow: 1;
+  line-height: 1.7;
 }
 
 .course-card-category {
@@ -211,7 +275,7 @@
 .course-card-footer .price {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #667eea;
+  color: #8B0000;
 }
 
 .course-card-footer .btn {
@@ -287,23 +351,42 @@
 
 .teacher-card {
   background: white;
-  border-radius: 8px;
-  border: 1px solid #e0e0e0;
-  padding: 1.5rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  border: 1px solid #e8e8e8;
+  padding: 2rem;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
   height: 100%;
   text-decoration: none;
   color: inherit;
+  position: relative;
+  overflow: hidden;
+}
+
+.teacher-card::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(139, 0, 0, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  transition: all 0.4s ease;
 }
 
 .teacher-card:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  transform: translateY(-6px);
-  border-color: #667eea;
+  box-shadow: 0 16px 40px rgba(139, 0, 0, 0.15);
+  transform: translateY(-8px);
+  border-color: #8B0000;
   text-decoration: none;
+}
+
+.teacher-card:hover::before {
+  top: -25%;
+  right: -25%;
 }
 
 .teacher-card-header {
@@ -313,7 +396,7 @@
 
 .teacher-avatar {
   font-size: 60px;
-  color: #667eea;
+  color: #8B0000;
   margin-bottom: 0.5rem;
 }
 
@@ -334,7 +417,7 @@
 }
 
 .teacher-qualification {
-  color: #667eea;
+  color: #8B0000;
   font-weight: 600;
   margin-bottom: 1rem;
 }
@@ -375,16 +458,18 @@
 }
 
 .footer {
-  background-color: #333;
+  background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
   color: white;
-  padding: 2rem 0;
+  padding: 3rem 0;
   text-align: center;
   margin-top: auto;
+  border-top: 1px solid rgba(139, 0, 0, 0.2);
 }
 
 .footer p {
   margin: 0;
   opacity: 0.8;
+  font-weight: 300;
 }
 
 @keyframes fadeInDown {

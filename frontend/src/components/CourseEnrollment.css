@@ -6,12 +6,12 @@
 }
 
 .enrollment-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8B0000 0%, #8b0000 100%);
   color: white;
   padding: 3rem 2rem;
   border-radius: 8px;
   margin: 0 -12px;
-  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 16px rgba(139, 0, 0, 0.3);
 }
 
 .enrollment-header h1 {
@@ -46,8 +46,8 @@
 
 .filter-section .form-control:focus,
 .filter-section .form-select:focus {
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #8B0000;
+  box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.1);
   outline: none;
 }
 
@@ -66,7 +66,7 @@
 .course-card:hover {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
   transform: translateY(-6px);
-  border-color: #667eea;
+  border-color: #8B0000;
 }
 
 .course-card-body {
@@ -95,8 +95,8 @@
 }
 
 .course-code {
-  background: #f0f7ff;
-  color: #0d6efd;
+  background: #ffe5eb;
+  color: #8B0000;
   padding: 0.35rem 0.75rem;
   border-radius: 4px;
   font-size: 0.85rem;
@@ -175,24 +175,24 @@
 }
 
 .course-footer .btn-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8B0000 0%, #8b0000 100%);
   border: none;
   color: white;
 }
 
 .course-footer .btn-primary:hover {
-  background: linear-gradient(135deg, #5568d3 0%, #6a428a 100%);
+  background: linear-gradient(135deg, #c4112f 0%, #7a0000 100%);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 12px rgba(139, 0, 0, 0.3);
 }
 
 .course-footer .btn-outline-primary {
-  color: #667eea;
-  border: 1px solid #667eea;
+  color: #8B0000;
+  border: 1px solid #8B0000;
 }
 
 .course-footer .btn-outline-primary:hover {
-  background: #667eea;
+  background: #8B0000;
   color: white;
 }
 
@@ -207,7 +207,7 @@
 .stats-card h5 {
   font-size: 2rem;
   font-weight: 700;
-  color: #667eea;
+  color: #8B0000;
   margin-bottom: 0.5rem;
 }
 

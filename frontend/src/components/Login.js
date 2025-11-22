@@ -17,7 +17,7 @@ function Login({ setUser }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    setError(""); 
+    setError(""); // Clear error when user types
   };
 
   const handleSubmit = async (e) => {
@@ -31,8 +31,10 @@ function Login({ setUser }) {
         password: formData.password,
       });
 
+      // Save token
       localStorage.setItem("token", response.data.token);
 
+      // Save full user object
       const userData = {
         username: response.data.username,
         role: response.data.role,

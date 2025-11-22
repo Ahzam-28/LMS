@@ -1,68 +1,115 @@
 .teacher-profile {
   padding: 2rem 0;
-  background-color: #f8f9fa;
+  background: linear-gradient(180deg, #f5f7fa 0%, #e8ecf1 100%);
   min-height: 100vh;
 }
 
 .teacher-header-section {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8B0000 0%, #5C0000 100%);
   color: white;
-  padding: 3rem 0;
-  margin-bottom: 2rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 4rem 0;
+  margin-bottom: 3rem;
+  box-shadow: 0 16px 40px rgba(139, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.teacher-header-section::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.teacher-header-section::after {
+  content: "";
+  position: absolute;
+  bottom: -30%;
+  left: -5%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(139,0,0,0.2) 0%, transparent 70%);
+  border-radius: 50%;
 }
 
 .teacher-header-content {
   display: flex;
   align-items: center;
   gap: 3rem;
+  position: relative;
+  z-index: 1;
 }
 
 .teacher-avatar-large {
-  font-size: 120px;
+  font-size: 140px;
   flex-shrink: 0;
+  width: 160px;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 100%);
+  border-radius: 50%;
+  border: 3px solid rgba(255,255,255,0.3);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.2);
 }
 
 .teacher-avatar-large i {
   color: white;
-  opacity: 0.9;
+  opacity: 1;
 }
 
 .teacher-header-info {
   flex: 1;
+  color: white !important;
 }
 
 .teacher-header-info h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 0.75rem;
+  letter-spacing: -1px;
+  color: white !important;
 }
 
 .teacher-header-info .text-muted {
-  font-size: 1.1rem;
-  opacity: 0.9;
-  margin-bottom: 1.5rem;
+  font-size: 1.25rem;
+  opacity: 0.95;
+  margin-bottom: 2rem;
+  font-weight: 300;
+  color: white !important;
 }
 
 .teacher-stats {
   display: flex;
   gap: 3rem;
+  flex-wrap: wrap;
 }
 
 .stat {
   display: flex;
   flex-direction: column;
+  color: white !important;
 }
 
 .stat-label {
-  font-size: 0.9rem;
-  opacity: 0.8;
-  margin-bottom: 0.3rem;
+  font-size: 0.85rem;
+  opacity: 1;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  color: white !important;
 }
 
 .stat-value {
-  font-size: 1.3rem;
-  font-weight: 600;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: white !important;
 }
 
 .teacher-details-section {
@@ -71,39 +118,51 @@
 
 .details-card {
   background: white;
-  border-radius: 8px;
-  padding: 2rem;
+  border-radius: 12px;
+  padding: 2.5rem;
   margin-bottom: 2rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.details-card:hover {
+  box-shadow: 0 16px 40px rgba(139, 0, 0, 0.12);
+  transform: translateY(-2px);
 }
 
 .details-card h3 {
-  color: #333;
-  margin-bottom: 1.5rem;
-  font-weight: 600;
-  border-bottom: 2px solid #667eea;
-  padding-bottom: 0.8rem;
+  color: #1a1a1a;
+  margin-bottom: 1.75rem;
+  font-weight: 800;
+  border-bottom: 3px solid #8B0000;
+  padding-bottom: 1rem;
+  font-size: 1.75rem;
+  letter-spacing: -0.5px;
 }
 
 .teacher-expertise {
-  line-height: 1.8;
+  line-height: 1.9;
   color: #555;
-  font-size: 1rem;
+  font-size: 1.05rem;
+  font-weight: 300;
 }
 
 .contact-info {
-  padding: 1.5rem;
-  background: #f8f9fa;
-  border-radius: 6px;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+  border-radius: 10px;
+  border-left: 4px solid #8B0000;
 }
 
 .contact-info h5 {
-  margin-bottom: 1rem;
-  color: #333;
+  margin-bottom: 1.5rem;
+  color: #1a1a1a;
+  font-weight: 700;
+  font-size: 1.2rem;
 }
 
 .info-item {
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -111,15 +170,19 @@
 
 .info-item strong {
   min-width: 80px;
-  color: #667eea;
+  color: #8B0000;
+  font-weight: 700;
 }
 
 .info-item a {
-  color: #667eea;
+  color: #8B0000;
   text-decoration: none;
+  transition: all 0.3s ease;
+  font-weight: 500;
 }
 
 .info-item a:hover {
+  color: #5C0000;
   text-decoration: underline;
 }
 
@@ -134,35 +197,57 @@
 }
 
 .course-item {
-  padding: 1.5rem;
-  background: #f8f9fa;
-  border-radius: 6px;
-  border-left: 4px solid #667eea;
-  transition: all 0.3s ease;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e8e8e8;
+  border-left: 4px solid #8B0000;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.course-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(139, 0, 0, 0.05) 50%, transparent 100%);
+  transition: right 0.4s ease;
 }
 
 .course-item:hover {
-  background: #f0f1ff;
-  transform: translateX(5px);
+  box-shadow: 0 16px 40px rgba(139, 0, 0, 0.15);
+  transform: translateY(-4px);
+  border-color: #8B0000;
+}
+
+.course-item:hover::before {
+  right: 100%;
 }
 
 .course-item-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.8rem;
+  margin-bottom: 1rem;
 }
 
 .course-item-header h5 {
   margin: 0;
-  color: #333;
-  font-weight: 600;
+  color: #1a1a1a;
+  font-weight: 700;
+  font-size: 1.3rem;
 }
 
 .course-item-description {
   color: #666;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   font-size: 0.95rem;
+  line-height: 1.6;
 }
 
 .course-item-footer {
@@ -172,69 +257,146 @@
 }
 
 .course-item-footer .price {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #667eea;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #8B0000;
 }
 
 .summary-card {
   background: white;
-  border-radius: 8px;
-  padding: 2rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 2.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
   position: sticky;
   top: 1rem;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.summary-card:hover {
+  box-shadow: 0 16px 40px rgba(139, 0, 0, 0.12);
 }
 
 .summary-card h5 {
-  color: #333;
-  margin-bottom: 1.5rem;
-  font-weight: 600;
-  border-bottom: 2px solid #667eea;
-  padding-bottom: 0.8rem;
+  color: #1a1a1a;
+  margin-bottom: 2rem;
+  font-weight: 800;
+  border-bottom: 3px solid #8B0000;
+  padding-bottom: 1rem;
+  font-size: 1.3rem;
+  letter-spacing: -0.3px;
 }
 
 .info-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.info-group:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
 }
 
 .info-group label {
   display: block;
-  color: #667eea;
-  font-weight: 600;
-  margin-bottom: 0.4rem;
-  font-size: 0.9rem;
+  color: #8B0000;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
 }
 
 .info-group p {
   color: #555;
   margin: 0;
-  padding: 0.5rem 0;
+  padding: 0;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.btn-outline-secondary {
+  border: 2px solid #ccc;
+  color: #333;
+  font-weight: 700;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-secondary:hover {
+  background: #8B0000;
+  border-color: #8B0000;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.btn-outline-primary {
+  border: 2px solid #8B0000;
+  color: #8B0000;
+  font-weight: 700;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+  background: #8B0000;
+  color: white;
+  transform: translateY(-2px);
 }
 
 @media (max-width: 768px) {
   .teacher-header-content {
     flex-direction: column;
     text-align: center;
-    gap: 1.5rem;
+    gap: 2rem;
   }
 
   .teacher-avatar-large {
-    font-size: 80px;
+    font-size: 100px;
+    width: 120px;
+    height: 120px;
   }
 
   .teacher-header-info h1 {
-    font-size: 1.8rem;
+    font-size: 2.2rem;
   }
 
   .teacher-stats {
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.5rem;
+    width: 100%;
   }
 
   .summary-card {
     position: relative;
     top: auto;
     margin-top: 2rem;
+  }
+
+  .details-card {
+    padding: 1.75rem;
+  }
+
+  .course-item {
+    padding: 1.5rem;
+  }
+
+  .course-item-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .course-item-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .course-item-footer .btn {
+    width: 100%;
   }
 }

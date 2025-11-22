@@ -69,37 +69,23 @@ function TeacherProfile() {
         <div className="container">
           <div className="teacher-header-content">
             <div className="teacher-avatar-large">
-              <div className="avatar-circle">
-                <i className="fas fa-chalkboard-user"></i>
-              </div>
+              <i className="fas fa-user-circle"></i>
             </div>
             <div className="teacher-header-info">
-              <div className="teacher-name-badge">
-                <h1>{teacher.user_details.name}</h1>
-                <span className="badge badge-teacher"><i className="fas fa-star me-1"></i>Verified Teacher</span>
-              </div>
-              <p className="teacher-qualification">{teacher.qualification}</p>
+              <h1>{teacher.user_details.name}</h1>
+              <p className="text-muted">{teacher.qualification}</p>
               <div className="teacher-stats">
                 <div className="stat">
-                  <i className="fas fa-briefcase stat-icon"></i>
-                  <div>
-                    <span className="stat-label">Experience</span>
-                    <span className="stat-value">{teacher.experience}+ yrs</span>
-                  </div>
+                  <span className="stat-label">Experience</span>
+                  <span className="stat-value" style={{ color: "white" }}>{teacher.experience} years</span>
                 </div>
                 <div className="stat">
-                  <i className="fas fa-book stat-icon"></i>
-                  <div>
-                    <span className="stat-label">Courses</span>
-                    <span className="stat-value">{teacher.courses_count}</span>
-                  </div>
+                  <span className="stat-label">Courses</span>
+                  <span className="stat-value" style={{ color: "white" }}>{teacher.courses_count}</span>
                 </div>
                 <div className="stat">
-                  <i className="fas fa-users stat-icon"></i>
-                  <div>
-                    <span className="stat-label">Students</span>
-                    <span className="stat-value">Active</span>
-                  </div>
+                  <span className="stat-label">Email</span>
+                  <span className="stat-value" style={{ color: "white" }}>{teacher.user_details.email}</span>
                 </div>
               </div>
             </div>

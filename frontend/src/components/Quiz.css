@@ -95,7 +95,7 @@
 
 .question-number {
   display: inline-block;
-  background: #007bff;
+  background: #8B0000;
   color: white;
   padding: 0.4rem 0.8rem;
   border-radius: 4px;
@@ -135,8 +135,8 @@
 }
 
 .answer-option:hover {
-  border-color: #007bff;
-  background: #f0f7ff;
+  border-color: #8B0000;
+  background: #ffe5eb;
 }
 
 .answer-option input[type="radio"] {
@@ -144,7 +144,7 @@
   margin-right: 0.75rem;
   width: 18px;
   height: 18px;
-  accent-color: #007bff;
+  accent-color: #8B0000;
 }
 
 .answer-option label {
@@ -155,7 +155,7 @@
 
 .answer-option input[type="radio"]:checked + label {
   font-weight: 600;
-  color: #007bff;
+  color: #8B0000;
 }
 
 .quiz-footer {
@@ -198,7 +198,7 @@
 .result-value {
   font-size: 1.75rem;
   font-weight: bold;
-  color: #007bff;
+  color: #8B0000;
 }
 
 .answers-summary {

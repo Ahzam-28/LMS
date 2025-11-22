@@ -35,15 +35,15 @@
 }
 
 .instructor-card {
-  background: linear-gradient(135deg, #f0f7ff 0%, #e0f2fe 100%);
+  background: linear-gradient(135deg, #fff0f0 0%, #ffe0e0 100%);
   padding: 1.5rem;
   border-radius: 8px;
-  border-left: 4px solid #0d6efd;
+  border-left: 4px solid #8B0000;
   transition: all 0.3s ease;
 }
 
 .instructor-card:hover {
-  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.15);
+  box-shadow: 0 4px 12px rgba(139, 0, 0, 0.2);
 }
 
 .instructor-card p {
@@ -366,7 +366,7 @@
 }
 
 .feedback-section {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8B0000 0%, #8b0000 100%);
   margin-left: -15px;
   margin-right: -15px;
   margin-bottom: -50px;
@@ -392,17 +392,17 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(90deg, #8B0000 0%, #8b0000 100%);
 }
 
 .feedback-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 16px 48px rgba(102, 126, 234, 0.2);
+  box-shadow: 0 16px 48px rgba(139, 0, 0, 0.2);
 }
 
 .feedback-icon {
   font-size: 3.5rem;
-  color: #667eea;
+  color: #8B0000;
   margin-bottom: 1.5rem;
   animation: float 3s ease-in-out infinite;
 }
@@ -421,7 +421,7 @@
   font-weight: 700;
   color: #2d3748;
   margin-bottom: 0.75rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8B0000 0%, #8b0000 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -436,7 +436,7 @@
 
 .badge-coming-soon {
   display: inline-block;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8B0000 0%, #8b0000 100%);
   color: white;
   padding: 0.75rem 1.5rem;
   border-radius: 20px;
@@ -444,7 +444,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 12px rgba(139, 0, 0, 0.3);
 }
 
 @media (max-width: 768px) {

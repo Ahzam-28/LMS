@@ -1,6 +1,6 @@
 .dashboard-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8B0000 0%, #5C0000 100%);
   position: relative;
   overflow-x: hidden;
 }
@@ -12,7 +12,7 @@
   left: 0;
   right: 0;
   height: 300px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8B0000 0%, #5C0000 100%);
   z-index: 0;
 }
 
@@ -41,11 +41,11 @@
   left: 0;
   right: 0;
   height: 6px;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(90deg, #8B0000 0%, #8b0000 100%);
 }
 
 .profile-card:hover {
-  box-shadow: 0 16px 48px rgba(102, 126, 234, 0.2);
+  box-shadow: 0 16px 48px rgba(139, 0, 0, 0.2);
   transform: translateY(-4px);
 }
 
@@ -58,7 +58,7 @@
   font-weight: 700;
   margin-bottom: 1.5rem;
   font-size: 1.75rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8B0000 0%, #8b0000 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -107,13 +107,13 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(90deg, #8B0000 0%, #8b0000 100%);
 }
 
 .course-card:hover {
-  box-shadow: 0 16px 48px rgba(102, 126, 234, 0.25);
+  box-shadow: 0 16px 48px rgba(139, 0, 0, 0.25);
   transform: translateY(-8px);
-  border-color: #667eea;
+  border-color: #8B0000;
 }
 
 .course-card-inner {
@@ -125,7 +125,7 @@
 
 .course-badge {
   display: inline-block;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8B0000 0%, #8b0000 100%);
   color: white;
   padding: 0.6rem 1rem;
   border-radius: 20px;
@@ -135,7 +135,7 @@
   width: fit-content;
   text-transform: uppercase;
   letter-spacing: 0.8px;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 12px rgba(139, 0, 0, 0.3);
 }
 
 .course-title {
@@ -168,7 +168,7 @@
   padding: 1rem;
   border-radius: 8px;
   margin-bottom: 1.5rem;
-  border-left: 4px solid #667eea;
+  border-left: 4px solid #8B0000;
 }
 
 .course-info p {
@@ -184,7 +184,7 @@
 
 .course-info .badge {
   font-size: 0.7rem;
-  background: #667eea !important;
+  background: #8B0000 !important;
   padding: 0.5rem 0.75rem;
 }
 
@@ -197,30 +197,19 @@
 }
 
 .course-card .btn-outline-primary {
-  border-color: #667eea;
-  color: #667eea;
+  border-color: #8B0000;
+  color: #8B0000;
   border-width: 2px;
 }
 
 .course-card .btn-outline-primary:hover {
-  background-color: #667eea;
-  border-color: #667eea;
+  background-color: #8B0000;
+  border-color: #8B0000;
   color: white;
   transform: translateX(2px);
 }
 
-/* Navbar */
-.navbar-dark {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.15);
-}
-
-.navbar-brand {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: white !important;
-  letter-spacing: 0.5px;
-}
+/* Navbar styling removed - using global Navbar component */
 
 /* Empty state */
 .card-body.text-center {
@@ -268,7 +257,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(90deg, #8B0000 0%, #8b0000 100%);
 }
 
 .stat-card::after {
@@ -278,7 +267,7 @@
   right: -50px;
   width: 150px;
   height: 150px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8B0000 0%, #8b0000 100%);
   border-radius: 50%;
   opacity: 0.1;
   transition: all 0.4s ease;
@@ -286,7 +275,7 @@
 
 .stat-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 16px 48px rgba(102, 126, 234, 0.2);
+  box-shadow: 0 20px 60px rgba(139, 0, 0, 0.35), 0 0 25px rgba(139, 0, 0, 0.2);
 }
 
 .stat-card:hover::after {
@@ -298,7 +287,7 @@
   font-size: 3.5rem;
   font-weight: 700;
   margin-bottom: 0.75rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8B0000 0%, #8b0000 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -307,7 +296,7 @@
 .stat-label {
   font-size: 1rem;
   font-weight: 600;
-  color: #666;
+  color: #8B0000;
   letter-spacing: 0.5px;
   text-transform: uppercase;
 }
@@ -337,8 +326,8 @@
 
 .card form .form-control:focus,
 .card form .form-select:focus {
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #8B0000;
+  box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.1);
   background-color: white;
 }
 
@@ -349,7 +338,7 @@
 }
 
 .card form .btn-success {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8B0000 0%, #8b0000 100%);
   border: none;
   font-weight: 600;
   border-radius: 8px;
@@ -361,7 +350,7 @@
 
 .card form .btn-success:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 8px 20px rgba(139, 0, 0, 0.3);
   border: none;
 }
 
@@ -399,8 +388,8 @@
 .enrollment-badge .badge {
   font-size: 0.85rem;
   padding: 0.65rem 1rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  background: linear-gradient(135deg, #8B0000 0%, #8b0000 100%) !important;
+  box-shadow: 0 4px 12px rgba(139, 0, 0, 0.3);
 }
 
 .modal {
@@ -447,7 +436,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(90deg, #8B0000 0%, #8b0000 100%);
 }
 
 .modal-header {
@@ -464,7 +453,7 @@
   line-height: 1.5;
   font-size: 1.35rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8B0000 0%, #8b0000 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -505,8 +494,8 @@
 
 .modal .form-control:focus,
 .modal .form-select:focus {
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #8B0000;
+  box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.1);
 }
 
 .modal .btn-close {
@@ -527,7 +516,7 @@
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8B0000 0%, #8b0000 100%);
   border: none;
   font-weight: 600;
   border-radius: 8px;
@@ -539,7 +528,7 @@
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 10px 28px rgba(139, 0, 0, 0.55);
   border: none;
 }
 

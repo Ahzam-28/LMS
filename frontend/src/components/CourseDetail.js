@@ -2267,20 +2267,18 @@ function CourseDetail() {
         </div>
       )}
 
-      {user?.role === "student" && (
-        <div className="feedback-section mt-5 py-5">
-          <div className="container">
-            <div className="feedback-card">
-              <div className="feedback-icon">
-                <i className="fas fa-comments"></i>
-              </div>
-              <h3>Course Feedback</h3>
-              <p>Share your learning experience and help us improve</p>
-              <span className="badge-coming-soon">Coming Soon</span>
+      <div className="feedback-section mt-5 py-5">
+        <div className="container">
+          <div className="feedback-card">
+            <div className="feedback-icon">
+              <i className="fas fa-comments"></i>
             </div>
+            <h3>Course Feedback</h3>
+            <p>Share your learning experience and help us improve</p>
+            <span className="badge-coming-soon">Coming Soon</span>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }

@@ -99,6 +99,7 @@ function Dashboard({ user, setUser }) {
       const endpoint = user.role === "student" ? `/student/${user.profile?.id}/` : `/teacher/${user.profile?.id}/`;
       const response = await API.patch(endpoint, payload);
 
+      // Update local user state
       const updatedUser = {
         ...user,
         profile: response.data,
@@ -146,8 +147,10 @@ function Dashboard({ user, setUser }) {
 
       const response = await API.post("/course/", payload);
       
+      // Add the new course to the list
       setCourses([...courses, response.data]);
       
+      // Reset form
       setFormData({
         category: "",
         code: "",
@@ -161,6 +164,7 @@ function Dashboard({ user, setUser }) {
       alert("Course created successfully!");
     } catch (error) {
       
+      // Better error messaging
       let errorMessage = "Failed to create course";
       
       if (error.response?.data?.code?.[0]) {
@@ -168,7 +172,7 @@ function Dashboard({ user, setUser }) {
       } else if (error.response?.data?.error) {
         errorMessage = error.response.data.error;
       } else if (error.response?.data) {
-     
+        // Handle other validation errors
         const firstError = Object.values(error.response.data)[0];
         if (Array.isArray(firstError)) {
           errorMessage = firstError[0];
@@ -184,7 +188,7 @@ function Dashboard({ user, setUser }) {
   };
 
   const handleToggleAvailability = async (courseId, currentStatus) => {
-   
+    // Show confirmation if marking as unavailable
     if (currentStatus) {
       const confirmed = window.confirm(
         "Marking this course as unavailable will unenroll all currently enrolled students. Continue?"
@@ -199,6 +203,7 @@ function Dashboard({ user, setUser }) {
 
       const response = await API.patch(`/course/${courseId}/`, updatedData);
       
+      // Update the course in the list
       setCourses(
         courses.map((course) =>
           course.id === courseId ? response.data : course
@@ -206,10 +211,10 @@ function Dashboard({ user, setUser }) {
       );
       
       if (!currentStatus) {
-       
+        // Made available
         alert(`Course made available successfully!`);
       } else {
-       
+        // Made unavailable
         alert(
           `Course made unavailable successfully!\nAll enrolled students have been automatically unenrolled.`
         );
@@ -228,6 +233,7 @@ function Dashboard({ user, setUser }) {
       try {
         await API.delete(`/course/${courseId}/`);
         
+        // Remove the course from the list
         setCourses(courses.filter((course) => course.id !== courseId));
         
         alert("Course deleted successfully!");
@@ -248,10 +254,12 @@ function Dashboard({ user, setUser }) {
     });
   };
 
+  // Calculate teacher statistics
   const getTeacherStats = () => {
     const totalCourses = courses.length;
     const availableCourses = courses.filter(course => course.is_available).length;
     
+    // Count total enrollments in teacher's courses
     const courseIds = new Set(courses.map(c => c.id));
     let totalEnrollments = 0;
     
@@ -272,21 +280,6 @@ function Dashboard({ user, setUser }) {
 
   return (
     <div className="dashboard-container">
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="container-fluid">
-          <span className="navbar-brand">LMS Portal</span>
-          <div className="d-flex align-items-center">
-            <Link to="/" className="btn btn-outline-light btn-sm me-2">
-              Home
-            </Link>
-            <span className="text-white me-3">Welcome, {user.username}!</span>
-            <button className="btn btn-outline-light btn-sm" onClick={handleLogout}>
-              Logout
-            </button>
-          </div>
-        </div>
-      </nav>
-
       <div className="dashboard-content">
         <div className="container-fluid py-4">
           {/* Profile Card */}
@@ -348,7 +341,7 @@ function Dashboard({ user, setUser }) {
               <div className="col-md-12">
                 <div className="stat-card">
                   <div className="stat-value">{enrollments.length}</div>
-                  <div className="stat-label">Courses Enrolled</div>
+                  <div className="stat-label" style={{ color: "#8B0000" }}>Courses Enrolled</div>
                 </div>
               </div>
             </div>

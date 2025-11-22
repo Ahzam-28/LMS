@@ -25,7 +25,7 @@ function Navbar({ user, setUser }) {
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
-          <Link className="navbar-brand" to="/">
+          <Link className="navbar-brand" to="/" style={{ color: "white" }}>
             <strong>LMS Portal</strong>
           </Link>
           <button
