@@ -1,4 +1,4 @@
-* {
+﻿* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -9,9 +9,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #8B0000 0%, #8b0000 100%);
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
   padding: 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
 }
 
 .auth-wrapper {
@@ -21,10 +22,10 @@
   max-width: 1000px;
   width: 100%;
   height: auto;
-  background: white;
+  background: #0f0f0f;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 50px rgba(45, 0, 0, 0.3);
   animation: slideUp 0.6s ease-out;
 }
 
@@ -44,17 +45,19 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: #ffffff;
+  background: #0f0f0f;
   position: relative;
   z-index: 1;
+  border-right: 2px solid #2D0000;
 }
 
 .login-card {
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+  border-right: 2px solid #2D0000;
 }
 
 .register-card {
-  background: #ffffff;
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
 }
 
 .auth-header {
@@ -66,25 +69,26 @@
 .auth-icon {
   width: 60px;
   height: 60px;
-  background: linear-gradient(135deg, #8B0000 0%, #8b0000 100%);
+  background: linear-gradient(135deg, #2D0000 0%, #1a0000 100%);
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 20px;
-  color: white;
+  color: #ff4444;
   font-size: 28px;
+  box-shadow: 0 8px 20px rgba(45, 0, 0, 0.5), 0 0 20px rgba(255, 68, 68, 0.2);
 }
 
 .auth-header h1 {
   font-size: 28px;
   font-weight: 700;
-  color: #2d3748;
+  color: #ffffff;
   margin-bottom: 10px;
 }
 
 .auth-subtitle {
-  color: #718096;
+  color: #b0b0b0;
   font-size: 14px;
   margin: 0;
 }
@@ -123,7 +127,7 @@
   display: block;
   font-size: 13px;
   font-weight: 600;
-  color: #2d3748;
+  color: #e0e0e0;
   margin-bottom: 8px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -138,7 +142,7 @@
 .input-icon {
   position: absolute;
   left: 14px;
-  color: #a0aec0;
+  color: #666666;
   font-size: 16px;
   pointer-events: none;
 }
@@ -147,35 +151,36 @@
 .auth-form select {
   width: 100%;
   padding: 12px 14px 12px 45px;
-  border: 2px solid #e2e8f0;
+  border: 2px solid #2D0000;
   border-radius: 8px;
   font-size: 14px;
-  color: #2d3748;
-  background: white;
+  color: #ffffff;
+  background: #1a1a1a;
   transition: all 0.3s ease;
   font-family: inherit;
 }
 
 .auth-form input::placeholder {
-  color: #cbd5e0;
+  color: #666666;
 }
 
 .auth-form input:focus,
 .auth-form select:focus {
   outline: none;
-  border-color: #8B0000;
-  box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.1);
+  border-color: #ff4444;
+  box-shadow: 0 0 0 3px rgba(255, 68, 68, 0.2), 0 0 15px rgba(45, 0, 0, 0.5);
+  background: #252525;
 }
 
 .auth-form input:disabled {
-  background-color: #f7fafc;
-  color: #a0aec0;
+  background-color: #0f0f0f;
+  color: #555555;
   cursor: not-allowed;
 }
 
 .input-error {
-  border-color: #fc8181 !important;
-  background-color: #fff5f5 !important;
+  border-color: #ff6666 !important;
+  background-color: #2D0000 !important;
 }
 
 .toggle-password {
@@ -183,7 +188,7 @@
   right: 14px;
   background: none;
   border: none;
-  color: #a0aec0;
+  color: #666666;
   cursor: pointer;
   font-size: 16px;
   padding: 4px;
@@ -194,7 +199,7 @@
 }
 
 .toggle-password:hover:not(:disabled) {
-  color: #8B0000;
+  color: #ff4444;
 }
 
 .toggle-password:disabled {
@@ -203,15 +208,15 @@
 }
 
 .error-alert {
-  background-color: #fff5f5;
-  border: 1px solid #fc8181;
+  background-color: #2D0000;
+  border: 1px solid #660000;
   border-radius: 8px;
   padding: 12px 16px;
   margin-bottom: 24px;
   display: flex;
   align-items: center;
   gap: 12px;
-  color: #c53030;
+  color: #ff6666;
   font-size: 13px;
   animation: shake 0.5s ease-in-out;
 }
@@ -234,9 +239,9 @@
 
 .role-btn {
   padding: 20px 16px;
-  border: 2px solid #e2e8f0;
+  border: 2px solid #2D0000;
   border-radius: 8px;
-  background: white;
+  background: #1a1a1a;
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
@@ -245,7 +250,7 @@
   gap: 8px;
   font-size: 13px;
   font-weight: 600;
-  color: #718096;
+  color: #888888;
 }
 
 .role-btn i {
@@ -253,14 +258,15 @@
 }
 
 .role-btn:hover {
-  border-color: #cbd5e0;
-  background: #f7fafc;
+  border-color: #660000;
+  background: #0f0f0f;
 }
 
 .role-btn.active {
-  border-color: #8B0000;
-  background: linear-gradient(135deg, #8B000015 0%, #8b000015 100%);
-  color: #8B0000;
+  border-color: #ff4444;
+  background: linear-gradient(135deg, #2D000030 0%, #1a000030 100%);
+  color: #ff4444;
+  box-shadow: 0 0 20px rgba(45, 0, 0, 0.4);
 }
 
 .progress-indicator {
@@ -288,32 +294,34 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #e2e8f0;
+  background: #2D0000;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  color: #718096;
+  color: #888888;
   transition: all 0.3s ease;
+  border: 2px solid #2D0000;
 }
 
 .step.active .step-circle {
-  background: linear-gradient(135deg, #8B0000 0%, #8b0000 100%);
-  color: white;
-  box-shadow: 0 4px 12px rgba(139, 0, 0, 0.3);
+  background: linear-gradient(135deg, #2D0000 0%, #1a0000 100%);
+  color: #ff4444;
+  box-shadow: 0 4px 12px rgba(45, 0, 0, 0.5), 0 0 15px rgba(255, 68, 68, 0.2);
+  border-color: #ff4444;
 }
 
 .step p {
   font-size: 12px;
   font-weight: 600;
-  color: #718096;
+  color: #888888;
   margin: 0;
 }
 
 .step-line {
   width: 40px;
   height: 2px;
-  background: #e2e8f0;
+  background: #2D0000;
   margin: 0 10px;
 }
 
@@ -321,9 +329,9 @@
   width: 100%;
   padding: 14px 20px;
   margin-top: 20px;
-  background: linear-gradient(135deg, #8B0000 0%, #8b0000 100%);
-  color: white;
-  border: none;
+  background: linear-gradient(135deg, #2D0000 0%, #1a0000 100%);
+  color: #ff4444;
+  border: 2px solid #2D0000;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 700;
@@ -335,11 +343,13 @@
   gap: 8px;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 8px 20px rgba(45, 0, 0, 0.5), 0 0 15px rgba(255, 68, 68, 0.1);
 }
 
 .btn-submit:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(139, 0, 0, 0.4);
+  box-shadow: 0 12px 30px rgba(45, 0, 0, 0.7), 0 0 25px rgba(255, 68, 68, 0.3);
+  border-color: #ff4444;
 }
 
 .btn-submit:active:not(:disabled) {
@@ -359,9 +369,9 @@
   display: inline-block;
   width: 14px;
   height: 14px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 2px solid rgba(255, 68, 68, 0.3);
   border-radius: 50%;
-  border-top-color: white;
+  border-top-color: #ff4444;
   animation: spin 0.8s linear infinite;
 }
 
@@ -374,10 +384,10 @@
   width: 100%;
   padding: 14px 20px;
   margin-bottom: 20px;
-  border: 2px solid #e2e8f0;
+  border: 2px solid #2D0000;
   border-radius: 8px;
   text-align: center;
-  color: #8B0000;
+  color: #ff4444;
   font-weight: 600;
   font-size: 14px;
   text-decoration: none;
@@ -387,20 +397,22 @@
   justify-content: center;
   gap: 8px;
   cursor: pointer;
+  background: #1a1a1a;
 }
 
 .btn-secondary:hover {
-  border-color: #8B0000;
-  background: linear-gradient(135deg, #8B000015 0%, #8b000015 100%);
+  border-color: #ff4444;
+  background: linear-gradient(135deg, #2D000030 0%, #1a000030 100%);
+  box-shadow: 0 0 20px rgba(45, 0, 0, 0.3);
 }
 
 .btn-back {
   flex: 1;
   padding: 14px 20px;
-  background: #f7fafc;
-  border: 2px solid #e2e8f0;
+  background: #1a1a1a;
+  border: 2px solid #2D0000;
   border-radius: 8px;
-  color: #718096;
+  color: #888888;
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
@@ -412,8 +424,8 @@
 }
 
 .btn-back:hover:not(:disabled) {
-  border-color: #cbd5e0;
-  background: white;
+  border-color: #660000;
+  background: #252525;
 }
 
 .btn-back:disabled {
@@ -441,7 +453,7 @@
   align-items: center;
   gap: 6px;
   cursor: pointer;
-  color: #718096;
+  color: #888888;
   user-select: none;
 }
 
@@ -449,8 +461,10 @@
   width: auto;
   padding: 0;
   margin: 0;
-  border: 2px solid #e2e8f0;
+  border: 2px solid #2D0000;
   cursor: pointer;
+  background: #1a1a1a;
+  accent-color: #ff4444;
 }
 
 .remember-me span {
@@ -458,21 +472,21 @@
 }
 
 .forgot-password {
-  color: #8B0000;
+  color: #ff4444;
   text-decoration: none;
   font-weight: 600;
   transition: color 0.3s ease;
 }
 
 .forgot-password:hover {
-  color: #8b0000;
+  color: #ff6666;
 }
 
 .form-divider {
   text-align: center;
   margin: 32px 0 24px;
   position: relative;
-  color: #a0aec0;
+  color: #666666;
   font-size: 13px;
 }
 
@@ -483,53 +497,54 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: #e2e8f0;
+  background: #2D0000;
   z-index: 0;
 }
 
 .form-divider span {
   position: relative;
-  background: white;
+  background: #0f0f0f;
   padding: 0 12px;
   z-index: 1;
 }
 
 .register-card .form-divider span {
-  background: #ffffff;
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
 }
 
 .login-card .form-divider span {
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
 }
 
 .auth-footer {
   text-align: center;
   font-size: 12px;
-  color: #a0aec0;
+  color: #666666;
   margin-top: 20px;
 }
 
 .auth-footer a {
-  color: #8B0000;
+  color: #ff4444;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .auth-footer a:hover {
-  color: #8b0000;
+  color: #ff6666;
   text-decoration: underline;
 }
 
 .auth-side {
-  background: linear-gradient(135deg, #8B0000 0%, #8b0000 100%);
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
   padding: 60px 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: white;
+  color: #e0e0e0;
   position: relative;
   overflow: hidden;
+  border-left: 2px solid #2D0000;
 }
 
 .auth-side::before {
@@ -539,7 +554,7 @@
   right: -10%;
   width: 400px;
   height: 400px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(45, 0, 0, 0.2);
   border-radius: 50%;
   animation: float 6s ease-in-out infinite;
 }
@@ -551,7 +566,7 @@
   left: -5%;
   width: 300px;
   height: 300px;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(45, 0, 0, 0.1);
   border-radius: 50%;
   animation: float 8s ease-in-out infinite reverse;
 }
@@ -612,8 +627,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(45, 0, 0, 0.3);
   border-radius: 8px;
+  color: #ff4444;
 }
 
 @media (max-width: 768px) {
@@ -732,3 +748,4 @@
     margin: 24px 0 16px;
   }
 }
+

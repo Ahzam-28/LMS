@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import API from "../api";
 import "./CourseDetail.css";
@@ -1001,9 +1001,9 @@ function CourseDetail() {
 
   if (loading) {
     return (
-      <div className="container mt-5">
-        <div className="spinner-border" role="status">
-          <span className="visually-hidden">Loading...</span>
+      <div className="course-detail-container">
+        <div className="loading-spinner" role="status">
+          <span className="sr-only">Loading...</span>
         </div>
       </div>
     );
@@ -1011,12 +1011,12 @@ function CourseDetail() {
 
   if (!course) {
     return (
-      <div className="container mt-5">
-        <div className="alert alert-danger" role="alert">
+      <div className="course-detail-container">
+        <div className="alert-box alert-danger" role="alert">
           Course not found.
         </div>
         <button
-          className="btn btn-primary"
+          className="btn-primary"
           onClick={() => navigate("/")}
         >
           Back to Home
@@ -1026,84 +1026,84 @@ function CourseDetail() {
   }
 
   return (
-    <div className="container mt-5 course-detail">
+    <div className="course-detail-container course-detail">
       <button
-        className="btn btn-outline-secondary mb-3"
+        className="btn-outline-secondary"
         onClick={() => navigate("/courses")}
       >
-        ← Back to Courses
+        â† Back to Courses
       </button>
 
-      <div className="row">
-        <div className="col-md-8">
-          <div className="card">
-            <div className="card-body">
-              <div className="d-flex justify-content-between align-items-start mb-3">
-                <h1 className="card-title">{course.title}</h1>
+      <div className="course-detail-row">
+        <div className="course-detail-col-main">
+          <div className="custom-card">
+            <div className="custom-card-body">
+              <div className="flex-between">
+                <h1>{course.title}</h1>
                 {isTeacher && (
                   <button
-                    className="btn btn-sm btn-outline-warning"
+                    className="btn-warning btn-sm"
                     onClick={() => setEditingCourse(!editingCourse)}
                   >
-                    <i className="fas fa-edit me-1"></i>{editingCourse ? "Cancel" : "Edit"}
+                    <i className="fas fa-edit"></i>{editingCourse ? "Cancel" : "Edit"}
                   </button>
                 )}
               </div>
 
               {editingCourse ? (
-                <form onSubmit={handleUpdateCourse} className="mb-3">
-                  <div className="mb-3">
-                    <label className="form-label">Course Title</label>
+                <form onSubmit={handleUpdateCourse} className="">
+                  <div className="">
+                    <label className="input-label">Course Title</label>
                     <input
                       type="text"
-                      className="form-control"
+                      className="input-field"
                       value={courseFormData.title}
                       onChange={(e) => setCourseFormData({ ...courseFormData, title: e.target.value })}
                       required
                     />
                   </div>
-                  <div className="mb-3">
-                    <label className="form-label">Course Code</label>
+                  <div className="">
+                    <label className="input-label">Course Code</label>
                     <input
                       type="text"
-                      className="form-control"
+                      className="input-field"
                       value={courseFormData.code}
                       onChange={(e) => setCourseFormData({ ...courseFormData, code: e.target.value })}
                       required
                     />
                   </div>
-                  <div className="mb-3">
-                    <label className="form-label">Price</label>
+                  <div className="">
+                    <label className="input-label">Price</label>
                     <input
                       type="number"
-                      className="form-control"
+                      className="input-field"
                       value={courseFormData.price}
                       onChange={(e) => setCourseFormData({ ...courseFormData, price: e.target.value })}
                       step="0.01"
                       required
                     />
                   </div>
-                  <div className="mb-3">
-                    <label className="form-label">Description</label>
+                  <div className="">
+                    <label className="input-label">Description</label>
                     <textarea
-                      className="form-control"
+                      className="input-field"
                       rows="4"
                       value={courseFormData.description}
                       onChange={(e) => setCourseFormData({ ...courseFormData, description: e.target.value })}
                       required
                     ></textarea>
                   </div>
-                  <div className="d-flex gap-2">
+                  <div className="flex-container flex-gap-2">
                     <button
                       type="submit"
-                      className="btn btn-primary"
+                      className="btn-primary"
                       disabled={submittingCourse}
                     >
                       {submittingCourse ? "Updating..." : "Update Course"}
                     </button>
                     <button
                       type="button"
-                      className="btn btn-secondary"
+                      className="btn-secondary"
                       onClick={() => setEditingCourse(false)}
                       disabled={submittingCourse}
                     >
@@ -1113,19 +1113,19 @@ function CourseDetail() {
                 </form>
               ) : (
                 <>
-                  <p className="text-muted">
+                  <p className="course-meta">
                     <strong>Course Code:</strong> {course.code}
                   </p>
-                  <p className="text-muted">
+                  <p className="course-meta">
                     <strong>Students Enrolled:</strong>{" "}
-                    <span className="badge bg-info">
-                      👥 {course.enrollment_count} {course.enrollment_count === 1 ? "Student" : "Students"}
+                    <span className="badge badge-info">
+                      ðŸ‘¥ {course.enrollment_count} {course.enrollment_count === 1 ? "Student" : "Students"}
                     </span>
                   </p>
 
-                  {/* Progress Bar for Enrolled Users */}
+                  {}
                   {isEnrolled && (
-                    <div className="progress-section mt-3 mb-3">
+                    <div className="progress-section">
                       {(() => {
                         const totalLessons = lessons.length;
                         const totalQuizzes = quizzes.length;
@@ -1147,15 +1147,15 @@ function CourseDetail() {
                         
                         return (
                           <>
-                            <div className="d-flex justify-content-between align-items-center mb-2">
+                            <div className="flex-between">
                               <strong>Course Progress</strong>
-                              <span className="badge bg-primary">
+                              <span className="badge badge-primary">
                                 {completedItems} / {totalItems} Items ({totalLessons} Lessons, {totalQuizzes} Quizzes)
                               </span>
                             </div>
-                            <div className="progress" style={{ height: "30px", backgroundColor: "#e9ecef" }}>
+                            <div className="progress-bar-container" style={{ height: "30px" }}>
                               <div
-                                className="progress-bar bg-success"
+                                className="progress-bar-fill"
                                 role="progressbar"
                                 style={{
                                   width: `${progressPercentage}%`,
@@ -1166,14 +1166,14 @@ function CourseDetail() {
                                 aria-valuemax={totalItems}
                               >
                                 {totalItems > 0 && progressPercentage > 5 && (
-                                  <span style={{ color: "white", fontSize: "0.85rem", fontWeight: "600", marginLeft: "5px" }}>
+                                  <span style={{ color: "#000000", fontSize: "0.85rem", fontWeight: "600", marginLeft: "5px" }}>
                                     {Math.round(progressPercentage)}%
                                   </span>
                                 )}
                               </div>
                             </div>
                             {totalItems === 0 && (
-                              <p className="text-muted small mt-2">No lessons or quizzes yet</p>
+                              <p className="file-label">No lessons or quizzes yet</p>
                             )}
                           </>
                         );
@@ -1208,7 +1208,7 @@ function CourseDetail() {
                     </div>
                   )}
                   {!teacher && (
-                    <p className="text-muted">No instructor information available</p>
+                    <p className="course-meta">No instructor information available</p>
                   )}
 
                   <h5 className="mt-4">Course Category</h5>
@@ -1218,20 +1218,20 @@ function CourseDetail() {
 
               <hr className="my-4" />
 
-              {/* Lessons Section */}
+              {}
               <div className="lessons-section">
-                <div className="d-flex justify-content-between align-items-center mb-3">
+                <div className="flex-between">
                   <h5>Course Lessons</h5>
                   {isTeacher && (
-                    <div className="btn-group" role="group">
+                    <div className="flex-container flex-gap-2" role="group">
                       <button
-                        className="btn btn-sm btn-secondary"
+                        className="btn-secondary"
                         onClick={() => setShowAddCategory(!showAddCategory)}
                       >
                         {showAddCategory ? "Cancel" : "+ Add Category"}
                       </button>
                       <button
-                        className="btn btn-sm btn-primary"
+                        className="btn-primary btn-sm"
                         onClick={() => setShowAddLesson(!showAddLesson)}
                       >
                         {showAddLesson ? "Cancel" : "+ Add Lesson"}
@@ -1240,17 +1240,17 @@ function CourseDetail() {
                   )}
                 </div>
 
-                {/* Add Category Form */}
+                {}
                 {isTeacher && showAddCategory && (
-                  <div className="card mb-3">
-                    <div className="card-body">
+                  <div className="card">
+                    <div className="custom-card-body">
                       <h6>{editingCategoryId ? "Edit Category" : "Create New Category"}</h6>
                       <form onSubmit={handleAddCategory}>
-                        <div className="mb-3">
-                          <label className="form-label">Category Title *</label>
+                        <div className="">
+                          <label className="input-label">Category Title *</label>
                           <input
                             type="text"
-                            className="form-control"
+                            className="input-field"
                             name="title"
                             value={categoryFormData.title}
                             onChange={handleCategoryFormChange}
@@ -1258,10 +1258,10 @@ function CourseDetail() {
                             required
                           />
                         </div>
-                        <div className="mb-3">
-                          <label className="form-label">Description (Optional)</label>
+                        <div className="">
+                          <label className="input-label">Description (Optional)</label>
                           <textarea
-                            className="form-control"
+                            className="input-field"
                             name="description"
                             value={categoryFormData.description}
                             onChange={handleCategoryFormChange}
@@ -1269,10 +1269,10 @@ function CourseDetail() {
                             placeholder="Enter category description..."
                           ></textarea>
                         </div>
-                        <div className="d-flex gap-2">
+                        <div className="flex-container flex-gap-2">
                           <button
                             type="submit"
-                            className="btn btn-success"
+                            className="btn-success"
                             disabled={submittingCategory}
                           >
                             {submittingCategory ? "Saving..." : editingCategoryId ? "Update Category" : "Create Category"}
@@ -1280,7 +1280,7 @@ function CourseDetail() {
                           {editingCategoryId && (
                             <button
                               type="button"
-                              className="btn btn-secondary"
+                              className="btn-secondary"
                               onClick={() => {
                                 setEditingCategoryId(null);
                                 setCategoryFormData({ title: "", description: "" });
@@ -1296,16 +1296,16 @@ function CourseDetail() {
                   </div>
                 )}
 
-                {/* Add Lesson Form */}
+                {}
                 {isTeacher && showAddLesson && (
-                  <div className="card mb-3">
-                    <div className="card-body">
+                  <div className="card">
+                    <div className="custom-card-body">
                       <h6>{editingLessonId ? "Edit Lesson" : "Create New Lesson"}</h6>
                       <form onSubmit={handleAddLesson}>
-                        <div className="mb-3">
-                          <label className="form-label">Select Category (Optional)</label>
+                        <div className="">
+                          <label className="input-label">Select Category (Optional)</label>
                           <select
-                            className="form-control"
+                            className="input-field"
                             name="category"
                             value={lessonFormData.category || ""}
                             onChange={handleLessonFormChange}
@@ -1318,11 +1318,11 @@ function CourseDetail() {
                             ))}
                           </select>
                         </div>
-                        <div className="mb-3">
-                          <label className="form-label">Lesson Title *</label>
+                        <div className="">
+                          <label className="input-label">Lesson Title *</label>
                           <input
                             type="text"
-                            className="form-control"
+                            className="input-field"
                             name="title"
                             value={lessonFormData.title}
                             onChange={handleLessonFormChange}
@@ -1330,10 +1330,10 @@ function CourseDetail() {
                             required
                           />
                         </div>
-                        <div className="mb-3">
-                          <label className="form-label">Lesson Content *</label>
+                        <div className="">
+                          <label className="input-label">Lesson Content *</label>
                           <textarea
-                            className="form-control"
+                            className="input-field"
                             name="content"
                             value={lessonFormData.content}
                             onChange={handleLessonFormChange}
@@ -1342,21 +1342,21 @@ function CourseDetail() {
                             required
                           ></textarea>
                         </div>
-                        <div className="mb-3">
-                          <label className="form-label">Video URL (Optional)</label>
+                        <div className="">
+                          <label className="input-label">Video URL (Optional)</label>
                           <input
                             type="url"
-                            className="form-control"
+                            className="input-field"
                             name="video_url"
                             value={lessonFormData.video_url}
                             onChange={handleLessonFormChange}
                             placeholder="https://example.com/video"
                           />
                         </div>
-                        <div className="d-flex gap-2">
+                        <div className="flex-container flex-gap-2">
                           <button
                             type="submit"
-                            className="btn btn-success"
+                            className="btn-success"
                             disabled={submittingLesson}
                           >
                             {submittingLesson ? "Saving..." : editingLessonId ? "Update Lesson" : "Add Lesson"}
@@ -1364,7 +1364,7 @@ function CourseDetail() {
                           {editingLessonId && (
                             <button
                               type="button"
-                              className="btn btn-secondary"
+                              className="btn-secondary"
                               onClick={() => {
                                 setEditingLessonId(null);
                                 setLessonFormData({ title: "", content: "", video_url: "", category: null });
@@ -1380,16 +1380,16 @@ function CourseDetail() {
                   </div>
                 )}
 
-                {/* Enrollment Required Message */}
+                {}
                 {user && user.role === "student" && !isEnrolled && lessons.length > 0 && (
-                  <div className="alert alert-info mb-3" role="alert">
+                  <div className="alert-box alert-info" role="alert">
                     <i className="fas fa-info-circle"></i> <strong>Enroll in this course to view lessons</strong>
                   </div>
                 )}
 
-                {/* Lessons List */}
+                {}
                 {lessons.length === 0 ? (
-                  <p className="text-muted">
+                  <p className="course-meta">
                     {isTeacher
                       ? "No lessons yet. Add your first lesson!"
                       : "No lessons available for this course."}
@@ -1397,12 +1397,12 @@ function CourseDetail() {
                 ) : (
                   <>
                     {!user && (
-                      <div className="alert alert-warning mb-3" role="alert">
+                      <div className="alert-box alert-warning" role="alert">
                         <i className="fas fa-lock"></i> <strong>Log in to interact with lessons</strong>
                       </div>
                     )}
                     <div className="lessons-list">
-                      {/* Render lesson categories */}
+                      {}
                       {lessonCategories
                         .filter((category) => {
                           const categoryLessons = getLessonsByCategory(category.id);
@@ -1418,23 +1418,23 @@ function CourseDetail() {
                             <div className="lesson-category-header">
                               <div style={{ flex: 1 }}>
                                 <h6 className="mb-0">{category.title}</h6>
-                                <small className="text-muted d-block">{category.description}</small>
+                                <small className="course-meta">{category.description}</small>
                               </div>
                               {isTeacher && (
-                                <div className="category-actions ms-2">
+                                <div className="category-actions">
                                   <button
-                                    className="btn btn-sm btn-outline-warning"
+                                    className="btn-outline-warning btn-sm"
                                     onClick={() => handleEditCategory(category)}
                                     title="Edit category"
                                   >
-                                    <i className="fas fa-edit me-1"></i>Edit
+                                    <i className="fas fa-edit"></i>Edit
                                   </button>
                                   <button
-                                    className="btn btn-sm btn-outline-danger"
+                                    className="btn-outline-danger btn-sm"
                                     onClick={() => handleDeleteCategory(category.id)}
                                     title="Delete category"
                                   >
-                                    <i className="fas fa-trash me-1"></i>Delete
+                                    <i className="fas fa-trash"></i>Delete
                                   </button>
                                 </div>
                               )}
@@ -1485,7 +1485,7 @@ function CourseDetail() {
                                         {lesson.title}
                                         {isEnrolled &&
                                           completedLessons.has(lesson.id) && (
-                                            <span className="badge bg-success ms-2">
+                                            <span className="badge badge-success">
                                               <i className="fas fa-check"></i>{" "}
                                               Completed
                                             </span>
@@ -1496,37 +1496,37 @@ function CourseDetail() {
                                       {lesson.content}
                                     </p>
 
-                                    {/* Lesson Files Section */}
+                                    {}
                                     {lesson.files && lesson.files.length > 0 && (
                                       <div className="mb-2">
-                                        <small className="text-muted d-block mb-2"><strong>📎 Files:</strong></small>
+                                        <small className="file-label"><strong>ðŸ“Ž Files:</strong></small>
                                         <div className="lesson-files">
                                           {lesson.files.map((file) => (
-                                            <div key={file.id} className="file-item mb-2">
+                                            <div key={file.id} className="file-item">
                                               {isTeacher || isEnrolled ? (
-                                                <a href={file.file_url} target="_blank" rel="noopener noreferrer" className="btn btn-sm btn-outline-secondary">
-                                                  <i className="fas fa-file-download me-1"></i>{file.title}
+                                                <a href={file.file_url} target="_blank" rel="noopener noreferrer" className="btn-outline-secondary">
+                                                  <i className="fas fa-file-download"></i>{file.title}
                                                 </a>
                                               ) : (
-                                                <button className="btn btn-sm btn-outline-secondary" disabled title="Enroll to download files">
-                                                  <i className="fas fa-file-download me-1"></i>{file.title}
+                                                <button className="btn-outline-secondary" disabled title="Enroll to download files">
+                                                  <i className="fas fa-file-download"></i>{file.title}
                                                 </button>
                                               )}
                                               {isTeacher && (
-                                                <div className="file-actions ms-2">
+                                                <div className="file-actions">
                                                   <button
-                                                    className="btn btn-sm btn-outline-warning"
+                                                    className="btn-outline-warning btn-sm"
                                                     onClick={() => handleEditFile(file, lesson.id)}
                                                     title="Edit file"
                                                   >
-                                                    <i className="fas fa-edit me-1"></i>Edit
+                                                    <i className="fas fa-edit"></i>Edit
                                                   </button>
                                                   <button
-                                                    className="btn btn-sm btn-outline-danger ms-1"
+                                                    className="btn-outline-danger"
                                                     onClick={() => handleDeleteFile(file.id, lesson.id)}
                                                     title="Delete file"
                                                   >
-                                                    <i className="fas fa-trash me-1"></i>Delete
+                                                    <i className="fas fa-trash"></i>Delete
                                                   </button>
                                                 </div>
                                               )}
@@ -1536,11 +1536,11 @@ function CourseDetail() {
                                       </div>
                                     )}
 
-                                    {/* Add File Form for Teachers */}
+                                    {}
                                     {isTeacher && (
                                       <div className="mb-2">
                                         <button
-                                          className="btn btn-sm btn-outline-info"
+                                          className="btn-outline-info btn-sm"
                                           onClick={() => {
                                             if (showAddFile[lesson.id] && editingFileId) {
                                               setEditingFileId(null);
@@ -1553,21 +1553,21 @@ function CourseDetail() {
                                         </button>
                                         {showAddFile[lesson.id] && (
                                           <form onSubmit={(e) => handleAddFile(e, lesson.id)} className="mt-2">
-                                            <div className="row">
-                                              <div className="col-6">
+                                            <div className="course-detail-row">
+                                              <div className="col-half">
                                                 <input
                                                   type="text"
-                                                  className="form-control form-control-sm"
+                                                  className="input-field input-sm"
                                                   placeholder="File Name"
                                                   value={fileFormData.title}
                                                   onChange={(e) => setFileFormData({ ...fileFormData, title: e.target.value })}
                                                   required
                                                 />
                                               </div>
-                                              <div className="col-6">
+                                              <div className="col-half">
                                                 <input
                                                   type="url"
-                                                  className="form-control form-control-sm"
+                                                  className="input-field input-sm"
                                                   placeholder="File URL"
                                                   value={fileFormData.file_url}
                                                   onChange={(e) => setFileFormData({ ...fileFormData, file_url: e.target.value })}
@@ -1577,7 +1577,7 @@ function CourseDetail() {
                                             </div>
                                             <button
                                               type="submit"
-                                              className="btn btn-sm btn-info mt-2"
+                                              className="btn-info"
                                               disabled={submittingFile}
                                             >
                                               {submittingFile ? (editingFileId ? "Updating..." : "Adding...") : (editingFileId ? "Update File" : "Add File")}
@@ -1599,7 +1599,7 @@ function CourseDetail() {
                                                   lesson.video_url
                                                 )
                                               }
-                                              className="btn btn-sm btn-info"
+                                              className="btn-info"
                                               disabled={(!isEnrolled && !isTeacher) || (!user && !isTeacher)}
                                               title={
                                                 isTeacher
@@ -1618,20 +1618,20 @@ function CourseDetail() {
                                         )}
                                       </div>
                                       {isTeacher && (
-                                        <div className="lesson-actions ms-2">
+                                        <div className="lesson-actions">
                                           <button
-                                            className="btn btn-sm btn-outline-warning"
+                                            className="btn-outline-warning btn-sm"
                                             onClick={() => handleEditLesson(lesson)}
                                             title="Edit lesson"
                                           >
-                                            <i className="fas fa-edit me-1"></i>Edit
+                                            <i className="fas fa-edit"></i>Edit
                                           </button>
                                           <button
-                                            className="btn btn-sm btn-outline-danger"
+                                            className="btn-outline-danger btn-sm"
                                             onClick={() => handleDeleteLesson(lesson.id)}
                                             title="Delete lesson"
                                           >
-                                            <i className="fas fa-trash me-1"></i>Delete
+                                            <i className="fas fa-trash"></i>Delete
                                           </button>
                                         </div>
                                       )}
@@ -1641,14 +1641,14 @@ function CourseDetail() {
                               </div>
                             )}
 
-                            {/* Quiz Section */}
-                            <div className="mt-3 pt-3 border-top">
-                              <div className="d-flex justify-content-between align-items-center mb-2">
+                            {}
+                            <div className="mt-3 pt-3">
+                              <div className="flex-between">
                                 <h6 className="mb-0">Quizzes</h6>
-                                <div className="d-flex gap-2">
+                                <div className="flex-container flex-gap-2">
                                   {isTeacher && (
                                     <button
-                                      className="btn btn-sm btn-success"
+                                      className="btn-success"
                                       onClick={() => setShowAddQuiz({ ...showAddQuiz, [category.id]: !showAddQuiz[category.id] })}
                                     >
                                       {showAddQuiz[category.id] ? "Cancel" : "+ Add Quiz"}
@@ -1667,11 +1667,11 @@ function CourseDetail() {
                               </div>
 
                               {isTeacher && showAddQuiz[category.id] && (
-                                <form onSubmit={(e) => handleAddQuiz(e, category.id)} className="mb-3">
+                                <form onSubmit={(e) => handleAddQuiz(e, category.id)} className="">
                                   <div className="mb-2">
                                     <input
                                       type="text"
-                                      className="form-control form-control-sm"
+                                      className="input-field input-sm"
                                       placeholder="Quiz Title"
                                       value={quizFormData.title}
                                       onChange={(e) => setQuizFormData({ ...quizFormData, title: e.target.value })}
@@ -1680,28 +1680,28 @@ function CourseDetail() {
                                   </div>
                                   <div className="mb-2">
                                     <textarea
-                                      className="form-control form-control-sm"
+                                      className="input-field input-sm"
                                       placeholder="Quiz Description"
                                       rows="2"
                                       value={quizFormData.description}
                                       onChange={(e) => setQuizFormData({ ...quizFormData, description: e.target.value })}
                                     ></textarea>
                                   </div>
-                                  <div className="row mb-2">
-                                    <div className="col-6">
+                                  <div className="course-detail-row">
+                                    <div className="col-half">
                                       <input
                                         type="number"
-                                        className="form-control form-control-sm"
+                                        className="input-field input-sm"
                                         placeholder="Total Marks"
                                         value={quizFormData.total_marks}
                                         onChange={(e) => setQuizFormData({ ...quizFormData, total_marks: e.target.value })}
                                         required
                                       />
                                     </div>
-                                    <div className="col-6">
+                                    <div className="col-half">
                                       <input
                                         type="number"
-                                        className="form-control form-control-sm"
+                                        className="input-field input-sm"
                                         placeholder="Duration (mins)"
                                         value={quizFormData.duration}
                                         onChange={(e) => setQuizFormData({ ...quizFormData, duration: e.target.value })}
@@ -1710,16 +1710,16 @@ function CourseDetail() {
                                     </div>
                                   </div>
 
-                                  {/* Questions Management */}
-                                  <div className="border rounded p-2 mb-3 bg-light">
+                                  {}
+                                  <div className="custom-box p-2 mb-3">
                                     <h6 className="mb-2">Questions ({quizQuestions.length})</h6>
                                     
-                                    {/* Add Question Form */}
+                                    {}
                                     <div className="mb-3 p-2 bg-white border rounded">
                                       <div className="mb-2">
-                                        <label className="form-label mb-1 small">Question Text</label>
+                                        <label className="input-label">Question Text</label>
                                         <textarea
-                                          className="form-control form-control-sm"
+                                          className="input-field input-sm"
                                           placeholder="Enter question text"
                                           rows="2"
                                           value={currentQuestion.text}
@@ -1727,19 +1727,19 @@ function CourseDetail() {
                                         ></textarea>
                                       </div>
                                       <div className="mb-2">
-                                        <label className="form-label mb-1 small">Marks</label>
+                                        <label className="input-label">Marks</label>
                                         <input
                                           type="number"
                                           min="1"
-                                          className="form-control form-control-sm"
+                                          className="input-field input-sm"
                                           value={currentQuestion.marks}
                                           onChange={(e) => setCurrentQuestion({ ...currentQuestion, marks: parseInt(e.target.value) || 1 })}
                                         />
                                       </div>
 
-                                      {/* Answers for current question */}
+                                      {}
                                       <div className="mb-2">
-                                        <label className="form-label mb-1 small">Answers</label>
+                                        <label className="input-label">Answers</label>
                                         {currentAnswers.map((answer, idx) => (
                                           <div key={answer.id} className="d-flex gap-2 mb-2 align-items-center">
                                             <input
@@ -1748,28 +1748,28 @@ function CourseDetail() {
                                               onChange={() => handleToggleCorrectAnswer(answer.id)}
                                               title="Mark as correct answer"
                                             />
-                                            <span className="flex-grow-1 small">{answer.text}</span>
+                                            <span className="flex-grow-1">{answer.text}</span>
                                             <button
                                               type="button"
-                                              className="btn btn-sm btn-outline-danger"
+                                              className="btn-outline-danger btn-sm"
                                               onClick={() => handleRemoveAnswer(answer.id)}
                                               title="Delete this answer"
                                             >
-                                              <i className="fas fa-trash me-1"></i>Delete
+                                              <i className="fas fa-trash"></i>Delete
                                             </button>
                                           </div>
                                         ))}
-                                        <div className="d-flex gap-2">
+                                        <div className="flex-container flex-gap-2">
                                           <input
                                             type="text"
-                                            className="form-control form-control-sm"
+                                            className="input-field input-sm"
                                             placeholder="Answer text"
                                             value={currentAnswerText}
                                             onChange={(e) => setCurrentAnswerText(e.target.value)}
                                           />
                                           <button
                                             type="button"
-                                            className="btn btn-sm btn-outline-primary"
+                                            className="btn-outline-primary"
                                             onClick={handleAddAnswer}
                                           >
                                             Add
@@ -1779,38 +1779,38 @@ function CourseDetail() {
 
                                       <button
                                         type="button"
-                                        className="btn btn-sm btn-primary"
+                                        className="btn-primary btn-sm"
                                         onClick={handleAddQuestionToQuiz}
                                       >
                                         Add Question to Quiz
                                       </button>
                                     </div>
 
-                                    {/* List of added questions */}
+                                    {}
                                     {quizQuestions.length > 0 && (
                                       <div>
                                         {quizQuestions.map((question, idx) => (
-                                          <div key={question.id} className="mb-2 p-2 bg-white border rounded small">
-                                            <div className="d-flex justify-content-between align-items-start">
+                                          <div key={question.id} className="mb-2 p-2 bg-white border rounded">
+                                            <div className="flex-between">
                                               <div className="flex-grow-1">
                                                 <div className="mb-1">
                                                   <strong>Q{idx + 1}:</strong> {question.text}
-                                                  <span className="badge bg-info ms-2">{question.marks} marks</span>
+                                                  <span className="badge badge-info">{question.marks} marks</span>
                                                 </div>
-                                                <div className="text-muted">
+                                                <div className="course-meta">
                                                   {question.answers.length} answers
                                                   {question.answers.some(a => a.is_correct) && (
-                                                    <span className="badge bg-success ms-1">Correct answer set</span>
+                                                    <span className="badge badge-success">Correct answer set</span>
                                                   )}
                                                 </div>
                                               </div>
                                               <button
                                                 type="button"
-                                                className="btn btn-sm btn-outline-danger"
+                                                className="btn-outline-danger btn-sm"
                                                 onClick={() => handleRemoveQuestionFromQuiz(question.id)}
                                                 title="Delete this question"
                                               >
-                                                <i className="fas fa-trash me-1"></i>Delete
+                                                <i className="fas fa-trash"></i>Delete
                                               </button>
                                             </div>
                                           </div>
@@ -1819,17 +1819,17 @@ function CourseDetail() {
                                     )}
                                   </div>
 
-                                  <div className="d-flex gap-2">
+                                  <div className="flex-container flex-gap-2">
                                     <button
                                       type="submit"
-                                      className="btn btn-sm btn-success"
+                                      className="btn-success"
                                       disabled={submittingQuiz}
                                     >
                                       {submittingQuiz ? "Adding..." : "Add Quiz"}
                                     </button>
                                     <button
                                       type="button"
-                                      className="btn btn-sm btn-secondary"
+                                      className="btn-secondary"
                                       onClick={() => {
                                         setShowAddQuiz({ ...showAddQuiz, [category.id]: false });
                                         setEditingQuizId(null);
@@ -1854,12 +1854,12 @@ function CourseDetail() {
                                   </form>
                                 )}
 
-                                {/* Display quizzes */}
+                                {}
                                 {expandedQuizzes.has(category.id) && getQuizzesByCategory(category.id).map((quiz) => (
-                                  <div key={quiz.id} className="alert alert-info mb-2" role="alert">
-                                    <div className="d-flex justify-content-between align-items-start">
+                                  <div key={quiz.id} className="alert-box alert-info" role="alert">
+                                    <div className="flex-between">
                                       <div className="flex-grow-1">
-                                        <div className="quiz-header mb-1">
+                                        <div className="quiz-header">
                                           <input
                                             type="checkbox"
                                             className="quiz-checkbox"
@@ -1880,20 +1880,20 @@ function CourseDetail() {
                                             }}
                                           />
                                           <h6 className="quiz-title">
-                                            📝 {quiz.title}
+                                            ðŸ“ {quiz.title}
                                             {isEnrolled && completedQuizzes.has(quiz.id) && (
-                                              <span className="badge bg-success ms-2">
+                                              <span className="badge badge-success">
                                                 <i className="fas fa-check"></i> Completed
                                               </span>
                                             )}
                                           </h6>
                                         </div>
                                         <small>{quiz.description}</small>
-                                        <div className="mt-1 small text-muted">
+                                        <div className="mt-1">
                                           Marks: {quiz.total_marks} | Duration: {quiz.duration} mins
                                         </div>
                                         {quizResults[quiz.id] && (
-                                          <div className="mt-2 p-2 bg-light rounded small">
+                                          <div className="mt-2 p-2 bg-light rounded">
                                             <div className="mb-1">
                                               <strong>Score:</strong> {quizResults[quiz.id].score}/{quiz.total_marks} marks
                                             </div>
@@ -1913,10 +1913,10 @@ function CourseDetail() {
                                         )}
                                         {isEnrolled && (
                                           <button 
-                                            className="btn btn-sm btn-success mt-2"
+                                            className="btn-success"
                                             onClick={() => navigate(`/quiz/${quiz.id}`)}
                                           >
-                                            <i className="fas fa-play-circle me-1"></i>Take Quiz
+                                            <i className="fas fa-play-circle"></i>Take Quiz
                                           </button>
                                         )}
                                         {!isEnrolled && user && user.role === "student" && (
@@ -1931,20 +1931,20 @@ function CourseDetail() {
                                         )}
                                       </div>
                                       {isTeacher && (
-                                        <div className="quiz-actions ms-2">
+                                        <div className="quiz-actions">
                                           <button
-                                            className="btn btn-sm btn-outline-warning"
+                                            className="btn-outline-warning btn-sm"
                                             onClick={() => handleEditQuiz(quiz)}
                                             title="Edit quiz"
                                           >
-                                            <i className="fas fa-edit me-1"></i>Edit
+                                            <i className="fas fa-edit"></i>Edit
                                           </button>
                                           <button
-                                            className="btn btn-sm btn-outline-danger"
+                                            className="btn-outline-danger btn-sm"
                                             onClick={() => handleDeleteQuiz(quiz.id)}
                                             title="Delete quiz"
                                           >
-                                            <i className="fas fa-trash me-1"></i>Delete
+                                            <i className="fas fa-trash"></i>Delete
                                           </button>
                                         </div>
                                       )}
@@ -1956,7 +1956,7 @@ function CourseDetail() {
                         );
                       })}
 
-                      {/* Render uncategorized lessons */}
+                      {}
 
                     </div>
                   </>
@@ -1967,13 +1967,13 @@ function CourseDetail() {
 
           {isTeacher && (
             <div className="card mt-3 border-danger">
-              <div className="card-body">
+              <div className="custom-card-body">
                 <h6 className="card-title text-danger">Danger Zone</h6>
-                <p className="text-muted mb-3">
+                <p className="course-meta">
                   Once you delete a course, there is no going back. Please be certain.
                 </p>
                 <button
-                  className="btn btn-lg btn-danger w-100"
+                  className="btn-lg btn-danger w-100"
                   onClick={handleDeleteCourse}
                 >
                   <i className="fas fa-trash me-2"></i>Delete Course Permanently
@@ -1982,14 +1982,15 @@ function CourseDetail() {
             </div>
           )}
         </div>
+      </div>
 
-        <div className="col-md-4">
-          <div className="card">
-            <div className="card-body">
-              <h5 className="card-title">Enrollment</h5>
+      <div className="course-detail-col-sidebar">
+        <div className="custom-card">
+            <div className="custom-card-body">
+              <h5 >Enrollment</h5>
 
               {error && (
-                <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                <div className="alert-danger alert-dismissible fade show" role="alert">
                   {error}
                   <button
                     type="button"
@@ -2001,7 +2002,7 @@ function CourseDetail() {
 
               {user ? (
                 <>
-                  <p className="mb-3">
+                  <p className="">
                     <strong>Role:</strong> {user.role}
                   </p>
 
@@ -2009,11 +2010,11 @@ function CourseDetail() {
                     <>
                       {isEnrolled ? (
                         <>
-                          <div className="alert alert-success" role="alert">
-                            ✓ You are enrolled in this course
+                          <div className="alert-success" role="alert">
+                            âœ“ You are enrolled in this course
                           </div>
                           <button
-                            className="btn btn-danger w-100"
+                            className="btn-danger w-100"
                             onClick={handleUnenroll}
                             disabled={enrolling}
                           >
@@ -2023,20 +2024,20 @@ function CourseDetail() {
                       ) : (
                         <>
                           <button
-                            className="btn btn-success w-100"
+                            className="btn-success w-100"
                             onClick={handleEnroll}
                             disabled={enrolling}
                           >
                             {enrolling ? "Enrolling..." : "Enroll Now"}
                           </button>
-                          <p className="mt-2 text-center text-muted">
+                          <p className="mt-2">
                             <small>Price: PKR {parseFloat(course.price).toFixed(2)}</small>
                           </p>
                         </>
                       )}
                     </>
                   ) : (
-                    <div className="alert alert-info" role="alert">
+                    <div className="alert-box alert-info" role="alert">
                       Only students can enroll in courses.
                     </div>
                   )}
@@ -2044,25 +2045,38 @@ function CourseDetail() {
               ) : (
                 <>
                   <button
-                    className="btn btn-success w-100"
+                    className="btn-success w-100"
                     onClick={() => navigate("/login")}
                   >
                     Enroll Now
                   </button>
-                  <p className="mt-3 text-center text-muted">
+                  <p className="mt-3">
                     <small>Please log in to enroll in this course</small>
                   </p>
                 </>
               )}
             </div>
           </div>
+      </div>
+
+      {}
+      <div className="feedback-section mt-5 py-5">
+        <div className="container">
+          <div className="feedback-card">
+            <div className="feedback-icon">
+              <i className="fas fa-comments"></i>
+            </div>
+            <h3>Course Feedback</h3>
+            <p>Share your learning experience and help us improve</p>
+            <span className="badge-coming-soon">Coming Soon</span>
+          </div>
         </div>
       </div>
 
-      {/* Payment Modal */}
+      {}
       {showPaymentModal && course && (
-        <div className="modal d-block" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
-          <div className="modal-dialog modal-dialog-centered">
+        <div className="custom-modal" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
+          <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">Complete Payment</h5>
@@ -2074,13 +2088,13 @@ function CourseDetail() {
                 ></button>
               </div>
               <div className="modal-body">
-                <div className="mb-3">
+                <div className="">
                   <h6>Course: {course.title}</h6>
-                  <p className="text-muted">{course.description}</p>
+                  <p className="course-meta">{course.description}</p>
                 </div>
                 
-                <div className="mb-3">
-                  <div className="d-flex justify-content-between align-items-center">
+                <div className="">
+                  <div className="flex-between">
                     <span><strong>Total Amount:</strong></span>
                     <span><strong className="text-success" style={{ fontSize: "1.5rem" }}>
                       PKR {parseFloat(course.price).toFixed(2)}
@@ -2088,11 +2102,11 @@ function CourseDetail() {
                   </div>
                 </div>
 
-                <div className="mb-3">
-                  <label className="form-label"><strong>Payment Method</strong></label>
-                  <div className="form-check">
+                <div className="">
+                  <label className="input-label"><strong>Payment Method</strong></label>
+                  <div className="custom-checkbox">
                     <input
-                      className="form-check-input"
+                      className="custom-checkbox-input"
                       type="radio"
                       name="paymentMethod"
                       id="creditCard"
@@ -2101,13 +2115,13 @@ function CourseDetail() {
                       onChange={(e) => setPaymentMethod(e.target.value)}
                       disabled={paymentProcessing}
                     />
-                    <label className="form-check-label" htmlFor="creditCard">
+                    <label className="custom-checkbox-label" htmlFor="creditCard">
                       Credit/Debit Card
                     </label>
                   </div>
-                  <div className="form-check">
+                  <div className="custom-checkbox">
                     <input
-                      className="form-check-input"
+                      className="custom-checkbox-input"
                       type="radio"
                       name="paymentMethod"
                       id="easypaisa"
@@ -2116,13 +2130,13 @@ function CourseDetail() {
                       onChange={(e) => setPaymentMethod(e.target.value)}
                       disabled={paymentProcessing}
                     />
-                    <label className="form-check-label" htmlFor="easypaisa">
+                    <label className="custom-checkbox-label" htmlFor="easypaisa">
                       Easypaisa
                     </label>
                   </div>
-                  <div className="form-check">
+                  <div className="custom-checkbox">
                     <input
-                      className="form-check-input"
+                      className="custom-checkbox-input"
                       type="radio"
                       name="paymentMethod"
                       id="bank"
@@ -2131,35 +2145,35 @@ function CourseDetail() {
                       onChange={(e) => setPaymentMethod(e.target.value)}
                       disabled={paymentProcessing}
                     />
-                    <label className="form-check-label" htmlFor="bank">
+                    <label className="custom-checkbox-label" htmlFor="bank">
                       Bank Transfer
                     </label>
                   </div>
                 </div>
 
-                {/* Payment Details Fields */}
+                {}
                 {paymentMethod === "credit_card" && (
                   <div className="mb-3 p-4 text-center bg-light rounded border-2" style={{borderColor: '#ffc107'}}>
-                    <h5 className="mb-2">🚀 Coming Soon</h5>
-                    <p className="text-muted mb-3">Credit Card payment will be available soon. Please use Easypaisa for now.</p>
-                    <span className="badge bg-warning text-dark px-3 py-2" style={{fontSize: '0.95rem'}}>COMING SOON</span>
+                    <h5 className="mb-2">ðŸš€ Coming Soon</h5>
+                    <p className="course-meta">Credit Card payment will be available soon. Please use Easypaisa for now.</p>
+                    <span className="badge badge-warning text-dark px-3 py-2" style={{fontSize: '0.95rem'}}>COMING SOON</span>
                   </div>
                 )}
 
                 {paymentMethod === "easypaisa" && (
-                  <div className="mb-3">
-                    <label className="form-label"><strong>Easypaisa Account</strong></label>
-                    <div className="input-group mb-2">
+                  <div className="">
+                    <label className="input-label"><strong>Easypaisa Account</strong></label>
+                    <div className="input-group">
                       <input
                         type="text"
-                        className="form-control"
+                        className="input-field"
                         placeholder="Enter Easypaisa Mobile Number (11 digits)"
                         value={paymentDetails.easypaisaNumber}
                         onChange={(e) => setPaymentDetails({...paymentDetails, easypaisaNumber: e.target.value})}
                         disabled={paymentProcessing || otpSent}
                       />
                       <button
-                        className="btn btn-outline-primary"
+                        className="btn-outline-primary"
                         type="button"
                         onClick={handleSendOTP}
                         disabled={paymentProcessing || otpSent || !paymentDetails.easypaisaNumber}
@@ -2170,11 +2184,11 @@ function CourseDetail() {
 
                     {otpSent && !otpVerified && (
                       <div className="mt-3 p-3 bg-light rounded">
-                        <label className="form-label"><strong>Enter OTP Code</strong></label>
-                        <div className="input-group mb-2">
+                        <label className="input-label"><strong>Enter OTP Code</strong></label>
+                        <div className="input-group">
                           <input
                             type="text"
-                            className="form-control"
+                            className="input-field"
                             placeholder="Enter 6-digit OTP"
                             value={otpCode}
                             onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
@@ -2182,7 +2196,7 @@ function CourseDetail() {
                             disabled={otpVerifying}
                           />
                           <button
-                            className="btn btn-success"
+                            className="btn-success"
                             type="button"
                             onClick={handleVerifyOTP}
                             disabled={otpVerifying || otpCode.length !== 6}
@@ -2194,14 +2208,14 @@ function CourseDetail() {
                     )}
 
                     {otpVerified && (
-                      <div className="alert alert-success mt-2">
+                      <div className="alert-success">
                         <i className="fas fa-check-circle me-2"></i>
                         Phone number verified successfully!
                       </div>
                     )}
 
-                    <small className="text-muted d-block mt-2">
-                      <i className="fas fa-info-circle me-1"></i>
+                    <small className="file-label">
+                      <i className="fas fa-info-circle"></i>
                       Verification code will be sent to your email address.
                     </small>
                   </div>
@@ -2209,23 +2223,23 @@ function CourseDetail() {
 
                 {paymentMethod === "bank_transfer" && (
                   <div className="mb-3 p-4 text-center bg-light rounded border-2" style={{borderColor: '#ffc107'}}>
-                    <h5 className="mb-2">🚀 Coming Soon</h5>
-                    <p className="text-muted mb-3">Bank Transfer payment will be available soon. Please use Easypaisa for now.</p>
-                    <span className="badge bg-warning text-dark px-3 py-2" style={{fontSize: '0.95rem'}}>COMING SOON</span>
+                    <h5 className="mb-2">ðŸš€ Coming Soon</h5>
+                    <p className="course-meta">Bank Transfer payment will be available soon. Please use Easypaisa for now.</p>
+                    <span className="badge badge-warning text-dark px-3 py-2" style={{fontSize: '0.95rem'}}>COMING SOON</span>
                   </div>
                 )}
 
-                <div className="alert alert-info">
+                <div className="alert-box alert-info">
                   <small>
                     <i className="fas fa-lock me-2"></i>
                     Your payment information is secure and encrypted.
                   </small>
                 </div>
               </div>
-              <div className="modal-footer d-flex flex-column gap-2">
+              <div className="modal-footer">
                 <button
                   type="button"
-                  className="btn btn-success btn-lg w-100"
+                  className="btn-success btn-lg w-100"
                   onClick={handleProcessPayment}
                   disabled={
                     paymentProcessing ||
@@ -2255,7 +2269,7 @@ function CourseDetail() {
                 </button>
                 <button
                   type="button"
-                  className="btn btn-secondary w-100"
+                  className="btn-secondary w-100"
                   onClick={() => setShowPaymentModal(false)}
                   disabled={paymentProcessing}
                 >
@@ -2267,20 +2281,16 @@ function CourseDetail() {
         </div>
       )}
 
-      <div className="feedback-section mt-5 py-5">
-        <div className="container">
-          <div className="feedback-card">
-            <div className="feedback-icon">
-              <i className="fas fa-comments"></i>
-            </div>
-            <h3>Course Feedback</h3>
-            <p>Share your learning experience and help us improve</p>
-            <span className="badge-coming-soon">Coming Soon</span>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
 
 export default CourseDetail;
+
+
+
+
+
+
+
+

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import API from "../api";
 import "./Auth.css";
@@ -58,7 +58,7 @@ function Login({ setUser }) {
     <div className="auth-container">
       <div className="auth-wrapper">
         <div className="auth-card login-card">
-          {/* Header */}
+          {}
           <div className="auth-header">
             <div className="auth-icon">
               <i className="fas fa-lock"></i>
@@ -68,7 +68,7 @@ function Login({ setUser }) {
           </div>
 
           <form onSubmit={handleSubmit} className="auth-form">
-            {/* Error Message */}
+            {}
             {error && (
               <div className="error-alert">
                 <i className="fas fa-exclamation-circle"></i>
@@ -76,7 +76,7 @@ function Login({ setUser }) {
               </div>
             )}
 
-            {/* Username Field */}
+            {}
             <div className="form-group">
               <label htmlFor="username">Username</label>
               <div className="input-wrapper">
@@ -95,7 +95,7 @@ function Login({ setUser }) {
               </div>
             </div>
 
-            {/* Password Field */}
+            {}
             <div className="form-group">
               <label htmlFor="password">Password</label>
               <div className="input-wrapper">
@@ -122,7 +122,7 @@ function Login({ setUser }) {
               </div>
             </div>
 
-            {/* Remember & Forgot */}
+            {}
             <div className="form-footer-row">
               <label className="remember-me">
                 <input type="checkbox" />
@@ -133,7 +133,7 @@ function Login({ setUser }) {
               </a>
             </div>
 
-            {/* Submit Button */}
+            {}
             <button
               type="submit"
               className="btn-submit"
@@ -153,24 +153,24 @@ function Login({ setUser }) {
             </button>
           </form>
 
-          {/* Divider */}
+          {}
           <div className="form-divider">
             <span>New to LMS Portal?</span>
           </div>
 
-          {/* Register Link */}
+          {}
           <Link to="/register" className="btn-secondary">
             Create an account
             <i className="fas fa-arrow-right"></i>
           </Link>
 
-          {/* Footer */}
+          {}
           <div className="auth-footer">
             <p>By signing in, you agree to our <a href="#terms">Terms of Service</a> and <a href="#privacy">Privacy Policy</a></p>
           </div>
         </div>
 
-        {/* Side Illustration */}
+        {}
         <div className="auth-side login-side">
           <div className="side-content">
             <h2>Learning Made Easy</h2>
@@ -197,4 +197,5 @@ function Login({ setUser }) {
 }
 
 export default Login;
+
 

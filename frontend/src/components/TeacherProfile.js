@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import API from "../api";
 import "./TeacherProfile.css";
@@ -33,9 +33,9 @@ function TeacherProfile() {
 
   if (loading) {
     return (
-      <div className="container mt-5">
-        <div className="spinner-border" role="status">
-          <span className="visually-hidden">Loading...</span>
+      <div className="teacher-profile-container">
+        <div className="loading-spinner" role="status">
+          <span className="sr-only">Loading...</span>
         </div>
       </div>
     );
@@ -43,9 +43,9 @@ function TeacherProfile() {
 
   if (!teacher) {
     return (
-      <div className="container mt-5">
-        <div className="alert alert-danger">Teacher not found</div>
-        <Link to="/" className="btn btn-primary">
+      <div className="teacher-profile-container">
+        <div className="alert-box alert-danger">Teacher not found</div>
+        <Link to="/" className="btn-primary">
           Back to Home
         </Link>
       </div>
@@ -54,26 +54,26 @@ function TeacherProfile() {
 
   return (
     <div className="teacher-profile">
-      {/* Back Button */}
-      <div className="container mt-4 mb-2">
+      {}
+      <div className="teacher-back-section">
         <button
-          className="btn btn-outline-secondary"
+          className="btn-outline-secondary"
           onClick={() => navigate("/")}
         >
           <i className="fas fa-arrow-left"></i> Back
         </button>
       </div>
 
-      {/* Teacher Header */}
+      {}
       <div className="teacher-header-section">
-        <div className="container">
+        <div className="teacher-profile-container">
           <div className="teacher-header-content">
             <div className="teacher-avatar-large">
               <i className="fas fa-user-circle"></i>
             </div>
             <div className="teacher-header-info">
               <h1>{teacher.user_details.name}</h1>
-              <p className="text-muted">{teacher.qualification}</p>
+              <p className="course-meta">{teacher.qualification}</p>
               <div className="teacher-stats">
                 <div className="stat">
                   <span className="stat-label">Experience</span>
@@ -93,18 +93,18 @@ function TeacherProfile() {
         </div>
       </div>
 
-      {/* Teacher Details */}
+      {}
       <div className="teacher-details-section">
-        <div className="container">
-          <div className="row">
-            {/* Left Column - About */}
-            <div className="col-lg-8">
+        <div className="teacher-profile-container">
+          <div className="teacher-details-grid">
+            {}
+            <div className="details-main">
               <div className="details-card">
                 <h3>About</h3>
                 <p className="teacher-expertise">{teacher.expertise}</p>
 
-                {/* Contact Information */}
-                <div className="contact-info mt-4">
+                {}
+                <div className="contact-info">
                   <h5>Contact Information</h5>
                   <div className="info-item">
                     <strong>Email:</strong>
@@ -118,11 +118,11 @@ function TeacherProfile() {
                 </div>
               </div>
 
-              {/* Courses Section */}
+              {}
               <div className="details-card courses-card">
                 <h3>Courses by {teacher.user_details.name}</h3>
                 {courses.length === 0 ? (
-                  <p className="text-muted">
+                  <p className="course-meta">
                     This teacher has no courses available.
                   </p>
                 ) : (
@@ -131,7 +131,7 @@ function TeacherProfile() {
                       <div key={course.id} className="course-item">
                         <div className="course-item-header">
                           <h5>{course.title}</h5>
-                          <span className="badge bg-primary">{course.code}</span>
+                          <span className="badge badge-primary">{course.code}</span>
                         </div>
                         <p className="course-item-description">
                           {course.description.substring(0, 150)}...
@@ -141,7 +141,7 @@ function TeacherProfile() {
                             PKR {parseFloat(course.price).toFixed(2)}
                           </span>
                           <button
-                            className="btn btn-sm btn-outline-primary"
+                            className="btn-outline-primary btn-sm"
                             onClick={() => navigate(`/courses/${course.id}`)}
                           >
                             View Course
@@ -154,8 +154,8 @@ function TeacherProfile() {
               </div>
             </div>
 
-            {/* Right Column - Summary */}
-            <div className="col-lg-4">
+            {}
+            <div className="details-sidebar">
               <div className="summary-card">
                 <h5>Teacher Information</h5>
                 <div className="info-group">
@@ -188,3 +188,5 @@ function TeacherProfile() {
 }
 
 export default TeacherProfile;
+
+

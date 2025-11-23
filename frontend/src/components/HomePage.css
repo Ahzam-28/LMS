@@ -1,31 +1,56 @@
-.home-page {
+﻿.home-page {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
 }
 
 .navbar {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  background: #1a1a1a !important;
+  border-bottom: 1px solid rgba(45, 0, 0, 0.3);
 }
 
 .navbar-brand {
   font-size: 1.5rem;
-  color: #8B0000 !important;
+  color: #ff4444 !important;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  text-shadow: 0 0 10px rgba(255, 68, 68, 0.3);
 }
 
 .navbar-nav .nav-link {
-  color: #555 !important;
+  color: #ccc !important;
   font-weight: 500;
-  margin-left: 0.5rem;
-  transition: color 0.3s ease;
+  margin-left: 1.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+  letter-spacing: 0.3px;
 }
 
 .navbar-nav .nav-link:hover {
-  color: #8B0000 !important;
+  color: #ff4444 !important;
+  text-shadow: 0 0 8px rgba(255, 68, 68, 0.5);
+}
+
+.navbar-nav .nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #2D0000;
+  transition: width 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover::after {
+  width: 100%;
+  box-shadow: 0 0 8px rgba(45, 0, 0, 0.6);
 }
 
 .navbar-nav .btn-link {
-  color: #555 !important;
+  color: #ccc !important;
   border: none;
   padding: 0.5rem 0;
   text-decoration: none;
@@ -33,16 +58,18 @@
 }
 
 .navbar-nav .btn-link:hover {
-  color: #8B0000 !important;
+  color: #ff4444 !important;
+  text-shadow: 0 0 8px rgba(255, 68, 68, 0.5);
 }
 
 .hero-section {
-  background: linear-gradient(135deg, #8B0000 0%, #5C0000 100%);
-  color: white;
-  padding: 8rem 0;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+  color: #f0f0ff;
+  padding: 6rem 0;
   text-align: center;
   position: relative;
   overflow: hidden;
+  border-bottom: 1px solid rgba(45, 0, 0, 0.4);
 }
 
 .hero-section::before {
@@ -52,36 +79,38 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
-              radial-gradient(circle at 80% 80%, rgba(139,0,0,0.2) 0%, transparent 50%);
+  background: radial-gradient(circle at 30% 40%, rgba(45,0,0,0.2) 0%, transparent 50%),
+              radial-gradient(circle at 70% 80%, rgba(45,0,0,0.15) 0%, transparent 50%);
   pointer-events: none;
 }
 
 .hero-content h1 {
-  font-size: 3.5rem;
+  font-size: 3rem;
   font-weight: 800;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   animation: fadeInDown 0.8s ease;
   letter-spacing: -1px;
   position: relative;
   z-index: 1;
+  line-height: 1.2;
 }
 
 .hero-content .lead {
-  font-size: 1.5rem;
-  margin-bottom: 3rem;
-  opacity: 0.95;
+  font-size: 1.25rem;
+  margin-bottom: 2.5rem;
+  opacity: 0.9;
   animation: fadeInUp 0.8s ease 0.2s both;
   position: relative;
   z-index: 1;
-  font-weight: 300;
-  line-height: 1.6;
+  font-weight: 400;
+  line-height: 1.7;
+  color: rgba(240, 240, 255, 0.95);
 }
 
 .hero-buttons {
   animation: fadeInUp 0.8s ease 0.4s both;
   display: flex;
-  gap: 1.5rem;
+  gap: 1rem;
   justify-content: center;
   flex-wrap: wrap;
   position: relative;
@@ -89,98 +118,104 @@
 }
 
 .hero-buttons .btn {
-  padding: 1rem 2.5rem;
-  font-size: 1.05rem;
-  font-weight: 700;
-  border-radius: 50px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  padding: 0.75rem 2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  letter-spacing: 0.3px;
+  text-transform: none;
+  border: none;
 }
 
 .hero-buttons .btn-primary {
-  background: white;
-  color: #8B0000;
-  border: none;
-  box-shadow: 0 8px 25px rgba(255,255,255,0.2);
+  background: linear-gradient(135deg, #2D0000 0%, #1a0000 100%);
+  color: #ff4444;
+  box-shadow: 0 4px 12px rgba(45, 0, 0, 0.5);
+  border: 1px solid rgba(255, 68, 68, 0.2);
 }
 
 .hero-buttons .btn-primary:hover {
-  background: #f0f0f0;
-  transform: translateY(-3px);
-  box-shadow: 0 12px 35px rgba(255,255,255,0.3);
+  background: linear-gradient(135deg, #3D0000 0%, #2a0000 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 68, 68, 0.4);
+  text-shadow: 0 0 8px rgba(255, 68, 68, 0.5);
 }
 
 .hero-buttons .btn-outline-primary {
-  color: white;
-  border: 2px solid white;
+  color: #ff4444;
+  border: 1.5px solid #2D0000;
   background: transparent;
-  box-shadow: 0 8px 25px rgba(139,0,0,0.3);
 }
 
 .hero-buttons .btn-outline-primary:hover {
-  background: white;
-  color: #8B0000;
-  transform: translateY(-3px);
-  box-shadow: 0 12px 35px rgba(255,255,255,0.3);
+  background: rgba(45, 0, 0, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 0 12px rgba(255, 68, 68, 0.3);
 }
 
 .courses-section {
   flex-grow: 1;
-  padding: 5rem 0;
-  background: linear-gradient(180deg, #f5f7fa 0%, #e8ecf1 100%);
+  padding: 4rem 0;
+  background: linear-gradient(180deg, #0f0f0f 0%, #1a1a1a 100%);
 }
 
 .section-header {
-  text-align: center;
+  text-align: left;
   margin-bottom: 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
 .section-header .d-flex {
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 2rem;
 }
 
 .section-header .d-flex > div:first-child {
-  width: 100%;
-  text-align: center;
-  margin-bottom: 1.5rem;
+  width: auto;
+  text-align: left;
 }
 
 .section-header .d-flex > .btn {
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 0;
+  margin-right: 0;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .section-header h2 {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 800;
-  color: #1a1a1a;
-  margin-bottom: 0.75rem;
+  color: #f0f0ff;
+  margin-bottom: 0.5rem;
   letter-spacing: -0.5px;
 }
 
 .section-header p {
-  font-size: 1.2rem;
-  color: #555;
-  font-weight: 300;
+  font-size: 1rem;
+  color: #999;
+  font-weight: 400;
   line-height: 1.6;
+  margin: 0;
 }
 
 .courses-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 2rem;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
 
 .course-grid-card {
-  background: white;
-  border-radius: 12px;
-  border: 1px solid #e8e8e8;
-  padding: 2rem;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(45, 0, 0, 0.3);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), 0 0 20px rgba(45, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -194,21 +229,22 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #8B0000 0%, #5C0000 100%);
+  height: 3px;
+  background: #2D0000;
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 0.4s ease;
+  transition: transform 0.3s ease;
 }
 
 .course-grid-card:hover {
-  box-shadow: 0 16px 40px rgba(139, 0, 0, 0.15);
-  transform: translateY(-8px);
-  border-color: #8B0000;
+  box-shadow: 0 8px 24px rgba(45, 0, 0, 0.4), 0 0 25px rgba(255, 68, 68, 0.15);
+  transform: translateY(-4px);
+  border-color: rgba(45, 0, 0, 0.5);
 }
 
 .course-grid-card:hover::before {
   transform: scaleX(1);
+  box-shadow: 0 0 8px rgba(255, 68, 68, 0.5);
 }
 
 .course-card-header {
@@ -216,52 +252,54 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 0.75rem;
 }
 
 .course-card-header .badge {
-  background: linear-gradient(135deg, #8B0000 0%, #5C0000 100%);
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-size: 0.75rem;
+  background: #2D0000;
+  color: #ff4444;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  box-shadow: 0 4px 12px rgba(139, 0, 0, 0.3);
+  letter-spacing: 0.4px;
+  box-shadow: 0 0 10px rgba(45, 0, 0, 0.5);
 }
 
 .enrollment-badge-small {
-  background: #17a2b8;
-  color: white;
-  padding: 0.35rem 0.65rem;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 600;
+  background: transparent;
+  color: #999;
+  padding: 0;
+  border-radius: 0;
+  font-size: 0.85rem;
+  font-weight: 500;
   white-space: nowrap;
 }
 
 .course-card-title {
-  font-size: 1.35rem;
+  font-size: 1.15rem;
   font-weight: 700;
-  color: #1a1a1a;
-  margin-bottom: 1rem;
-  line-height: 1.5;
-  letter-spacing: -0.3px;
+  color: #f0f0ff;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+  letter-spacing: -0.2px;
 }
 
 .course-card-description {
-  color: #555;
-  font-size: 0.95rem;
-  margin-bottom: 1.25rem;
+  color: #aaa;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
   flex-grow: 1;
-  line-height: 1.7;
+  line-height: 1.6;
 }
 
 .course-card-category {
-  color: #999;
-  font-size: 0.85rem;
-  margin-bottom: 0.5rem;
+  color: #666;
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
   display: block;
+  font-weight: 500;
 }
 
 .course-card-footer {
@@ -269,40 +307,52 @@
   justify-content: space-between;
   align-items: center;
   padding-top: 1rem;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid rgba(45, 0, 0, 0.2);
 }
 
 .course-card-footer .price {
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   font-weight: 700;
-  color: #8B0000;
+  color: #ff4444;
+  text-shadow: 0 0 8px rgba(255, 68, 68, 0.3);
 }
 
 .course-card-footer .btn {
-  border-radius: 6px;
-  font-weight: 500;
-  padding: 0.5rem 1rem;
-  font-size: 0.9rem;
+  border-radius: 4px;
+  font-weight: 600;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.85rem;
+  background: linear-gradient(135deg, #2D0000 0%, #1a0000 100%);
+  color: #ff4444;
+  border: 1px solid rgba(255, 68, 68, 0.2);
+  transition: all 0.2s ease;
+}
+
+.course-card-footer .btn:hover {
+  background: linear-gradient(135deg, #3D0000 0%, #2a0000 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 0 12px rgba(255, 68, 68, 0.3);
 }
 
 .teachers-section {
   padding: 4rem 0;
-  background-color: #fff;
+  background: linear-gradient(180deg, #0f0f0f 0%, #1a1a1a 100%);
+  border-top: 1px solid rgba(45, 0, 0, 0.3);
 }
 
 .teachers-carousel-wrapper {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
   position: relative;
   margin-top: 2rem;
 }
 
 .carousel-arrow {
-  background: transparent;
-  color: #2d3748; 
-  border: 1px solid rgba(45,55,72,0.08);
-  border-radius: 8px;
+  background: rgba(45, 0, 0, 0.2);
+  color: #ccc;
+  border: 1px solid rgba(45, 0, 0, 0.3);
+  border-radius: 6px;
   width: 40px;
   height: 40px;
   display: flex;
@@ -311,12 +361,15 @@
   cursor: pointer;
   flex-shrink: 0;
   font-size: 1rem;
-  transition: all 0.18s ease;
+  transition: all 0.2s ease;
 }
 
 .carousel-arrow:hover {
-  background: rgba(45,55,72,0.04);
-  transform: translateY(-2px);
+  background: rgba(45, 0, 0, 0.5);
+  color: #ff4444;
+  border-color: #2D0000;
+  transform: translateY(-1px);
+  box-shadow: 0 0 12px rgba(255, 68, 68, 0.3);
 }
 
 .carousel-arrow:active {
@@ -328,9 +381,9 @@
   gap: 1.5rem;
   overflow-x: auto;
   scroll-behavior: smooth;
-  padding: 1rem 0;
+  padding: 0.5rem 0;
   flex: 1;
-  scrollbar-width: none; 
+  scrollbar-width: none;
 }
 
 .teachers-carousel::-webkit-scrollbar {
@@ -350,12 +403,12 @@
 }
 
 .teacher-card {
-  background: white;
-  border-radius: 12px;
-  border: 1px solid #e8e8e8;
-  padding: 2rem;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(45, 0, 0, 0.3);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), 0 0 20px rgba(45, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -363,6 +416,7 @@
   color: inherit;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .teacher-card::before {
@@ -372,15 +426,16 @@
   right: -50%;
   width: 200px;
   height: 200px;
-  background: radial-gradient(circle, rgba(139, 0, 0, 0.1) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(45, 0, 0, 0.15) 0%, transparent 70%);
   border-radius: 50%;
-  transition: all 0.4s ease;
+  transition: all 0.3s ease;
+  z-index: 0;
 }
 
 .teacher-card:hover {
-  box-shadow: 0 16px 40px rgba(139, 0, 0, 0.15);
-  transform: translateY(-8px);
-  border-color: #8B0000;
+  box-shadow: 0 8px 24px rgba(45, 0, 0, 0.4), 0 0 25px rgba(255, 68, 68, 0.15);
+  transform: translateY(-4px);
+  border-color: rgba(45, 0, 0, 0.5);
   text-decoration: none;
 }
 
@@ -392,48 +447,57 @@
 .teacher-card-header {
   text-align: center;
   margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
 }
 
 .teacher-avatar {
-  font-size: 60px;
-  color: #8B0000;
-  margin-bottom: 0.5rem;
+  font-size: 50px;
+  color: #ff4444;
+  margin-bottom: 0.75rem;
+  text-shadow: 0 0 10px rgba(255, 68, 68, 0.3);
 }
 
 .teacher-avatar i {
-  opacity: 0.8;
+  opacity: 0.85;
 }
 
 .teacher-card-body {
   flex-grow: 1;
   text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
 .teacher-name {
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   font-weight: 700;
-  color: #333;
-  margin-bottom: 0.5rem;
+  color: #f0f0ff;
+  margin-bottom: 0.4rem;
 }
 
 .teacher-qualification {
-  color: #8B0000;
+  color: #ff4444;
   font-weight: 600;
   margin-bottom: 1rem;
+  font-size: 0.9rem;
+  text-shadow: 0 0 8px rgba(255, 68, 68, 0.3);
 }
 
 .teacher-info {
   text-align: left;
-  font-size: 0.9rem;
-  color: #666;
+  font-size: 0.85rem;
+  color: #aaa;
   padding: 1rem;
-  background: #f8f9fa;
+  background: rgba(45, 0, 0, 0.1);
   border-radius: 6px;
   margin-bottom: 1rem;
+  border: 1px solid rgba(45, 0, 0, 0.2);
 }
 
 .teacher-info p {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
+  line-height: 1.5;
 }
 
 .teacher-info p:last-child {
@@ -441,41 +505,55 @@
 }
 
 .teacher-info strong {
-  color: #333;
+  color: #f0f0ff;
+  font-weight: 600;
 }
 
 .teacher-card-footer {
   padding-top: 1rem;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid rgba(45, 0, 0, 0.2);
+  position: relative;
+  z-index: 1;
 }
 
 .teacher-card-footer .btn {
   width: 100%;
-  border-radius: 6px;
-  font-weight: 500;
-  padding: 0.6rem 1rem;
-  font-size: 0.9rem;
+  border-radius: 4px;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  background: linear-gradient(135deg, #2D0000 0%, #1a0000 100%);
+  color: #ff4444;
+  border: 1px solid rgba(255, 68, 68, 0.2);
+  transition: all 0.2s ease;
+}
+
+.teacher-card-footer .btn:hover {
+  background: linear-gradient(135deg, #3D0000 0%, #2a0000 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 0 12px rgba(255, 68, 68, 0.3);
 }
 
 .footer {
-  background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
-  color: white;
-  padding: 3rem 0;
+  background: linear-gradient(135deg, #0a0a0a 0%, #0f0f0f 100%);
+  color: #f0f0ff;
+  padding: 2rem 0;
   text-align: center;
   margin-top: auto;
-  border-top: 1px solid rgba(139, 0, 0, 0.2);
+  border-top: 1px solid rgba(45, 0, 0, 0.3);
 }
 
 .footer p {
   margin: 0;
-  opacity: 0.8;
-  font-weight: 300;
+  opacity: 0.85;
+  font-weight: 400;
+  font-size: 0.95rem;
 }
 
 @keyframes fadeInDown {
   from {
     opacity: 0;
-    transform: translateY(-30px);
+    transform: translateY(-20px);
   }
   to {
     opacity: 1;
@@ -486,11 +564,28 @@
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@media (max-width: 1024px) {
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .section-header .d-flex {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .section-header .d-flex > .btn {
+    align-self: flex-start;
   }
 }
 
@@ -519,29 +614,56 @@
     font-size: 1.25rem;
   }
 
-  .section-header .d-flex {
+  .navbar-nav .nav-link {
+    margin-left: 0;
+  }
+
+  .section-header {
     flex-direction: column;
   }
 
-  .section-header .d-flex > .btn {
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
-    margin-top: 1rem;
+  .section-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .section-header p {
+    font-size: 0.95rem;
   }
 
   .carousel-arrow {
-    width: 40px;
-    height: 40px;
-    font-size: 1rem;
+    width: 36px;
+    height: 36px;
+    font-size: 0.9rem;
   }
 
   .teachers-carousel .teacher-card {
-    flex: 0 0 250px;
-    min-width: 250px;
+    flex: 0 0 280px;
+    min-width: 280px;
   }
 
   .teachers-carousel-wrapper {
-    gap: 0.5rem;
+    gap: 0.75rem;
+  }
+
+  .course-grid-card {
+    padding: 1.25rem;
+  }
+
+  .teacher-card {
+    padding: 1.25rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-buttons .btn {
+    width: 100%;
+  }
+
+  .footer {
+    padding: 1.5rem 0;
   }
 }
+

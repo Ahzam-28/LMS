@@ -1,17 +1,31 @@
-.course-enrollment {
-  background-color: #f5f7fa;
+﻿.course-enrollment {
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
   min-height: 100vh;
   padding-bottom: 50px;
   flex-grow: 1;
+  position: relative;
+}
+
+.course-enrollment::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 300px;
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+  z-index: 0;
 }
 
 .enrollment-header {
-  background: linear-gradient(135deg, #8B0000 0%, #8b0000 100%);
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
   color: white;
   padding: 3rem 2rem;
-  border-radius: 8px;
-  margin: 0 -12px;
-  box-shadow: 0 4px 16px rgba(139, 0, 0, 0.3);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 50, 50, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 50, 50, 0.15);
+  position: relative;
+  z-index: 1;
 }
 
 .enrollment-header h1 {
@@ -19,54 +33,80 @@
   font-weight: 700;
   margin-bottom: 0.5rem;
   letter-spacing: -0.5px;
+  background: linear-gradient(135deg, #ff3232 0%, #ff0000 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .enrollment-header .text-muted {
-  color: rgba(255, 255, 255, 0.9) !important;
+  color: #c0c0c0 !important;
   font-size: 1.1rem;
   opacity: 0.95;
 }
 
 .filter-section {
-  background: white;
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
   padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 50, 50, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
   margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
 }
 
 .filter-section .form-control,
 .filter-section .form-select {
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
+  background-color: #0a0a0a;
+  border: 1px solid rgba(255, 50, 50, 0.3);
+  border-radius: 8px;
   padding: 0.75rem 1rem;
   transition: all 0.3s ease;
   font-size: 0.95rem;
+  color: #ffffff;
+}
+
+.filter-section .form-control::placeholder {
+  color: #999;
 }
 
 .filter-section .form-control:focus,
 .filter-section .form-select:focus {
-  border-color: #8B0000;
-  box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.1);
+  border-color: #ff3232;
+  box-shadow: 0 0 0 3px rgba(255, 50, 50, 0.2);
   outline: none;
+  background-color: #0a0a0a;
+  color: #ffffff;
 }
 
 .course-card {
-  background: white;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
+  background: #0a0a0a;
+  border: 2px solid rgba(240, 240, 255, 0.3);
+  border-radius: 12px;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
   height: 100%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 0 20px rgba(240, 240, 255, 0.2), 0 8px 32px rgba(0, 0, 0, 0.8);
+  position: relative;
+}
+
+.course-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(240, 240, 255, 0.6), rgba(240, 240, 255, 0.2));
 }
 
 .course-card:hover {
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-  transform: translateY(-6px);
-  border-color: #8B0000;
+  box-shadow: 0 0 30px rgba(240, 240, 255, 0.4), 0 8px 40px rgba(0, 0, 0, 0.9);
+  transform: translateY(-8px);
+  border-color: rgba(240, 240, 255, 0.6);
 }
 
 .course-card-body {
@@ -113,14 +153,14 @@
 .course-title {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #2d3748;
+  color: #ffffff;
   margin-bottom: 0.75rem;
   line-height: 1.4;
   min-height: 2.5rem;
 }
 
 .course-description {
-  color: #666;
+  color: #ffffff;
   font-size: 0.95rem;
   margin-bottom: 1rem;
   flex-grow: 1;
@@ -130,22 +170,22 @@
 .course-category {
   margin-bottom: 0.75rem;
   display: block;
-  color: #999;
+  color: #ffffff;
   font-size: 0.85rem;
 }
 
 .course-meta {
-  background: #f8f9fa;
+  background: rgba(255, 50, 50, 0.05);
   padding: 1rem;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 0.9rem;
   margin-bottom: 1rem;
-  border: 1px solid #e9ecef;
+  border: 1px solid rgba(255, 50, 50, 0.15);
 }
 
 .course-meta p {
   margin-bottom: 0.5rem;
-  color: #555;
+  color: #ffffff;
 }
 
 .course-meta p:last-child {
@@ -153,21 +193,21 @@
 }
 
 .course-meta strong {
-  color: #2d3748;
+  color: #ffffff;
   font-weight: 600;
 }
 
 .course-footer {
   margin-top: auto;
   padding-top: 1rem;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid rgba(255, 50, 50, 0.2);
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
 
 .course-footer .btn {
-  border-radius: 6px;
+  border-radius: 8px;
   font-weight: 600;
   padding: 0.65rem 1rem;
   font-size: 0.9rem;
@@ -175,44 +215,48 @@
 }
 
 .course-footer .btn-primary {
-  background: linear-gradient(135deg, #8B0000 0%, #8b0000 100%);
+  background: linear-gradient(135deg, #ff3232 0%, #ff0000 100%);
   border: none;
-  color: white;
+  color: black;
 }
 
 .course-footer .btn-primary:hover {
-  background: linear-gradient(135deg, #c4112f 0%, #7a0000 100%);
+  background: linear-gradient(135deg, #ff5555 0%, #ff2222 100%);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(139, 0, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(255, 50, 50, 0.4);
 }
 
 .course-footer .btn-outline-primary {
-  color: #8B0000;
-  border: 1px solid #8B0000;
+  color: #00ff00;
+  border: 2px solid #00ff00;
 }
 
 .course-footer .btn-outline-primary:hover {
-  background: #8B0000;
-  color: white;
+  background: #00ff00;
+  color: #000000;
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
 }
 
 .stats-card {
-  background: white;
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
   padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 50, 50, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
 }
 
 .stats-card h5 {
   font-size: 2rem;
   font-weight: 700;
-  color: #8B0000;
+  background: linear-gradient(135deg, #ff3232 0%, #ff0000 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin-bottom: 0.5rem;
 }
 
 .stats-card p {
-  color: #666;
+  color: #c0c0c0;
   margin: 0;
   font-size: 0.95rem;
   font-weight: 500;
@@ -255,3 +299,4 @@
     font-size: 1.5rem;
   }
 }
+

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import API from "../api";
 import "./Quiz.css";
@@ -98,13 +98,15 @@ function Quiz() {
       else if (percentage >= 60) grade = "D";
       else if (percentage >= 50) grade = "E";
 
+      // Marks obtained should be proportional to total quiz marks
       const marksObtained = (score / totalMarks) * quiz.total_marks;
 
       setResult({
         score: score,
         totalMarks: totalMarks,
+        marksEarned: marksObtained.toFixed(2),
+        quizTotalMarks: quiz.total_marks,
         percentage: percentage.toFixed(2),
-        marksObtained: marksObtained.toFixed(2),
         grade: grade,
       });
 
@@ -113,7 +115,7 @@ function Quiz() {
           const resultPayload = {
             quiz: id,
             student: user.profile.id,
-            score: percentage.toFixed(2),
+            score: marksObtained.toFixed(2),
             grade_awarded: grade,
           };
           const resultResponse = await API.post("/result/", resultPayload);
@@ -162,7 +164,7 @@ function Quiz() {
         className="btn btn-outline-secondary mb-3"
         onClick={() => navigate(-1)}
       >
-        ← Back
+        â† Back
       </button>
 
       <div className="card">
@@ -263,15 +265,9 @@ function Quiz() {
 
                 <div className="result-grid">
                   <div className="result-item">
-                    <span className="result-label">Score</span>
+                    <span className="result-label">Marks Earned</span>
                     <span className="result-value">
-                      {result.score} / {result.totalMarks}
-                    </span>
-                  </div>
-                  <div className="result-item">
-                    <span className="result-label">Marks Obtained</span>
-                    <span className="result-value">
-                      {result.marksObtained} / {quiz.total_marks}
+                      {result.marksEarned} / {result.quizTotalMarks}
                     </span>
                   </div>
                   <div className="result-item">
@@ -308,7 +304,7 @@ function Quiz() {
                           <span className="question-text">{question.text}</span>
                           <span className="marks-badge">({marksAwarded}/{question.marks} marks)</span>
                           <span className={`status ${isCorrect ? "badge bg-success" : "badge bg-danger"}`}>
-                            {isCorrect ? "✓ Correct" : "✗ Incorrect"}
+                            {isCorrect ? "âœ“ Correct" : "âœ— Incorrect"}
                           </span>
                         </div>
                         <div className="summary-answer">

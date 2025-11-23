@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import API from "../api";
 import { useNavigate, Link } from "react-router-dom";
 import "./Auth.css";
@@ -114,16 +114,16 @@ function Register() {
     <div className="auth-container">
       <div className="auth-wrapper">
         <div className="auth-card register-card">
-          {/* Header */}
+          {}
           <div className="auth-header">
             <div className="auth-icon">
               <i className="fas fa-user-plus"></i>
             </div>
-            <h1>Join LMS Portal</h1>
+            <h1>Join Parhai warhai</h1>
             <p className="auth-subtitle">Create your account and start learning</p>
           </div>
 
-          {/* Progress Indicator */}
+          {}
           <div className="progress-indicator">
             <div className={`step ${step >= 1 ? "active" : ""}`}>
               <div className="step-circle">1</div>
@@ -136,7 +136,7 @@ function Register() {
             </div>
           </div>
 
-          {/* Form */}
+          {}
           <form onSubmit={handleSubmit} className="auth-form">
             {error && (
               <div className="error-alert">
@@ -145,10 +145,10 @@ function Register() {
               </div>
             )}
 
-            {/* Step 1: Basic Info */}
+            {}
             {step === 1 && (
               <>
-                {/* Role Selection */}
+                {}
                 <div className="form-group">
                   <label>Select Role</label>
                   <div className="role-selector">
@@ -171,7 +171,7 @@ function Register() {
                   </div>
                 </div>
 
-                {/* Username */}
+                {}
                 <div className="form-group">
                   <label htmlFor="username">Username</label>
                   <div className="input-wrapper">
@@ -189,7 +189,7 @@ function Register() {
                   </div>
                 </div>
 
-                {/* Email */}
+                {}
                 <div className="form-group">
                   <label htmlFor="email">Email Address</label>
                   <div className="input-wrapper">
@@ -207,7 +207,7 @@ function Register() {
                   </div>
                 </div>
 
-                {/* Password */}
+                {}
                 <div className="form-group">
                   <label htmlFor="password">Password</label>
                   <div className="input-wrapper">
@@ -233,7 +233,7 @@ function Register() {
                   </div>
                 </div>
 
-                {/* Confirm Password */}
+                {}
                 <div className="form-group">
                   <label htmlFor="confirmPassword">Confirm Password</label>
                   <div className="input-wrapper">
@@ -259,7 +259,7 @@ function Register() {
                   </div>
                 </div>
 
-                {/* Next Button */}
+                {}
                 <button
                   type="button"
                   className="btn-submit"
@@ -272,10 +272,10 @@ function Register() {
               </>
             )}
 
-            {/* Step 2: Additional Details */}
+            {}
             {step === 2 && (
               <>
-                {/* Qualification */}
+                {}
                 <div className="form-group">
                   <label htmlFor="qualification">Qualification</label>
                   <div className="input-wrapper">
@@ -293,7 +293,7 @@ function Register() {
                   </div>
                 </div>
 
-                {/* Mobile Number */}
+                {}
                 <div className="form-group">
                   <label htmlFor="mobile_no">Mobile Number</label>
                   <div className="input-wrapper">
@@ -311,7 +311,7 @@ function Register() {
                   </div>
                 </div>
 
-                {/* Conditional Fields */}
+                {}
                 {formData.role === "student" && (
                   <div className="form-group">
                     <label htmlFor="interested_categories">Interested Categories</label>
@@ -350,7 +350,7 @@ function Register() {
                   </div>
                 )}
 
-                {/* Step Buttons */}
+                {}
                 <div className="step-buttons">
                   <button
                     type="button"
@@ -383,19 +383,19 @@ function Register() {
             )}
           </form>
 
-          {/* Divider */}
+          {}
           <div className="form-divider">
             <span>Already have an account?</span>
           </div>
 
-          {/* Login Link */}
+          {}
           <Link to="/login" className="btn-secondary">
             Sign in here
             <i className="fas fa-arrow-right"></i>
           </Link>
         </div>
 
-        {/* Side Illustration */}
+        {}
         <div className="auth-side register-side">
           <div className="side-content">
             <h2>Start Your Learning Journey</h2>

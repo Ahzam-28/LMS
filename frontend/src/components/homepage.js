@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import API from "../api";
 import "./HomePage.css";
@@ -56,11 +56,11 @@ function HomePage() {
 
   return (
     <div className="home-page">
-      {/* Hero Section */}
+      {}
       <div className="hero-section">
         <div className="container">
           <div className="hero-content">
-            <h1>Welcome to LMS Portal</h1>
+            <h1>WELCOME TO PARHAI WARHAI</h1>
             <p className="lead">
               Explore a wide range of courses and enhance your skills
             </p>
@@ -78,19 +78,17 @@ function HomePage() {
         </div>
       </div>
 
-      {/* Courses Section */}
+      {}
       <div className="courses-section">
         <div className="container">
           <div className="section-header">
-            <div className="d-flex justify-content-between align-items-center">
-              <div>
-                <h2>Available Courses</h2>
-                <p>Explore our curated collection of courses</p>
-              </div>
-              <Link to="/courses" className="btn btn-outline-primary btn-lg">
-                View All Courses
-              </Link>
+            <div>
+              <h2>Available Courses</h2>
+              <p>Explore our curated collection of courses</p>
             </div>
+            <Link to="/courses" className="btn btn-primary">
+              View All Courses
+            </Link>
           </div>
 
           {courses.length === 0 ? (
@@ -104,7 +102,7 @@ function HomePage() {
                   <div className="course-card-header">
                     <span className="badge">{course.code}</span>
                     <span className="enrollment-badge-small">
-                      👥 {course.enrollment_count}
+                      ðŸ‘¥ {course.enrollment_count}
                     </span>
                   </div>
                   <h5 className="course-card-title">{course.title}</h5>
@@ -134,19 +132,17 @@ function HomePage() {
         </div>
       </div>
 
-      {/* Teachers Section */}
+      {}
       <div className="teachers-section">
         <div className="container">
           <div className="section-header">
-            <div className="d-flex justify-content-between align-items-center">
-              <div>
-                <h2>Our Expert Instructors</h2>
-                <p>Learn from industry professionals and experienced educators</p>
-              </div>
-              <Link to="/teachers" className="btn btn-outline-primary btn-lg">
-                View All Teachers
-              </Link>
+            <div>
+              <h2>Our Expert Instructors</h2>
+              <p>Learn from industry professionals and experienced educators</p>
             </div>
+            <Link to="/teachers" className="btn btn-primary">
+              View All Teachers
+            </Link>
           </div>
 
           {teachers.length === 0 ? (
@@ -219,10 +215,10 @@ function HomePage() {
         </div>
       </div>
 
-      {/* Footer */}
+      {}
       <footer className="footer">
         <div className="container text-center">
-          <p>&copy; 2024 LMS Portal. All rights reserved.</p>
+          <p>Â© Ahsan Ahzam Ali</p>
         </div>
       </footer>
     </div>

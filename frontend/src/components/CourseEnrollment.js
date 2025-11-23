@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import API from "../api";
 import "./CourseEnrollment.css";
@@ -249,7 +249,7 @@ function CourseEnrollment() {
   return (
     <div className="course-enrollment">
       <div className="container-fluid py-4">
-        {/* Header */}
+        {}
         <div className="enrollment-header mb-5">
           <div className="row align-items-center">
             <div className="col-md-8">
@@ -280,7 +280,7 @@ function CourseEnrollment() {
           </div>
         </div>
 
-        {/* Search and Filter */}
+        {}
         <div className="filter-section mb-4">
           <div className="row g-3">
             <div className="col-md-6">
@@ -309,7 +309,7 @@ function CourseEnrollment() {
           </div>
         </div>
 
-        {/* Courses Grid */}
+        {}
         {filteredCourses.length === 0 ? (
           <div className="alert alert-info text-center" role="alert">
             <h5>No courses found</h5>
@@ -329,7 +329,7 @@ function CourseEnrollment() {
                         )}
                       </div>
                       <span className="enrollment-count" title="Students enrolled">
-                        👥 {course.enrollment_count}
+                        ðŸ‘¥ {course.enrollment_count}
                       </span>
                     </div>
 
@@ -386,7 +386,7 @@ function CourseEnrollment() {
           </div>
         )}
 
-        {/* Summary Stats */}
+        {}
         <div className="row mt-5">
           <div className="col-md-12">
             <div className="stats-card">
@@ -408,7 +408,7 @@ function CourseEnrollment() {
           </div>
         </div>
 
-        {/* Payment Modal */}
+        {}
         {showPaymentModal && selectedCourse && (
           <div className="modal d-block" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
             <div className="modal-dialog modal-lg">
@@ -452,16 +452,16 @@ function CourseEnrollment() {
                     </select>
                   </div>
 
-                  {/* Credit Card Form */}
+                  {}
                   {paymentDetails.method === "credit-card" && (
                     <div className="p-4 text-center bg-light rounded">
-                      <h5 className="mb-2">🚀 Coming Soon</h5>
+                      <h5 className="mb-2">ðŸš€ Coming Soon</h5>
                       <p className="text-muted mb-3">Credit Card payment will be available soon. Please use Easypaisa for now.</p>
                       <span className="badge bg-warning text-dark px-3 py-2">COMING SOON</span>
                     </div>
                   )}
 
-                  {/* Easypaisa Form */}
+                  {}
                   {paymentDetails.method === "easypaisa" && (
                     <div>
                       <div className="mb-3">
@@ -511,7 +511,7 @@ function CourseEnrollment() {
                           </button>
                           {otpVerified && (
                             <div className="alert alert-success">
-                              ✓ OTP Verified Successfully
+                              âœ“ OTP Verified Successfully
                             </div>
                           )}
                         </div>
@@ -519,10 +519,10 @@ function CourseEnrollment() {
                     </div>
                   )}
 
-                  {/* Bank Transfer Form */}
+                  {}
                   {paymentDetails.method === "bank-transfer" && (
                     <div className="p-4 text-center bg-light rounded">
-                      <h5 className="mb-2">🚀 Coming Soon</h5>
+                      <h5 className="mb-2">ðŸš€ Coming Soon</h5>
                       <p className="text-muted mb-3">Bank Transfer payment will be available soon. Please use Easypaisa for now.</p>
                       <span className="badge bg-warning text-dark px-3 py-2">COMING SOON</span>
                     </div>
@@ -554,3 +554,4 @@ function CourseEnrollment() {
 }
 
 export default CourseEnrollment;
+

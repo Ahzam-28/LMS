@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 
 function Navbar({ user, setUser }) {
   const navigate = useNavigate();
   const [showComingSoon, setShowComingSoon] = useState(false);
+  const [activeLink, setActiveLink] = useState(null);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -25,8 +26,8 @@ function Navbar({ user, setUser }) {
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
-          <Link className="navbar-brand" to="/" style={{ color: "white" }}>
-            <strong>LMS Portal</strong>
+          <Link className="navbar-brand" to="/" style={{ color: "black" }}>
+            <strong>PARHAI WARHAI</strong>
           </Link>
           <button
             className="navbar-toggler"
@@ -143,3 +144,4 @@ function Navbar({ user, setUser }) {
 }
 
 export default Navbar;
+

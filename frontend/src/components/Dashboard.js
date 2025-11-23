@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import API from "../api";
 import "./Dashboard.css";
@@ -282,60 +282,91 @@ function Dashboard({ user, setUser }) {
     <div className="dashboard-container">
       <div className="dashboard-content">
         <div className="container-fluid py-4">
-          {/* Profile Card */}
+          {}
           <div className="row mb-4">
             <div className="col-md-12">
               <div className="card profile-card">
                 <div className="card-body">
-                  <div className="row align-items-center">
-                    <div className="col-md-8">
-                      <h3 className="card-title mb-2">
-                        {user.role === "student" ? "Student Profile" : "Teacher Profile"}
-                      </h3>
-                      <p className="mb-1">
-                        <strong>Name:</strong> {user.username}
-                      </p>
-                      <p className="mb-1">
-                        <strong>Email:</strong> {user.email || "N/A"}
-                      </p>
-                      <p className="mb-1">
-                        <strong>Qualification:</strong> {user.profile?.qualification || "N/A"}
-                      </p>
-                      <p className="mb-1">
-                        <strong>Mobile:</strong> {user.profile?.mobile_no || "N/A"}
-                      </p>
-                      {user.role === "student" && (
-                        <p className="mb-0">
-                          <strong>Interested Categories:</strong>{" "}
-                          {user.profile?.interested_categories || "Not specified"}
-                        </p>
-                      )}
-                      {user.role === "teacher" && (
-                        <>
-                          <p className="mb-0">
-                            <strong>Experience:</strong> {user.profile?.experience || "N/A"} years
-                          </p>
-                          <p className="mb-0">
-                            <strong>Expertise:</strong> {user.profile?.expertise || "N/A"}
-                          </p>
-                        </>
-                      )}
+                  <div className="profile-header mb-4">
+                    <div className="profile-avatar">
+                      <i className={`fas ${user.role === "student" ? "fa-user-graduate" : "fa-chalkboard-user"}`}></i>
                     </div>
-                    <div className="col-md-4 text-end">
-                      <button
-                        className="btn btn-primary"
-                        onClick={handleOpenEditModal}
-                      >
-                        <i className="fas fa-edit me-2"></i> Edit Profile
-                      </button>
+                    <div className="profile-header-content">
+                      <h2 className="profile-name">{user.username}</h2>
+                      <p className="profile-role">{user.role === "student" ? "ðŸŽ“ Student" : "ðŸ‘¨â€ðŸ« Teacher"}</p>
+                      <p className="profile-email"><i className="fas fa-envelope me-2"></i>{user.email || "N/A"}</p>
                     </div>
+                    <button
+                      className="btn btn-primary ms-auto"
+                      onClick={handleOpenEditModal}
+                    >
+                      <i className="fas fa-edit me-2"></i> Edit Profile
+                    </button>
+                  </div>
+
+                  <div className="profile-info-grid">
+                    <div className="info-item">
+                      <div className="info-icon">
+                        <i className="fas fa-award"></i>
+                      </div>
+                      <div className="info-content">
+                        <p className="info-label">Qualification</p>
+                        <p className="info-value">{user.profile?.qualification || "Not specified"}</p>
+                      </div>
+                    </div>
+
+                    <div className="info-item">
+                      <div className="info-icon">
+                        <i className="fas fa-phone"></i>
+                      </div>
+                      <div className="info-content">
+                        <p className="info-label">Mobile</p>
+                        <p className="info-value">{user.profile?.mobile_no || "Not specified"}</p>
+                      </div>
+                    </div>
+
+                    {user.role === "student" && (
+                      <div className="info-item">
+                        <div className="info-icon">
+                          <i className="fas fa-heart"></i>
+                        </div>
+                        <div className="info-content">
+                          <p className="info-label">Interested In</p>
+                          <p className="info-value">{user.profile?.interested_categories || "Not specified"}</p>
+                        </div>
+                      </div>
+                    )}
+
+                    {user.role === "teacher" && (
+                      <>
+                        <div className="info-item">
+                          <div className="info-icon">
+                            <i className="fas fa-briefcase"></i>
+                          </div>
+                          <div className="info-content">
+                            <p className="info-label">Experience</p>
+                            <p className="info-value">{user.profile?.experience || "N/A"} years</p>
+                          </div>
+                        </div>
+
+                        <div className="info-item">
+                          <div className="info-icon">
+                            <i className="fas fa-star"></i>
+                          </div>
+                          <div className="info-content">
+                            <p className="info-label">Expertise</p>
+                            <p className="info-value">{user.profile?.expertise || "Not specified"}</p>
+                          </div>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Statistics Cards */}
+          {}
           {user.role === "student" ? (
             <div className="row mb-4">
               <div className="col-md-12">
@@ -368,14 +399,14 @@ function Dashboard({ user, setUser }) {
             </div>
           )}
 
-          {/* Courses Section */}
+          {}
           <div className="row">
             <div className="col-md-12">
               <h2 className="section-title">
                 {user.role === "student" ? "Enrolled Courses" : "My Courses"}
               </h2>
 
-              {/* Add Course Section for Teachers */}
+              {}
               {user.role === "teacher" && (
                 <div className="mb-4">
                   <button
@@ -536,18 +567,18 @@ function Dashboard({ user, setUser }) {
                               {enrollment.course_details?.description.substring(0, 80)}...
                             </p>
                             <p className="course-category">
-                              <small className="text-muted">
+                              <small>
                                 {enrollment.course_details?.category_details?.title || "Uncategorized"}
                               </small>
                             </p>
                             <div className="course-info mt-3">
                               <p className="mb-1">
-                                <small className="text-muted">
+                                <small>
                                   <strong>Enrolled:</strong> {enrollment.enrollment_date}
                                 </small>
                               </p>
                               <p className="mb-0">
-                                <small className="text-muted">
+                                <small>
                                   <strong>Status:</strong>{" "}
                                   <span className="badge bg-success">{enrollment.status}</span>
                                 </small>
@@ -596,7 +627,7 @@ function Dashboard({ user, setUser }) {
                           </div>
                           <div className="enrollment-badge">
                             <span className="badge bg-info">
-                              👥 {course.enrollment_count} {course.enrollment_count === 1 ? "Student" : "Students"}
+                              ðŸ‘¥ {course.enrollment_count} {course.enrollment_count === 1 ? "Student" : "Students"}
                             </span>
                           </div>
                           <h5 className="course-title">{course.title}</h5>
@@ -604,13 +635,13 @@ function Dashboard({ user, setUser }) {
                             {course.description.substring(0, 80)}...
                           </p>
                           <p className="course-category">
-                            <small className="text-muted">
+                            <small>
                               {course.category_details?.title || "Uncategorized"}
                             </small>
                           </p>
                           <div className="course-info mt-3">
                             <p className="mb-1">
-                              <small className="text-muted">
+                              <small>
                                 <strong>Price:</strong> PKR {parseFloat(course.price).toFixed(2)}
                               </small>
                             </p>
@@ -658,7 +689,7 @@ function Dashboard({ user, setUser }) {
         </div>
       </div>
 
-      {/* Edit Profile Modal */}
+      {}
       {showEditModal && (
         <div className="modal d-block" style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
           <div className="modal-dialog modal-dialog-centered">
@@ -770,4 +801,5 @@ function Dashboard({ user, setUser }) {
 }
 
 export default Dashboard;
+
 
