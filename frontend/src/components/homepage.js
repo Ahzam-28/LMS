@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import API from "../api";
 import "./HomePage.css";
@@ -102,7 +102,7 @@ function HomePage() {
                   <div className="course-card-header">
                     <span className="badge">{course.code}</span>
                     <span className="enrollment-badge-small">
-                      ðŸ‘¥ {course.enrollment_count}
+                      👥 {course.enrollment_count}
                     </span>
                   </div>
                   <h5 className="course-card-title">{course.title}</h5>
@@ -218,7 +218,7 @@ function HomePage() {
       {}
       <footer className="footer">
         <div className="container text-center">
-          <p>Â© Ahsan Ahzam Ali</p>
+          <p><i className="fas fa-copyright me-1"></i>Ahsan Ahzam Ali</p>
         </div>
       </footer>
     </div>
@@ -226,3 +226,4 @@ function HomePage() {
 }
 
 export default HomePage;
+

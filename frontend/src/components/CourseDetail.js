@@ -2239,7 +2239,7 @@ function CourseDetail() {
               <div className="modal-footer">
                 <button
                   type="button"
-                  className="btn-success btn-lg w-100"
+                  className="btn btn-success btn-lg w-100"
                   onClick={handleProcessPayment}
                   disabled={
                     paymentProcessing ||
@@ -2269,7 +2269,7 @@ function CourseDetail() {
                 </button>
                 <button
                   type="button"
-                  className="btn-secondary w-100"
+                  className="btn btn-secondary w-100"
                   onClick={() => setShowPaymentModal(false)}
                   disabled={paymentProcessing}
                 >
@@ -2286,6 +2286,7 @@ function CourseDetail() {
 }
 
 export default CourseDetail;
+
 
 
 
