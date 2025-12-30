@@ -202,5 +202,5 @@ The system is ready for production deployment and can serve as foundation for sc
 
 ---
 
-**Status:** Ready for Submission
+
 **Authors:** Ahsan Faizan, Ahzam Hassan, Ali samad
