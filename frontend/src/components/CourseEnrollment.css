@@ -1,0 +1,302 @@
+﻿.course-enrollment {
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+  min-height: 100vh;
+  padding-bottom: 50px;
+  flex-grow: 1;
+  position: relative;
+}
+
+.course-enrollment::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 300px;
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+  z-index: 0;
+}
+
+.enrollment-header {
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+  color: white;
+  padding: 3rem 2rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 50, 50, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 50, 50, 0.15);
+  position: relative;
+  z-index: 1;
+}
+
+.enrollment-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, #ff3232 0%, #ff0000 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.enrollment-header .text-muted {
+  color: #c0c0c0 !important;
+  font-size: 1.1rem;
+  opacity: 0.95;
+}
+
+.filter-section {
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 50, 50, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.filter-section .form-control,
+.filter-section .form-select {
+  background-color: #0a0a0a;
+  border: 1px solid rgba(255, 50, 50, 0.3);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  color: #ffffff;
+}
+
+.filter-section .form-control::placeholder {
+  color: #999;
+}
+
+.filter-section .form-control:focus,
+.filter-section .form-select:focus {
+  border-color: #ff3232;
+  box-shadow: 0 0 0 3px rgba(255, 50, 50, 0.2);
+  outline: none;
+  background-color: #0a0a0a;
+  color: #ffffff;
+}
+
+.course-card {
+  background: #0a0a0a;
+  border: 2px solid rgba(240, 240, 255, 0.3);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-shadow: 0 0 20px rgba(240, 240, 255, 0.2), 0 8px 32px rgba(0, 0, 0, 0.8);
+  position: relative;
+}
+
+.course-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(240, 240, 255, 0.6), rgba(240, 240, 255, 0.2));
+}
+
+.course-card:hover {
+  box-shadow: 0 0 30px rgba(240, 240, 255, 0.4), 0 8px 40px rgba(0, 0, 0, 0.9);
+  transform: translateY(-8px);
+  border-color: rgba(240, 240, 255, 0.6);
+}
+
+.course-card-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.course-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.enrollment-count {
+  background: #4299e1;
+  color: white;
+  padding: 0.4rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.course-code {
+  background: #ffe5eb;
+  color: #8B0000;
+  padding: 0.35rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.course-code.enrolled {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.course-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+  min-height: 2.5rem;
+}
+
+.course-description {
+  color: #ffffff;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  flex-grow: 1;
+  line-height: 1.6;
+}
+
+.course-category {
+  margin-bottom: 0.75rem;
+  display: block;
+  color: #ffffff;
+  font-size: 0.85rem;
+}
+
+.course-meta {
+  background: rgba(255, 50, 50, 0.05);
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(255, 50, 50, 0.15);
+}
+
+.course-meta p {
+  margin-bottom: 0.5rem;
+  color: #ffffff;
+}
+
+.course-meta p:last-child {
+  margin-bottom: 0;
+}
+
+.course-meta strong {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.course-footer {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 50, 50, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.course-footer .btn {
+  border-radius: 8px;
+  font-weight: 600;
+  padding: 0.65rem 1rem;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.course-footer .btn-primary {
+  background: linear-gradient(135deg, #ff3232 0%, #ff0000 100%);
+  border: none;
+  color: black;
+}
+
+.course-footer .btn-primary:hover {
+  background: linear-gradient(135deg, #ff5555 0%, #ff2222 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 50, 50, 0.4);
+}
+
+.course-footer .btn-outline-primary {
+  color: #00ff00;
+  border: 2px solid #00ff00;
+}
+
+.course-footer .btn-outline-primary:hover {
+  background: #00ff00;
+  color: #000000;
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+}
+
+.stats-card {
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 50, 50, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+.stats-card h5 {
+  font-size: 2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #ff3232 0%, #ff0000 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+}
+
+.stats-card p {
+  color: #c0c0c0;
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.badge {
+  font-size: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .enrollment-header {
+    margin: 0 -15px;
+  }
+
+  .enrollment-header h1 {
+    font-size: 2rem;
+  }
+
+  .enrollment-header .text-end {
+    margin-top: 1rem;
+    text-align: left !important;
+  }
+
+  .course-enrollment .container-fluid {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .filter-section {
+    padding: 1.5rem;
+  }
+
+  .stats-card {
+    padding: 1.5rem;
+  }
+
+  .stats-card h5 {
+    font-size: 1.5rem;
+  }
+}
+
