@@ -1,6 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter 
 from .views import TeacherViewSet, StudentViewSet , CourseViewSet , CourseCategoryViewSet , EnrollmentViewSet , LessonViewSet , LessonCategoryViewSet , LessonFileViewSet , AssignmentViewSet , SubmissionViewSet , QuizViewSet , QuestionViewSet , AnswerViewSet , ResultViewSet , PaymentViewSet , FeedbackViewSet , ResourceViewSet , FileSubmissionViewSet , RegisterView, LoginView, OTPViewSet
+from .views import FileUploadView
 
 router = DefaultRouter()
 router.register(r'teacher', TeacherViewSet)
@@ -25,6 +26,7 @@ router.register(r'otp', OTPViewSet, basename='otp')
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('upload/', FileUploadView.as_view(), name='file-upload'),
     path('register/', RegisterView.as_view(), name='register'),
     path('login/', LoginView.as_view(), name='login'),
 ]

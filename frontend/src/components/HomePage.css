@@ -5,22 +5,22 @@
   background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
 }
 
-.navbar {
+.home-page .navbar {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-  background: #1a1a1a !important;
+  background: #1a1a1a;
   border-bottom: 1px solid rgba(45, 0, 0, 0.3);
 }
 
-.navbar-brand {
+.home-page .navbar-brand {
   font-size: 1.5rem;
-  color: #ff4444 !important;
+  color: #ff4444;
   font-weight: 800;
   letter-spacing: -0.5px;
   text-shadow: 0 0 10px rgba(255, 68, 68, 0.3);
 }
 
-.navbar-nav .nav-link {
-  color: #ccc !important;
+.home-page .navbar-nav .nav-link {
+  color: #ccc;
   font-weight: 500;
   margin-left: 1.5rem;
   transition: all 0.3s ease;
@@ -28,12 +28,12 @@
   letter-spacing: 0.3px;
 }
 
-.navbar-nav .nav-link:hover {
-  color: #ff4444 !important;
+.home-page .navbar-nav .nav-link:hover {
+  color: #ff4444;
   text-shadow: 0 0 8px rgba(255, 68, 68, 0.5);
 }
 
-.navbar-nav .nav-link::after {
+.home-page .navbar-nav .nav-link::after {
   content: "";
   position: absolute;
   bottom: -2px;
@@ -44,21 +44,21 @@
   transition: width 0.3s ease;
 }
 
-.navbar-nav .nav-link:hover::after {
+.home-page .navbar-nav .nav-link:hover::after {
   width: 100%;
   box-shadow: 0 0 8px rgba(45, 0, 0, 0.6);
 }
 
-.navbar-nav .btn-link {
-  color: #ccc !important;
+.home-page .navbar-nav .btn-link {
+  color: #ccc;
   border: none;
   padding: 0.5rem 0;
   text-decoration: none;
   font-weight: 500;
 }
 
-.navbar-nav .btn-link:hover {
-  color: #ff4444 !important;
+.home-page .navbar-nav .btn-link:hover {
+  color: #ff4444;
   text-shadow: 0 0 8px rgba(255, 68, 68, 0.5);
 }
 
@@ -137,7 +137,7 @@
 
 .hero-buttons .btn-primary:hover {
   background: linear-gradient(135deg, #3D0000 0%, #2a0000 100%);
-  transform: translateY(-2px);
+  transform: none;
   box-shadow: 0 8px 25px rgba(255, 68, 68, 0.4);
   text-shadow: 0 0 8px rgba(255, 68, 68, 0.5);
 }
@@ -150,7 +150,7 @@
 
 .hero-buttons .btn-outline-primary:hover {
   background: rgba(45, 0, 0, 0.2);
-  transform: translateY(-2px);
+  transform: none;
   box-shadow: 0 0 12px rgba(255, 68, 68, 0.3);
 }
 
@@ -202,6 +202,25 @@
   margin: 0;
 }
 
+/* Make the View All buttons match the dark red logout gradient */
+.section-header .btn.btn-primary,
+.teachers-section .section-header .btn.btn-primary {
+  background: linear-gradient(135deg, #7a0000 0%, #2D0000 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(90,0,0,0.12) !important;
+  box-shadow: 0 6px 18px rgba(45, 0, 0, 0.28);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 700;
+}
+
+.section-header .btn.btn-primary:hover,
+.teachers-section .section-header .btn.btn-primary:hover {
+  background: linear-gradient(135deg, #6a0000 0%, #2a0000 100%) !important;
+  color: #ffdddd !important;
+  transform: none;
+}
+
 .courses-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -210,9 +229,9 @@
 }
 
 .course-grid-card {
-  background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+  background: linear-gradient(135deg, #000000 0%, #120000 45%, #2D0000 100%);
   border-radius: 8px;
-  border: 1px solid rgba(45, 0, 0, 0.3);
+  border: 1px solid #2D0000;
   padding: 1.5rem;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), 0 0 20px rgba(45, 0, 0, 0.1);
@@ -237,9 +256,9 @@
 }
 
 .course-grid-card:hover {
-  box-shadow: 0 8px 24px rgba(45, 0, 0, 0.4), 0 0 25px rgba(255, 68, 68, 0.15);
-  transform: translateY(-4px);
-  border-color: rgba(45, 0, 0, 0.5);
+  box-shadow: 0 8px 24px rgba(45, 0, 0, 0.45), 0 0 30px rgba(255, 68, 68, 0.18);
+  transform: none;
+  border-color: rgba(45, 0, 0, 0.7);
 }
 
 .course-grid-card:hover::before {
@@ -295,11 +314,15 @@
 }
 
 .course-card-category {
-  color: #666;
+  color: rgba(240,240,255,0.92);
   font-size: 0.8rem;
   margin-bottom: 1rem;
   display: block;
   font-weight: 500;
+}
+
+.course-card-category small {
+  color: rgba(240,240,255,0.85);
 }
 
 .course-card-footer {
@@ -348,6 +371,115 @@
   margin-top: 2rem;
 }
 
+/* Courses carousel: reuse the same arrow style as teachers */
+.courses-carousel-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  margin-top: 1.25rem;
+}
+
+.courses-carousel {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 0 64px; /* leave space for arrows */
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* hide firefox scrollbar */
+}
+
+.course-carousel-item {
+  min-width: 280px;
+  max-width: 320px;
+  flex: 0 0 auto;
+}
+
+/* ensure arrows match teacher arrows */
+.courses-carousel-wrapper .carousel-arrow {
+  background: rgba(45, 0, 0, 0.2);
+  color: #ccc;
+  border: 1px solid rgba(45, 0, 0, 0.3);
+  border-radius: 6px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+/* Position course carousel arrows absolutely so they sit outside the cards
+   and nudge the right arrow further right to account for 4 visible cards */
+.courses-carousel-wrapper {
+  position: relative;
+  overflow: hidden; /* hide native scrollbar and keep cards inside */
+}
+.courses-carousel {
+  padding: 0 64px; /* more room for arrows */
+}
+.courses-carousel-wrapper .carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+}
+.courses-carousel-wrapper .carousel-arrow.carousel-arrow-left {
+  left: 12px;
+}
+.courses-carousel-wrapper .carousel-arrow.carousel-arrow-right {
+  right: -12px; /* place right arrow slightly outside container */
+}
+
+@media (max-width: 768px) {
+  .courses-carousel {
+    padding: 0.5rem 12px;
+  }
+  .courses-carousel-wrapper .carousel-arrow {
+    position: relative;
+    top: auto;
+    transform: none;
+    right: auto;
+    left: auto;
+  }
+}
+
+/* Strong overrides: place course carousel arrows outside the container on desktop */
+@media (min-width: 769px) {
+  .home-page .courses-section .courses-carousel-wrapper .carousel-arrow.carousel-arrow-left {
+    left: -42px !important;
+  }
+  .home-page .courses-section .courses-carousel-wrapper .carousel-arrow.carousel-arrow-right {
+    right: -46px !important;
+  }
+  /* Ensure arrows sit above the carousel and are not clipped */
+  .home-page .courses-section .courses-carousel-wrapper {
+    overflow: visible !important;
+  }
+  .home-page .courses-section .courses-carousel-wrapper .carousel-arrow {
+    z-index: 9999 !important;
+    pointer-events: auto !important;
+  }
+}
+
+/* Force arrow button size to 40x40 across desktop and default views */
+.home-page .courses-section .courses-carousel-wrapper .carousel-arrow,
+.carousel-arrow {
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+  min-height: 40px !important;
+}
+
+/* hide webkit scrollbar for courses carousel */
+.courses-carousel::-webkit-scrollbar {
+  display: none;
+}
+
 .carousel-arrow {
   background: rgba(45, 0, 0, 0.2);
   color: #ccc;
@@ -372,8 +504,72 @@
   box-shadow: 0 0 12px rgba(255, 68, 68, 0.3);
 }
 
+/* Make course carousel arrows match instructor arrows exactly */
+.courses-carousel-wrapper .carousel-arrow {
+  background: rgba(45, 0, 0, 0.2) !important;
+  color: #ccc !important;
+  border: 1px solid rgba(45, 0, 0, 0.3) !important;
+  transition: all 0.2s ease !important;
+}
+.courses-carousel-wrapper .carousel-arrow svg {
+  color: inherit !important;
+}
+.courses-carousel-wrapper .carousel-arrow:hover {
+  background: rgba(45, 0, 0, 0.5) !important;
+  color: #ff4444 !important;
+  border-color: #2D0000 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 0 12px rgba(255, 68, 68, 0.3) !important;
+}
+
 .carousel-arrow:active {
   transform: translateY(0);
+}
+
+/* Align Available Courses arrows with Expert Instructors arrows (minimal override) */
+.courses-carousel-wrapper .carousel-arrow.carousel-arrow-left {
+  left: 12px !important;
+}
+.courses-carousel-wrapper .carousel-arrow.carousel-arrow-right {
+  right: -48px !important;
+}
+.courses-carousel-wrapper .carousel-arrow {
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  z-index: 3 !important;
+}
+
+/* Profile card styling: match dashboard/profile appearance with dark-red gradient */
+.profile-card {
+  background: linear-gradient(135deg, #000000 0%, #110000 46%, #2D0000 100%);
+  border: 1px solid #2D0000;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 20px rgba(255,68,68,0.12);
+  margin-bottom: 2rem;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  position: relative;
+}
+
+.profile-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #ff3232 0%, #ff0000 100%);
+}
+
+.profile-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(45, 0, 0, 0.7);
+  box-shadow: 0 16px 48px rgba(255,68,68,0.16), 0 0 30px rgba(255,68,68,0.08);
+}
+
+.profile-card .card-body {
+  padding: 1.5rem;
+  color: #f0f0ff;
 }
 
 .teachers-carousel {
@@ -403,12 +599,12 @@
 }
 
 .teacher-card {
-  background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+  background: linear-gradient(135deg, #000000 0%, #110000 46%, #2D0000 100%);
   border-radius: 8px;
-  border: 1px solid rgba(45, 0, 0, 0.3);
+  border: 1px solid #2D0000;
   padding: 1.5rem;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), 0 0 20px rgba(45, 0, 0, 0.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.55), 0 0 22px rgba(45, 0, 0, 0.12);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -426,16 +622,16 @@
   right: -50%;
   width: 200px;
   height: 200px;
-  background: radial-gradient(circle, rgba(45, 0, 0, 0.15) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(45, 0, 0, 0.22) 0%, transparent 70%);
   border-radius: 50%;
   transition: all 0.3s ease;
   z-index: 0;
 }
 
 .teacher-card:hover {
-  box-shadow: 0 8px 24px rgba(45, 0, 0, 0.4), 0 0 25px rgba(255, 68, 68, 0.15);
-  transform: translateY(-4px);
-  border-color: rgba(45, 0, 0, 0.5);
+  box-shadow: 0 12px 36px rgba(255, 68, 68, 0.14), 0 0 30px rgba(255, 68, 68, 0.12);
+  transform: none;
+  border-color: rgba(45, 0, 0, 0.7);
   text-decoration: none;
 }
 
@@ -530,7 +726,7 @@
 
 .teacher-card-footer .btn:hover {
   background: linear-gradient(135deg, #3D0000 0%, #2a0000 100%);
-  transform: translateY(-1px);
+  transform: none;
   box-shadow: 0 0 12px rgba(255, 68, 68, 0.3);
 }
 
@@ -542,6 +738,90 @@
   margin-top: auto;
   border-top: 1px solid rgba(45, 0, 0, 0.3);
 }
+  
+  /* Footer LinkedIn icon animation */
+  .footer a .fa-linkedin {
+    color: #ff1a1a; /* bright red */
+    -webkit-text-stroke: 0.6px #000;
+    text-stroke: 0.6px #000;
+    font-size: 1.05rem;
+    display: inline-block;
+    vertical-align: middle;
+    transition: transform 220ms cubic-bezier(.2,.8,.2,1), color 180ms ease, text-shadow 180ms ease;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    animation: linkedinFloat 4s ease-in-out infinite;
+  }
+  
+  .footer a .fa-linkedin:hover {
+    transform: translateY(-6px) scale(1.18) rotate(-6deg);
+    color: #ff4444;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 0 8px rgba(255,68,68,0.35);
+  }
+  
+  @keyframes linkedinFloat {
+    0% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-4px) rotate(-2deg); }
+    50% { transform: translateY(0px) rotate(0deg); }
+    75% { transform: translateY(-3px) rotate(1deg); }
+    100% { transform: translateY(0) rotate(0deg); }
+  }
+
+  /* GitHub icon animation and style */
+  .footer a .fa-github {
+    color: #111;
+    font-size: 1.02rem;
+    display: inline-block;
+    vertical-align: middle;
+    transition: transform 220ms cubic-bezier(.2,.8,.2,1), color 180ms ease, filter 180ms ease;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.45));
+    animation: githubFloat 4.6s ease-in-out infinite;
+  }
+
+  .footer a .fa-github:hover {
+    transform: translateY(-6px) scale(1.14) rotate(6deg);
+    color: #ffffff;
+    filter: drop-shadow(0 6px 18px rgba(0,0,0,0.7));
+  }
+
+  @keyframes githubFloat {
+    0% { transform: translateY(0) rotate(0deg); }
+    20% { transform: translateY(-3px) rotate(-3deg); }
+    50% { transform: translateY(0px) rotate(0deg); }
+    80% { transform: translateY(-2px) rotate(2deg); }
+    100% { transform: translateY(0) rotate(0deg); }
+  }
+
+  /* Ensure footer icons have high contrast and a visible circular background */
+  .footer a.footer-link,
+  .footer a.footer-github {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin: 0 6px;
+    text-decoration: none;
+    background: rgba(255,255,255,0.03);
+    transition: background 180ms ease, transform 180ms ease;
+  }
+
+  .footer a.footer-link:hover,
+  .footer a.footer-github:hover {
+    background: rgba(255,255,255,0.06);
+  }
+
+  .footer a.footer-link .fa-linkedin {
+    color: #ff3b3b; /* brighter red */
+    -webkit-text-stroke: 0.6px #000;
+    text-stroke: 0.6px #000;
+    font-size: 1.02rem;
+  }
+
+  .footer a.footer-github .fa-github {
+    color: #ffffff; /* white for visibility */
+    font-size: 1.02rem;
+  }
 
 .footer p {
   margin: 0;
@@ -610,11 +890,11 @@
     padding: 2rem 0;
   }
 
-  .navbar-brand {
+  .home-page .navbar-brand {
     font-size: 1.25rem;
   }
 
-  .navbar-nav .nav-link {
+  .home-page .navbar-nav .nav-link {
     margin-left: 0;
   }
 

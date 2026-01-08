@@ -1,4 +1,4 @@
-﻿import React, { useState } from "react";
+﻿import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 
@@ -6,6 +6,7 @@ function Navbar({ user, setUser }) {
   const navigate = useNavigate();
   const [showComingSoon, setShowComingSoon] = useState(false);
   const [activeLink, setActiveLink] = useState(null);
+  const [scrolled, setScrolled] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -13,6 +14,15 @@ function Navbar({ user, setUser }) {
     setUser(null);
     navigate("/");
   };
+
+  useEffect(() => {
+    const onScroll = () => {
+      setScrolled(window.scrollY > 24);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const handleMessagesClick = () => {
     setShowComingSoon(true);
@@ -24,9 +34,10 @@ function Navbar({ user, setUser }) {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className={`navbar navbar-expand-lg ${scrolled ? "scrolled" : ""}`}>
         <div className="container-fluid">
-          <Link className="navbar-brand" to="/" style={{ color: "black" }}>
+          <Link className="navbar-brand" to="/">
+            <i className="fas fa-book-open navbar-brand-icon me-2" aria-hidden="true"></i>
             <strong>PARHAI WARHAI</strong>
           </Link>
           <button
@@ -47,6 +58,11 @@ function Navbar({ user, setUser }) {
                   Home
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/courses">
+                  Explore
+                </Link>
+              </li>
 
               {user ? (
                 <>
@@ -64,29 +80,16 @@ function Navbar({ user, setUser }) {
                   </li>
                   <li className="nav-item">
                     <button
-                      className="nav-link"
+                      className="nav-link messages-btn"
                       onClick={handleMessagesClick}
-                      style={{
-                        cursor: "pointer",
-                        border: "none",
-                        background: "none",
-                        textDecoration: "none",
-                        color: "inherit",
-                      }}
                     >
-                      <i className="fas fa-envelope me-2"></i>Messages
+                      <i className="fas fa-envelope me-2" aria-hidden="true"></i>Messages
                     </button>
                   </li>
                   <li className="nav-item">
                     <button
-                      className="nav-link btn btn-link"
+                      className="nav-link btn btn-link logout-btn"
                       onClick={handleLogout}
-                      style={{
-                        cursor: "pointer",
-                        border: "none",
-                        background: "none",
-                        textDecoration: "none",
-                      }}
                     >
                       Logout ({user.username})
                     </button>

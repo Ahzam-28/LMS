@@ -458,6 +458,11 @@ function CourseDetail() {
       description: category.description,
     });
     setShowAddCategory(true);
+    // scroll to the category editor when it's shown
+    setTimeout(() => {
+      const el = document.getElementById("category-editor");
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 120);
   };
 
   const handleUpdateCategory = async (e) => {
@@ -519,6 +524,11 @@ function CourseDetail() {
       category: lesson.category || null,
     });
     setShowAddLesson(true);
+    // scroll to the lesson editor when it's shown
+    setTimeout(() => {
+      const el = document.getElementById("lesson-editor");
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 120);
   };
 
   const handleUpdateLesson = async (e) => {
@@ -640,13 +650,20 @@ function CourseDetail() {
     e.preventDefault();
     if (!course) return;
 
+    // Validate price is non-negative
+    const priceVal = parseFloat(courseFormData.price);
+    if (isNaN(priceVal) || priceVal < 0) {
+      alert("Price cannot be negative.");
+      return;
+    }
+
     setSubmittingCourse(true);
     try {
       const payload = {
         title: courseFormData.title,
         description: courseFormData.description,
         code: courseFormData.code,
-        price: courseFormData.price,
+        price: priceVal,
       };
 
       await API.patch(`/course/${course.id}/`, payload);
@@ -861,17 +878,28 @@ function CourseDetail() {
 
   const handleAddFile = async (e, lessonId) => {
     e.preventDefault();
-    if (!fileFormData.title || !fileFormData.file_url) {
+    if (!fileFormData.title || (!fileFormData.file_url && !fileFormData.file_blob)) {
       alert("Please fill in all required fields");
       return;
     }
 
     setSubmittingFile(true);
     try {
+      // If a local file blob was selected, upload it to the server first
+      let finalFileUrl = fileFormData.file_url;
+      if (fileFormData.file_blob) {
+        const fd = new FormData();
+        fd.append('file', fileFormData.file_blob);
+        const uploadResp = await API.post('upload/', fd, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        finalFileUrl = uploadResp.data.url;
+      }
+
       const payload = {
         lesson: lessonId,
         title: fileFormData.title,
-        file_url: fileFormData.file_url,
+        file_url: finalFileUrl,
       };
 
       if (editingFileId) {
@@ -912,6 +940,10 @@ function CourseDetail() {
         file_url: "",
         lesson: null,
       });
+      // revoke any created local object URL
+      try {
+        if (fileFormData && fileFormData.local_url) URL.revokeObjectURL(fileFormData.local_url);
+      } catch (err) {}
       setShowAddFile({});
     } catch (error) {
       alert("Failed to add/update file. Please try again.");
@@ -1031,7 +1063,7 @@ function CourseDetail() {
         className="btn-outline-secondary"
         onClick={() => navigate("/courses")}
       >
-        â† Back to Courses
+        <i className="fas fa-arrow-left me-2" aria-hidden="true"></i> Back to Courses
       </button>
 
       <div className="course-detail-row">
@@ -1080,6 +1112,7 @@ function CourseDetail() {
                       value={courseFormData.price}
                       onChange={(e) => setCourseFormData({ ...courseFormData, price: e.target.value })}
                       step="0.01"
+                      min="0"
                       required
                     />
                   </div>
@@ -1101,14 +1134,7 @@ function CourseDetail() {
                     >
                       {submittingCourse ? "Updating..." : "Update Course"}
                     </button>
-                    <button
-                      type="button"
-                      className="btn-secondary"
-                      onClick={() => setEditingCourse(false)}
-                      disabled={submittingCourse}
-                    >
-                      Cancel
-                    </button>
+                    {/* Cancel button removed per design request */}
                   </div>
                 </form>
               ) : (
@@ -1119,7 +1145,7 @@ function CourseDetail() {
                   <p className="course-meta">
                     <strong>Students Enrolled:</strong>{" "}
                     <span className="badge badge-info">
-                      ðŸ‘¥ {course.enrollment_count} {course.enrollment_count === 1 ? "Student" : "Students"}
+                      <i className="fas fa-users me-1" aria-hidden="true"></i> {course.enrollment_count} {course.enrollment_count === 1 ? "Student" : "Students"}
                     </span>
                   </p>
 
@@ -1242,7 +1268,7 @@ function CourseDetail() {
 
                 {}
                 {isTeacher && showAddCategory && (
-                  <div className="card">
+                  <div id="category-editor" className="card">
                     <div className="custom-card-body">
                       <h6>{editingCategoryId ? "Edit Category" : "Create New Category"}</h6>
                       <form onSubmit={handleAddCategory}>
@@ -1277,19 +1303,7 @@ function CourseDetail() {
                           >
                             {submittingCategory ? "Saving..." : editingCategoryId ? "Update Category" : "Create Category"}
                           </button>
-                          {editingCategoryId && (
-                            <button
-                              type="button"
-                              className="btn-secondary"
-                              onClick={() => {
-                                setEditingCategoryId(null);
-                                setCategoryFormData({ title: "", description: "" });
-                                setShowAddCategory(false);
-                              }}
-                            >
-                              Cancel
-                            </button>
-                          )}
+                          {/* Cancel button removed for Update Category */}
                         </div>
                       </form>
                     </div>
@@ -1298,7 +1312,7 @@ function CourseDetail() {
 
                 {}
                 {isTeacher && showAddLesson && (
-                  <div className="card">
+                  <div id="lesson-editor" className="card">
                     <div className="custom-card-body">
                       <h6>{editingLessonId ? "Edit Lesson" : "Create New Lesson"}</h6>
                       <form onSubmit={handleAddLesson}>
@@ -1361,19 +1375,7 @@ function CourseDetail() {
                           >
                             {submittingLesson ? "Saving..." : editingLessonId ? "Update Lesson" : "Add Lesson"}
                           </button>
-                          {editingLessonId && (
-                            <button
-                              type="button"
-                              className="btn-secondary"
-                              onClick={() => {
-                                setEditingLessonId(null);
-                                setLessonFormData({ title: "", content: "", video_url: "", category: null });
-                                setShowAddLesson(false);
-                              }}
-                            >
-                              Cancel
-                            </button>
-                          )}
+                          {/* Cancel button removed for Update Lesson */}
                         </div>
                       </form>
                     </div>
@@ -1439,7 +1441,7 @@ function CourseDetail() {
                                 </div>
                               )}
                               <button
-                                className={`btn btn-sm ${isExpanded ? "btn-info" : "btn-outline-info"} ms-2`}
+                                className={`btn btn-sm ${isExpanded ? "btn-info" : "btn-outline-info"} ms-2 toggle-btn`}
                                 onClick={() => toggleCategory(category.id)}
                                 title={isExpanded ? "Hide category" : "Show category"}
                               >
@@ -1499,17 +1501,28 @@ function CourseDetail() {
                                     {}
                                     {lesson.files && lesson.files.length > 0 && (
                                       <div className="mb-2">
-                                        <small className="file-label"><strong>ðŸ“Ž Files:</strong></small>
+                                        <small className="file-label"><strong>
+                                          <svg className="file-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM13 3.5L18.5 9H13V3.5zM12 13v4h-2v-4H7l5-5 5 5h-4z" />
+                                          </svg>
+                                          Files:
+                                        </strong></small>
                                         <div className="lesson-files">
                                           {lesson.files.map((file) => (
                                             <div key={file.id} className="file-item">
                                               {isTeacher || isEnrolled ? (
                                                 <a href={file.file_url} target="_blank" rel="noopener noreferrer" className="btn-outline-secondary">
-                                                  <i className="fas fa-file-download"></i>{file.title}
+                                                  <svg className="file-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM13 3.5L18.5 9H13V3.5zM12 13v4h-2v-4H7l5-5 5 5h-4z" />
+                                                  </svg>
+                                                  {file.title}
                                                 </a>
                                               ) : (
                                                 <button className="btn-outline-secondary" disabled title="Enroll to download files">
-                                                  <i className="fas fa-file-download"></i>{file.title}
+                                                  <svg className="file-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM13 3.5L18.5 9H13V3.5zM12 13v4h-2v-4H7l5-5 5 5h-4z" />
+                                                  </svg>
+                                                  {file.title}
                                                 </button>
                                               )}
                                               {isTeacher && (
@@ -1540,10 +1553,11 @@ function CourseDetail() {
                                     {isTeacher && (
                                       <div className="mb-2">
                                         <button
-                                          className="btn-outline-info btn-sm"
+                                          className="btn logout-btn btn-sm"
                                           onClick={() => {
                                             if (showAddFile[lesson.id] && editingFileId) {
                                               setEditingFileId(null);
+                                              try { if (fileFormData && fileFormData.local_url) URL.revokeObjectURL(fileFormData.local_url); } catch (err) {}
                                               setFileFormData({ title: "", file_url: "", lesson: null });
                                             }
                                             setShowAddFile({ ...showAddFile, [lesson.id]: !showAddFile[lesson.id] });
@@ -1565,19 +1579,38 @@ function CourseDetail() {
                                                 />
                                               </div>
                                               <div className="col-half">
-                                                <input
-                                                  type="url"
-                                                  className="input-field input-sm"
-                                                  placeholder="File URL"
-                                                  value={fileFormData.file_url}
-                                                  onChange={(e) => setFileFormData({ ...fileFormData, file_url: e.target.value })}
-                                                  required
-                                                />
+                                                    <input
+                                                      type="url"
+                                                      className="input-field input-sm"
+                                                      placeholder="File URL (or leave empty to upload)"
+                                                      value={fileFormData.file_url}
+                                                      onChange={(e) => setFileFormData({ ...fileFormData, file_url: e.target.value })}
+                                                    />
+                                                    <div className="mt-2">
+                                                      <label className="input-label">Upload from device</label>
+                                                      <input
+                                                        type="file"
+                                                        className="input-field input-sm"
+                                                        onChange={(e) => {
+                                                          const f = e.target.files && e.target.files[0];
+                                                          if (!f) return;
+                                                          // revoke previous local URL if any
+                                                          if (fileFormData && fileFormData.local_url) {
+                                                            try { URL.revokeObjectURL(fileFormData.local_url); } catch (err) {}
+                                                          }
+                                                          const localUrl = URL.createObjectURL(f);
+                                                          setFileFormData({ ...fileFormData, file_url: localUrl, local_url: localUrl, file_blob: f, title: fileFormData.title || f.name });
+                                                        }}
+                                                      />
+                                                      {fileFormData.local_url && (
+                                                        <div className="mt-1 text-muted">Selected: {fileFormData.title}</div>
+                                                      )}
+                                                    </div>
                                               </div>
                                             </div>
                                             <button
                                               type="submit"
-                                              className="btn-info"
+                                              className="btn logout-btn"
                                               disabled={submittingFile}
                                             >
                                               {submittingFile ? (editingFileId ? "Updating..." : "Adding...") : (editingFileId ? "Update File" : "Add File")}
@@ -1611,8 +1644,8 @@ function CourseDetail() {
                                                   : ""
                                               }
                                             >
-                                              <i className="fas fa-video"></i>{" "}
-                                              Watch Video
+                                              <span className="play-wrap"><i className="fas fa-play"></i></span>
+                                              <span className="play-text">Watch Video</span>
                                             </button>
                                           </div>
                                         )}
@@ -1656,11 +1689,11 @@ function CourseDetail() {
                                   )}
                                   {getQuizzesByCategory(category.id).length > 0 && (
                                     <button
-                                      className={`btn btn-sm ${expandedQuizzes.has(category.id) ? "btn-info" : "btn-outline-info"}`}
+                                      className={`btn btn-sm ${expandedQuizzes.has(category.id) ? "btn-info" : "btn-outline-info"} toggle-btn`}
                                       onClick={() => toggleQuizzes(category.id)}
                                     >
                                       <i className={`fas fa-chevron-${expandedQuizzes.has(category.id) ? "up" : "down"} me-1`}></i>
-                                      {expandedQuizzes.has(category.id) ? "Hide" : "Show"} Quizzes
+                                      {expandedQuizzes.has(category.id) ? "Hide" : "Show"}
                                     </button>
                                   )}
                                 </div>
@@ -1880,7 +1913,7 @@ function CourseDetail() {
                                             }}
                                           />
                                           <h6 className="quiz-title">
-                                            ðŸ“ {quiz.title}
+                                            <i className="fas fa-clipboard-list me-2" aria-hidden="true"></i> {quiz.title}
                                             {isEnrolled && completedQuizzes.has(quiz.id) && (
                                               <span className="badge badge-success">
                                                 <i className="fas fa-check"></i> Completed
@@ -2003,7 +2036,9 @@ function CourseDetail() {
               {user ? (
                 <>
                   <p className="">
-                    <strong>Role:</strong> {user.role}
+                    <strong>Role:</strong>{' '}
+                    <i className={`fas ${user.role === "student" ? "fa-user-graduate" : "fa-chalkboard-user"} me-2`} aria-hidden="true"></i>
+                    {user.role}
                   </p>
 
                   {user.role === "student" ? (
@@ -2011,7 +2046,7 @@ function CourseDetail() {
                       {isEnrolled ? (
                         <>
                           <div className="alert-success" role="alert">
-                            âœ“ You are enrolled in this course
+                            <i className="fas fa-check-circle me-2" aria-hidden="true"></i> You are enrolled in this course
                           </div>
                           <button
                             className="btn-danger w-100"
@@ -2154,7 +2189,7 @@ function CourseDetail() {
                 {}
                 {paymentMethod === "credit_card" && (
                   <div className="mb-3 p-4 text-center bg-light rounded border-2" style={{borderColor: '#ffc107'}}>
-                    <h5 className="mb-2">ðŸš€ Coming Soon</h5>
+                    <h5 className="mb-2"><i className="fas fa-rocket me-2" aria-hidden="true"></i> Coming Soon</h5>
                     <p className="course-meta">Credit Card payment will be available soon. Please use Easypaisa for now.</p>
                     <span className="badge badge-warning text-dark px-3 py-2" style={{fontSize: '0.95rem'}}>COMING SOON</span>
                   </div>
@@ -2223,7 +2258,7 @@ function CourseDetail() {
 
                 {paymentMethod === "bank_transfer" && (
                   <div className="mb-3 p-4 text-center bg-light rounded border-2" style={{borderColor: '#ffc107'}}>
-                    <h5 className="mb-2">ðŸš€ Coming Soon</h5>
+                    <h5 className="mb-2"><i className="fas fa-rocket me-2" aria-hidden="true"></i> Coming Soon</h5>
                     <p className="course-meta">Bank Transfer payment will be available soon. Please use Easypaisa for now.</p>
                     <span className="badge badge-warning text-dark px-3 py-2" style={{fontSize: '0.95rem'}}>COMING SOON</span>
                   </div>

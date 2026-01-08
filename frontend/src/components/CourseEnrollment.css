@@ -81,8 +81,8 @@
 }
 
 .course-card {
-  background: #0a0a0a;
-  border: 2px solid rgba(240, 240, 255, 0.3);
+  background: linear-gradient(135deg, #000000 0%, #100000 48%, #2D0000 100%);
+  border: 2px solid #2D0000;
   border-radius: 12px;
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -104,9 +104,9 @@
 }
 
 .course-card:hover {
-  box-shadow: 0 0 30px rgba(240, 240, 255, 0.4), 0 8px 40px rgba(0, 0, 0, 0.9);
+  box-shadow: 0 0 36px rgba(255, 68, 68, 0.18), 0 8px 44px rgba(0, 0, 0, 0.95);
   transform: translateY(-8px);
-  border-color: rgba(240, 240, 255, 0.6);
+  border-color: rgba(45, 0, 0, 0.7);
 }
 
 .course-card-body {
@@ -222,7 +222,7 @@
 
 .course-footer .btn-primary:hover {
   background: linear-gradient(135deg, #ff5555 0%, #ff2222 100%);
-  transform: translateY(-2px);
+  transform: none;
   box-shadow: 0 4px 12px rgba(255, 50, 50, 0.4);
 }
 

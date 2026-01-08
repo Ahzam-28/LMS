@@ -689,7 +689,7 @@
   border-color: #ff3232;
   box-shadow: 0 0 20px rgba(255, 50, 50, 0.3);
   color: #ffffff;
-  transform: translateY(-3px);
+  transform: none;
 }
 
 .btn-outline-primary:hover::before {

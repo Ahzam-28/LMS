@@ -90,7 +90,7 @@
 
 .btn-primary:hover {
   box-shadow: 0 4px 12px rgba(255, 50, 50, 0.4);
-  transform: translateY(-2px);
+  transform: none;
 }
 
 .btn-secondary {
@@ -122,7 +122,7 @@
 
 .btn-success:hover {
   box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
-  transform: translateY(-2px);
+  transform: none;
 }
 
 .btn-warning {
@@ -260,6 +260,57 @@
   border-color: #ff3232;
   box-shadow: 0 0 0 3px rgba(255, 50, 50, 0.2);
   background-color: #0a0a0a;
+}
+
+/* Scoped styling for the Update / Cancel button row in course edit form */
+.course-detail form .flex-container {
+  align-items: center;
+  gap: 0.75rem;
+  justify-content: space-between;
+}
+
+/* Compact left/right aligned buttons: Update (left) and Cancel (right) */
+.course-detail form .flex-container .btn-primary {
+  min-width: 140px;
+  height: 44px;
+  padding: 0 1rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.course-detail form .flex-container .btn-secondary {
+  min-width: 100px;
+  height: 40px;
+  padding: 0 0.6rem;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, rgba(255,50,50,0.04), rgba(255,50,50,0.02));
+  border: 1px solid rgba(255,50,50,0.12);
+  color: #f1c7c7;
+}
+
+.course-detail form .flex-container .btn-secondary:hover {
+  background: rgba(255,50,50,0.08);
+  color: #fff;
+}
+
+@media (max-width: 560px) {
+  .course-detail form .flex-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .course-detail form .flex-container .btn-primary,
+  .course-detail form .flex-container .btn-secondary {
+    width: 100%;
+    min-width: 0;
+  }
 }
 
 
@@ -628,42 +679,77 @@
   font-weight: 700;
 }
 
+/* Smooth, rounded progress bar with subtle shimmer */
 .progress-section .progress {
-  background-color: rgba(255, 255, 255, 0.08);
-  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: 999px;
   overflow: hidden;
-  height: 30px;
+  height: 14px;
   margin-top: 1rem;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.6);
 }
 
 .progress-section .progress-bar {
-  transition: width 0.4s ease;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #00ff00 0%, #00cc00 100%);
-  font-size: 0.85rem;
-  color: #000000;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background: transparent;
+  border-radius: inherit;
+  overflow: hidden;
 }
 
 .progress-bar-container {
-  background-color: rgba(255, 255, 255, 0.08);
-  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: 999px;
   overflow: hidden;
-  border: 1px solid rgba(0, 255, 0, 0.2);
+  border: 1px solid rgba(0, 255, 0, 0.08);
 }
 
 .progress-bar-fill {
-  background: linear-gradient(135deg, #00ff00 0%, #00cc00 100%);
-  height: 100%;
-  transition: width 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 600;
-  font-size: 0.85rem;
+  height: 100%;
+  min-width: 2%;
+  transition: width 700ms cubic-bezier(.2,.9,.2,1);
+  background: linear-gradient(90deg, #66ff88 0%, #00cc44 60%, #66ff88 100%);
+  box-shadow: 0 6px 20px rgba(0,204,0,0.12);
   color: #000000;
+  font-weight: 700;
+  font-size: 0.82rem;
+  position: relative;
+}
+
+/* Shimmer effect that moves over the fill */
+.progress-bar-fill::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -40%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(255,255,255,0.18), rgba(255,255,255,0.05), rgba(255,255,255,0.18));
+  transform: skewX(-20deg);
+  filter: blur(6px);
+  animation: progressShimmer 1.8s linear infinite;
+  pointer-events: none;
+  opacity: 0.95;
+}
+
+@keyframes progressShimmer {
+  0% { left: -40%; }
+  100% { left: 140%; }
+}
+
+/* Slight pulsing when progress updates (subtle) */
+.progress-bar-fill.update-pulse {
+  animation: pulseWidth 900ms ease;
+}
+
+@keyframes pulseWidth {
+  0% { transform: scaleX(0.995); }
+  50% { transform: scaleX(1.005); }
+  100% { transform: scaleX(1); }
 }
 
 .course-detail .btn {
@@ -723,6 +809,233 @@
   border-radius: 8px;
   overflow: hidden;
   background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+}
+
+/* Tighter header/button sizing and avoid empty gaps */
+.lesson-category-section {
+  min-height: 0;
+}
+
+.lesson-category-header {
+  align-items: center; /* ensure vertical centering */
+  gap: 1rem;
+  padding: 0.8rem 1rem;
+}
+
+.lesson-category-header > div:first-child {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Reduce size of header buttons to avoid huge boxes */
+.lesson-category-header .btn,
+.lesson-category-header .btn-sm,
+.lesson-category-header .btn-outline-info,
+.lesson-category-header .btn-info {
+  padding: 0.45rem 0.85rem !important;
+  line-height: 1 !important;
+  height: auto !important;
+  border-radius: 8px !important;
+  white-space: nowrap;
+}
+
+/* Collapse empty category content so large empty area doesn't appear */
+.lesson-category-content:empty {
+  padding: 0 !important;
+  min-height: 0 !important;
+}
+
+/* Title / description spacing and alignment */
+.course-detail .lesson-category-header h6 {
+  margin-bottom: 0.35rem;
+}
+
+.course-detail .lesson-category-header .course-meta {
+  margin-top: 0.35rem;
+  display: inline-block;
+}
+
+/* Align Quizzes header and ensure it's vertically centered with its button */
+.course-detail .mt-3 .flex-between {
+  align-items: center;
+}
+
+.course-detail .mt-3 .flex-between h6 {
+  margin: 0;
+}
+
+/* Make Show and Show Quizzes buttons visually consistent without forcing a fixed width */
+.course-detail .lesson-category-header .btn,
+.course-detail .lesson-category-section .mt-3 .btn {
+  width: auto !important;
+  max-width: none !important;
+  min-width: 100px !important;
+  padding: 0.45rem 0.9rem !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Small screens: allow buttons to shrink a bit to avoid overflow */
+@media (max-width: 480px) {
+  .course-detail .lesson-category-header .btn,
+  .course-detail .lesson-category-section .mt-3 .btn {
+    width: auto !important;
+    min-width: 120px !important;
+    padding: 0.4rem 0.6rem !important;
+  }
+}
+
+/* Make the Add Lesson button wider rather than taller */
+.lessons-section .flex-container .btn-primary.btn-sm {
+  min-width: 200px;
+  height: 39px; /* adjusted per request */
+  padding: 0 1rem;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 560px) {
+  .lessons-section .flex-container .btn-primary.btn-sm {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+/* Constrain large footer buttons (Show Quizzes) */
+.lesson-category-section .mt-3 .flex-between .btn {
+  max-width: none !important;
+  padding: 0.45rem 0.9rem !important;
+  font-size: 0.95rem !important;
+}
+
+/* Ensure the quizzes footer row aligns vertically like the header */
+.lesson-category-section > .mt-3 .flex-between,
+.lesson-category-section > .mt-3 .flex-between .flex-container {
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* Make course-meta badge inline and not block-level */
+.lesson-category-header .course-meta,
+.lesson-category-header .badge {
+  display: inline-block;
+  margin: 0;
+}
+
+/* Tighter, predictable layout for category header and lesson items */
+.lesson-category-header > div {
+  min-width: 0; /* allow flex children to shrink/wrap */
+}
+
+.lesson-category-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+}
+
+.lessons-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.lesson-card {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.9rem 1rem;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(10,10,10,0.6), rgba(20,20,20,0.4));
+  margin: 0;
+}
+
+/* Ensure lesson header content doesn't overflow and titles wrap */
+.lesson-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.lesson-title {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Make action buttons compact and non-blocking */
+.lesson-actions .btn,
+.category-actions .btn {
+  padding: 0.35rem 0.6rem;
+  font-size: 0.82rem;
+  line-height: 1;
+  min-width: 0;
+
+/* Ensure category 'Show' and quizzes 'Show' buttons match size and align */
+.course-detail .toggle-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0.22rem 0.6rem !important;
+  min-width: 100px !important;
+  white-space: nowrap !important;
+  font-size: 0.85rem !important;
+}
+
+/* tighten spacing between lesson title and description */
+.course-detail .lesson-header .lesson-title {
+  margin-bottom: 0.25rem;
+}
+.course-detail .lesson-header .course-meta {
+  margin-top: 0;
+}
+
+/* Make category headers (including "Quizzes") align like other headers */
+.course-detail .lesson-category-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 1rem !important;
+  padding: 0.55rem 0 !important;
+  min-height: 48px !important;
+}
+.course-detail .lesson-category-header h5,
+.course-detail .lesson-category-header h6,
+.course-detail .lesson-category-header .category-title {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-weight: 700 !important;
+}
+.course-detail .lesson-category-content {
+  padding-top: 0.5rem !important;
+}
+}
+
+/* Constrain large show/quizzes buttons inside category footer */
+.lesson-category-section .mt-3 .flex-between .btn {
+  max-width: 240px;
+  white-space: nowrap;
+}
+
+/* Lessons layout: stack lessons vertically and make cards full-width */
+.lessons-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.lesson-category-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+}
+
+.lesson-card {
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .lesson-category-header {
@@ -794,21 +1107,72 @@
   border-top: 1px solid rgba(255, 50, 50, 0.15);
 }
 
-.lesson-video a {
-  border-radius: 6px;
-  font-weight: 600;
-  background: linear-gradient(135deg, #ff3232 0%, #ff0000 100%);
-  color: #000000;
+
+/* Modern rounded gradient play button for lesson videos */
+.lesson-video .btn-info {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.85rem;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease;
 }
 
-.lesson-video a:hover {
-  box-shadow: 0 4px 12px rgba(255, 50, 50, 0.4);
+.lesson-video .btn-info:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.lesson-video .play-wrap {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ff5151 0%, #ff1f1f 100%);
+  box-shadow: 0 6px 18px rgba(255, 50, 50, 0.22), 0 2px 6px rgba(0,0,0,0.6) inset;
+  transition: transform 200ms cubic-bezier(.2,.9,.2,1), box-shadow 200ms ease;
+}
+
+.lesson-video .play-wrap .fas {
+  color: #fff;
+  font-size: 16px;
+  transform: translateX(1px);
+}
+
+.lesson-video .play-text {
+  color: #f6f6f6;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  text-transform: none;
+}
+
+.lesson-video .btn-info:hover .play-wrap {
+  transform: scale(1.06);
+  box-shadow: 0 10px 30px rgba(255, 50, 50, 0.28), 0 2px 8px rgba(0,0,0,0.6) inset;
+}
+
+.lesson-video .btn-info:active .play-wrap {
+  transform: scale(0.98);
+}
+
+/* Optional: compact layout on small screens */
+@media (max-width: 520px) {
+  .lesson-video .play-text { display: none; }
+  .lesson-video .btn-info { padding: 0; }
 }
 
 .lesson-actions {
   display: flex;
   gap: 0.75rem;
   align-items: center;
+  position: relative;
+  z-index: 5; /* ensure action buttons sit above nearby elements and are clickable */
 }
 
 .lesson-actions .btn {
@@ -817,6 +1181,7 @@
   line-height: 1;
   border-width: 2px;
   transition: all 0.2s ease;
+  pointer-events: auto;
 }
 
 .lesson-actions .btn-outline-danger {
@@ -830,7 +1195,8 @@
 }
 
 .lesson-actions .btn:hover {
-  transform: scale(1.1);
+  transform: none;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.45);
 }
 
 .lesson-actions .btn i {
@@ -862,7 +1228,8 @@
 }
 
 .category-actions .btn:hover {
-  transform: scale(1.1);
+  transform: none;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.45);
 }
 
 .category-actions .btn i {
@@ -937,6 +1304,15 @@
   transition: all 0.3s ease;
 }
 
+.file-icon {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+  fill: currentColor;
+}
+
 .file-item .btn:hover {
   background: #00ff00;
   color: #000000;
@@ -997,6 +1373,24 @@
   border: 1px solid rgba(255, 50, 50, 0.2);
 }
 
+/* Center the feedback card within the section */
+.course-detail .feedback-section {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.course-detail .feedback-section .container {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  max-width: 1200px !important;
+  padding: 0 1rem !important;
+}
+
 .feedback-card::before {
   content: "";
   position: absolute;
@@ -1008,7 +1402,7 @@
 }
 
 .feedback-card:hover {
-  transform: translateY(-8px);
+  transform: none;
   box-shadow: 0 16px 48px rgba(255, 50, 50, 0.3);
   border-color: rgba(255, 50, 50, 0.4);
 }
@@ -1055,6 +1449,22 @@
 .course-detail .container {
   position: relative;
   z-index: 1;
+}
+
+/* Center only the feedback outer box inside the course detail layout */
+.course-detail > .feedback-section {
+  max-width: 1200px !important;
+  width: calc(100% - 80px) !important;
+  margin: 2rem auto -50px auto !important;
+  padding: 2rem 1rem !important;
+  box-sizing: border-box !important;
+  border-radius: 12px !important;
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%) !important;
+  border-top: 1px solid rgba(255, 50, 50, 0.2) !important;
+}
+
+.course-detail > .feedback-section .feedback-card {
+  margin: 0 auto !important;
 }
 
 .course-detail .row {
@@ -1326,4 +1736,137 @@
     margin-top: 0;
   }
 }
+
+/* Stronger, final overrides to ensure lesson layout applies */
+.course-detail .lesson-category-header > div {
+  min-width: 0;
+}
+
+.course-detail .lessons-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.course-detail .lesson-category-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.6rem 0.75rem;
+}
+
+.course-detail .lesson-card {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.9rem 1rem;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(10,10,10,0.6), rgba(20,20,20,0.4));
+  margin: 0;
+}
+
+.course-detail .lesson-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.course-detail .lesson-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* keep title left-aligned */
+}
+
+.course-detail .lesson-title .badge,
+.course-detail .quiz-title .badge {
+  margin-left: 0.75rem;
+  margin-right: 0;
+  flex-shrink: 0;
+}
+
+.course-detail .quiz-title {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* keep quiz title left-aligned */
+}
+
+/* push the completed badge to the far right */
+.course-detail .lesson-card .lesson-title { display: flex; align-items: center; }
+.course-detail .lesson-card .lesson-title .badge { margin-left: auto !important; }
+
+.course-detail .lesson-actions .btn,
+.course-detail .category-actions .btn {
+  padding: 0.35rem 0.6rem;
+  font-size: 0.82rem;
+  line-height: 1;
+  min-width: 0;
+}
+
+.course-detail .lesson-category-section .mt-3 .flex-between .btn {
+  max-width: 240px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.course-detail .lesson-card:hover {
+  transform: none !important;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.45) !important;
+}
+
+/* Ensure the Quizzes footer row aligns exactly like category headers */
+.course-detail .lesson-category-section > .mt-3 .flex-between {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 0.75rem 1.25rem !important;
+  gap: 0.75rem !important;
+}
+.course-detail .lesson-category-section > .mt-3 h6 {
+  margin: 0 !important;
+  line-height: 1.1 !important;
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+}
+.course-detail .lesson-category-section > .mt-3 .flex-container {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+}
+.course-detail .lesson-category-section > .mt-3 .toggle-btn,
+.course-detail .lesson-category-section > .mt-3 .btn {
+  padding: 0.45rem 0.9rem !important;
+  min-width: 100px !important;
+  height: auto !important;
+  line-height: 1 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: none !important;
+}
+
+/* Make both toggle buttons small, smart and identical */
+.course-detail .lesson-category-header .toggle-btn,
+.course-detail .lesson-category-section > .mt-3 .toggle-btn,
+.course-detail .lesson-category-header .btn-sm,
+.course-detail .lesson-category-section > .mt-3 .btn-sm {
+  width: auto !important;
+  min-width: 0 !important;
+  padding: 0.28rem 0.6rem !important;
+  height: 36px !important;
+  font-size: 0.95rem !important;
+  border-radius: 10px !important;
+  box-sizing: border-box !important;
+  white-space: nowrap !important;
+}
+
+/* Ensure icon and text align nicely inside small buttons */
+.course-detail .lesson-category-header .toggle-btn i,
+.course-detail .lesson-category-section > .mt-3 .toggle-btn i {
+  font-size: 1rem !important;
+  margin-right: 0.45rem !important;
+}
+
 

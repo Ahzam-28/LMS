@@ -261,17 +261,8 @@ function CourseEnrollment() {
             <div className="col-md-4 text-end">
               {user && user.role === "student" && (
                 <button
-                  className="btn btn-outline-primary"
+                  className="btn logout-btn"
                   onClick={() => navigate("/student-dashboard")}
-                  style={{ color: "white", borderColor: "white" }}
-                  onMouseEnter={(e) => {
-                    e.target.style.color = "white";
-                    e.target.style.backgroundColor = "transparent";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.color = "white";
-                    e.target.style.backgroundColor = "transparent";
-                  }}
                 >
                   My Courses
                 </button>

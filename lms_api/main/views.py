@@ -12,6 +12,13 @@ from django.shortcuts import get_object_or_404
 from .models import Teacher, Student , Course , CourseCategory , Enrollment , Lesson , LessonCategory , LessonFile , Assignment , Submission , Quiz , Question , Answer , Result , Payment , Feedback , Resource , FileSubmission , OTP
 from .serializers import TeacherSerializer, StudentSerializer , CourseSerializer , CourseCategorySerializer , EnrollmentSerializer , LessonSerializer , LessonCategorySerializer , LessonFileSerializer , AssignmentSerializer , SubmissionSerializer , QuizSerializer , QuestionSerializer , AnswerSerializer , ResultSerializer , PaymentSerializer , FeedbackSerializer , ResourceSerializer , FileSubmissionSerializer , RegisterSerializer, LoginSerializer, OTPSerializer
 from .otp_service import send_otp_email, verify_otp, is_otp_verified
+from django.conf import settings
+from django.core.files.storage import default_storage
+import os
+
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.views import APIView
 
 class TeacherViewSet(viewsets.ModelViewSet):
     queryset = Teacher.objects.all()
@@ -94,6 +101,22 @@ class CourseViewSet(viewsets.ModelViewSet):
                 {"error": "Only teachers can view their courses"},
                 status=status.HTTP_403_FORBIDDEN
             )
+
+
+class FileUploadView(APIView):
+    permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
+
+    def post(self, request, format=None):
+        upload = request.FILES.get('file')
+        if not upload:
+            return Response({"error": "No file provided"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # create uploads directory inside MEDIA_ROOT
+        upload_path = os.path.join('uploads', upload.name)
+        saved_path = default_storage.save(upload_path, upload)
+        file_url = request.build_absolute_uri(settings.MEDIA_URL + str(saved_path))
+        return Response({"url": file_url}, status=status.HTTP_201_CREATED)
 
 class CourseCategoryViewSet(viewsets.ModelViewSet):
     queryset = CourseCategory.objects.all()

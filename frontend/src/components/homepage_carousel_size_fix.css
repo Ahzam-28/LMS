@@ -1,0 +1,28 @@
+/* Force courses carousel exact size at wide viewports */
+:root {
+  --course-card-width: 320px;
+  --course-card-gap: 28px; /* match actual gap used in carousel */
+}
+
+@media (min-width: 1116px) {
+  /* Wrapper sized to exactly three cards + two gaps */
+  .courses-carousel-wrapper {
+    /* remove any side padding that reduces visible area */
+    padding: 0 !important;
+    width: calc(3 * var(--course-card-width) + 2 * var(--course-card-gap)) !important;
+    max-width: calc(3 * var(--course-card-width) + 2 * var(--course-card-gap)) !important;
+    height: 364px !important;
+    overflow: hidden !important; /* hide the partial fourth card */
+    box-sizing: border-box;
+  }
+
+  .courses-carousel,
+  .courses-carousel-wrapper .courses-carousel {
+    width: 100% !important;
+    height: 100% !important;
+    box-sizing: border-box;
+  }
+  /* Nudge arrows outward slightly without changing anything else */
+  .courses-carousel-wrapper .carousel-arrow.left { left: -12px !important; }
+  .courses-carousel-wrapper .carousel-arrow.right { right: -36px !important; }
+}

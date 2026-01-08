@@ -1,46 +1,43 @@
 ﻿.navbar {
-  background: #000000 !important;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.9), 0 0 40px rgba(255, 50, 50, 0.2), inset 0 1px 0 rgba(255, 50, 50, 0.1);
-  padding: 1rem 0;
+  --nav-text: #FAF3E0;
+  --nav-accent: #ff855b;
+  --nav-bg-1: #400000; /* darker maroon (opaque) */
+  --nav-bg-2: #1c0000; /* darker accent */
+  background-color: var(--nav-bg-1);
+  background-image: linear-gradient(90deg, var(--nav-bg-1), var(--nav-bg-2));
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  box-shadow: 0 8px 32px rgba(8, 4, 4, 0.6), 0 0 30px rgba(0,0,0,0.15);
+  padding: 0.9rem 0;
   position: sticky;
   top: 0;
   z-index: 999;
-  backdrop-filter: blur(30px);
-  border-bottom: 2px solid rgba(255, 50, 50, 0.5);
-  transition: all 0.3s ease;
+  backdrop-filter: blur(8px) saturate(120%);
+  border-bottom: 1px solid rgba(255, 120, 90, 0.06);
+  /* only animate transform & shadow to avoid background fading to white */
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+  will-change: transform, box-shadow, background-color;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 .navbar-brand {
-  font-size: 1.75rem;
+  font-size: 1.6rem;
   font-weight: 800;
-  color: #000000 !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  letter-spacing: 0.5px;
+  color: var(--nav-text) !important;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), text-shadow 0.25s ease;
+  letter-spacing: 0.6px;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  text-shadow: 0 0 15px rgba(255, 50, 50, 0.5);
+  gap: 0.6rem;
 }
 
 .navbar-brand strong {
-  color: #000000 !important;
+  color: var(--nav-text) !important;
 }
 
 .navbar-brand::before {
-  content: "";
-  display: inline-block;
-  width: 28px;
-  height: 22px;
-  margin-right: 0.5rem;
-  background: 
-    linear-gradient(90deg, #ff3232 0%, #ff3232 48%, #ff5555 48%, #ff5555 52%, #ff3232 52%, #ff3232 100%),
-    linear-gradient(135deg, transparent 0%, transparent 48%, #ff0000 48%, #ff0000 52%, transparent 52%, transparent 100%);
-  border: 2px solid #ff3232;
-  border-radius: 3px;
-  position: relative;
-  animation: float-icon 3s ease-in-out infinite;
-  filter: drop-shadow(0 0 10px rgba(255, 50, 50, 0.8));
-  box-shadow: inset 0 0 4px rgba(255, 100, 100, 0.6);
+  display: none;
 }
 
 .navbar-brand::after {
@@ -52,6 +49,30 @@
   left: 50%;
   top: 50%;
   transform: translateX(-50%) translateY(-50%);
+}
+
+/* remove thin decorative line that appeared on hover for the brand */
+.navbar-brand::after {
+  display: none;
+}
+
+/* styled book icon for brand */
+.navbar-brand .navbar-brand-icon {
+  font-size: 1.45rem;
+  color: #ff1a1a; /* bright red */
+  -webkit-text-stroke: 0.8px #000;
+  text-stroke: 0.8px #000;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 0 6px rgba(255,26,26,0.45);
+  display: inline-block;
+  vertical-align: middle;
+  transition: transform 0.35s ease, color 0.18s ease, text-shadow 0.18s ease;
+  animation: float-icon 3s ease-in-out infinite;
+}
+
+.navbar-brand:hover .navbar-brand-icon {
+  transform: translateY(-6px) rotate(-6deg) scale(1.05);
+  color: #ff2d2d;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 0 10px rgba(255,45,45,0.6);
 }
 
 @keyframes float-icon {
@@ -83,16 +104,17 @@
 }
 
 .nav-link {
-  margin: 0 0.5rem;
+  margin: 0 0.4rem;
   font-weight: 600;
-  color: #000000 !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--nav-text) !important;
+  transition: background 0.25s ease, box-shadow 0.25s ease, color 0.18s ease;
   cursor: pointer;
-  padding: 0.5rem 1rem !important;
-  border-radius: 6px;
+  padding: 0.45rem 0.9rem !important;
+  border-radius: 8px;
   position: relative;
   font-size: 0.95rem;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.2px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .nav-link::before {
@@ -102,98 +124,123 @@
   left: 50%;
   width: 0;
   height: 2px;
-  background: #ff3232;
-  transition: all 0.3s ease;
+  background: var(--nav-accent);
+  transition: all 0.28s ease;
   transform: translateX(-50%);
-  box-shadow: 0 0 8px rgba(255, 50, 50, 0.9);
+  box-shadow: 0 0 8px rgba(255,120,90,0.55);
 }
 
 .nav-link:hover {
-  color: #000000 !important;
-  background: rgba(255, 50, 50, 0.15);
-  transform: translateY(-2px);
-  text-shadow: 0 0 12px rgba(255, 50, 50, 0.8);
+  color: var(--nav-text) !important;
+  background: linear-gradient(90deg, rgba(255,133,91,0.08), rgba(255,133,91,0.04));
+  /* avoid moving the element itself to prevent hover jitter near edges */
+  transform: none;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
 }
 
 .nav-link:hover::before {
   width: 60%;
-  box-shadow: 0 0 12px rgba(255, 50, 50, 1);
+  box-shadow: 0 0 12px rgba(255,120,90,0.7);
 }
 
 .nav-link.btn-link {
   padding: 0.5rem 1rem !important;
   font-size: 0.95rem;
-  color: #000000 !important;
-  background: linear-gradient(135deg, #ff3232 0%, #ff0000 100%) !important;
-  border-radius: 6px;
-  font-weight: 600;
+  color: var(--nav-text) !important;
+  background: linear-gradient(135deg, var(--nav-accent), rgba(255,90,60,0.95)) !important;
+  border-radius: 8px;
+  font-weight: 700;
 }
 
 .nav-link.btn-link:hover {
-  color: #000000 !important;
-  background: linear-gradient(135deg, #ff5555 0%, #ff3232 100%) !important;
-  box-shadow: 0 0 15px rgba(255, 50, 50, 0.7);
+  color: var(--nav-text) !important;
+  background: linear-gradient(135deg, rgba(255,100,70,0.95), var(--nav-accent)) !important;
+  box-shadow: 0 0 18px rgba(255,120,90,0.45);
 }
 
 .nav-link i {
-  transition: transform 0.3s ease;
-  color: #ff3232;
+  transition: transform 0.25s ease, color 0.25s ease;
+  color: var(--nav-accent);
 }
 
 .nav-link:hover i {
-  transform: scale(1.25) rotate(10deg);
-  filter: drop-shadow(0 0 8px rgba(255, 50, 50, 0.9));
+  transform: translateY(-3px) scale(1.12) rotate(6deg);
+  filter: drop-shadow(0 0 6px rgba(255,120,90,0.55));
+  /* keep icon movement only (small, inside the button) */
 }
 
 .navbar-nav {
   gap: 0.25rem;
 }
 
-.navbar-nav .nav-link {
-  color: #000000 !important;
-}
-
-.navbar-nav .nav-link:hover {
-  color: #000000 !important;
-}
-
-.navbar-nav button.nav-link {
-  color: #000000 !important;
-}
-
-.navbar-nav button.nav-link:hover {
-  color: #000000 !important;
-}
-
-.navbar-nav .nav-item .nav-link {
-  color: #000000 !important;
-}
-
-.navbar-nav .nav-item .nav-link:hover {
-  color: #000000 !important;
-}
-
-.navbar-nav .nav-item button.nav-link {
-  color: #000000 !important;
-}
-
-.navbar-nav .nav-item button.nav-link:hover {
-  color: #000000 !important;
-}
+.navbar-nav .nav-link { color: var(--nav-text) !important; }
+.navbar-nav button.nav-link { color: var(--nav-text) !important; }
+.navbar-nav .nav-item .nav-link { color: var(--nav-text) !important; }
+.navbar-nav .nav-item button.nav-link { color: var(--nav-text) !important; }
 
 .navbar-toggler {
-  border: 2px solid rgba(255, 50, 50, 0.7) !important;
+  border: 1.5px solid rgba(255,160,130,0.12) !important;
   padding: 0.35rem 0.6rem;
-  transition: all 0.3s ease;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  background: rgba(255,255,255,0.02);
+  border-radius: 8px;
 }
 
 .navbar-toggler:focus {
-  border-color: #ff3232 !important;
-  box-shadow: 0 0 0 3px rgba(255, 50, 50, 0.4);
+  border-color: rgba(255,160,130,0.6) !important;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.28);
 }
 
 .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 50, 50, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255,200,170,0.95%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* scrolled state */
+.navbar.scrolled {
+  transform: translateY(-2px);
+  background: linear-gradient(90deg, var(--nav-bg-1), var(--nav-bg-2)) !important;
+  box-shadow: 0 14px 40px rgba(8,6,6,0.6);
+  border-bottom: 1px solid rgba(255,160,130,0.08);
+}
+
+/* match course code badge (background #2D0000, text #ff4444) */
+.logout-btn {
+  background: linear-gradient(135deg, #7a0000 0%, #2D0000 100%) !important;
+  color: #fff !important;
+  border: 1px solid rgba(90,0,0,0.2) !important;
+  box-shadow: 0 6px 18px rgba(45, 0, 0, 0.28);
+  padding: 0.45rem 0.9rem !important;
+  border-radius: 8px;
+}
+
+.logout-btn:hover {
+  /* avoid lifting the whole button to prevent hover flicker */
+  transform: none !important;
+  box-shadow: 0 12px 34px rgba(90, 0, 0, 0.45);
+  color: #ffdddd !important;
+}
+
+.messages-btn i {
+  color: #ff8a8a; /* light red */
+  transition: color 0.18s ease, transform 0.18s ease;
+}
+
+.messages-btn:hover i {
+  color: #ff4444; /* accent on hover */
+  transform: translateY(-3px) scale(1.05);
+}
+
+/* stronger specificity to override .nav-link.btn-link defaults */
+.nav-link.btn-link.logout-btn {
+  background: linear-gradient(135deg, #7a0000 0%, #2D0000 100%) !important;
+  color: #fff !important;
+  border: 1px solid rgba(90,0,0,0.2) !important;
+  box-shadow: 0 6px 18px rgba(45, 0, 0, 0.28) !important;
+}
+
+.nav-link.btn-link.logout-btn:hover {
+  background: linear-gradient(135deg, #6a0000 0%, #2a0000 100%) !important;
+  color: #ffdddd !important;
 }
 
 .modal-overlay {

@@ -293,11 +293,14 @@ function Dashboard({ user, setUser }) {
                     </div>
                     <div className="profile-header-content">
                       <h2 className="profile-name">{user.username}</h2>
-                      <p className="profile-role">{user.role === "student" ? "ðŸŽ“ Student" : "ðŸ‘¨â€ðŸ« Teacher"}</p>
+                      <p className="profile-role">
+                        <i className={`fas ${user.role === "student" ? "fa-user-graduate" : "fa-chalkboard-user"} me-2`} aria-hidden="true"></i>
+                        {user.role === "student" ? "Student" : "Teacher"}
+                      </p>
                       <p className="profile-email"><i className="fas fa-envelope me-2"></i>{user.email || "N/A"}</p>
                     </div>
                     <button
-                      className="btn btn-primary ms-auto"
+                      className="btn btn-primary logout-btn ms-auto"
                       onClick={handleOpenEditModal}
                     >
                       <i className="fas fa-edit me-2"></i> Edit Profile
@@ -778,14 +781,14 @@ function Dashboard({ user, setUser }) {
                 <div className="modal-footer">
                   <button
                     type="button"
-                    className="btn btn-secondary"
+                    className="btn logout-btn"
                     onClick={handleCloseEditModal}
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="btn btn-primary"
+                    className="btn logout-btn save-btn"
                     disabled={editLoading}
                   >
                     {editLoading ? "Saving..." : "Save Changes"}
